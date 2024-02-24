@@ -1,0 +1,77 @@
+\chapter{Estado de la Cuestión}
+\label{cap:estadoDeLaCuestion}
+
+%Citaremos con bibtex, las entradas bibliográficas deben estar en un fichero .bib 
+
+\section{Lenguaje humano}
+Para desarrollar un chatbot competente, es crucial contar con un sistema que pueda comprender y procesar el lenguaje humano, una tarea díficil debido a la ambigüedad, polisemia y variabilidad contextual del lenguaje.
+
+Para lograr esta comprensión, es necesario abordar diversas áreas de la lingüística:
+\begin{itemize}
+	\item Morfología: Se enfoca en las reglas que gobiernan la estructura, flexión y derivación de las palabras.
+	\item Sintaxis: Analiza el orden y la relación entre las palabras o grupos de palabras en una oración, así como sus funciones gramaticales.
+	\item Semántica: Explora el significado de las expresiones lingüísticas, considerando su contexto y posibles interpretaciones.
+	\item Pragmática: Estudia cómo el lenguaje se emplea en la comunicación real, considerando factores como el propósito, el contexto y las implicaciones sociales.
+	\item Fonología: Examina los sonidos del habla, describiendo los fonemas y su organización en una lengua específica.
+\end{itemize}
+
+
+Al comprender y abordar estas áreas de manera efectiva, se puede avanzar hacia la creación de un chatbot que pueda interactuar de manera más natural y comprensiva con los usuarios.
+\section{Procesamiento Natural del Lenguaje}
+El Procesamiento del Lenguaje Natural (NLP) representa un campo interdisciplinario que fusiona la informática, la inteligencia artificial y la lingüística para explorar las complejas interacciones entre las computadoras y el lenguaje humano. Desde traducciones entre idiomas hasta interpretaciones del habla, comandos de voz, generación de lenguaje para la comunicación con personas con discapacidad visual y respuestas automáticas a consultas de usuarios, el NLP abarca una amplia gama de aplicaciones.
+
+En el ámbito de la traducción, por ejemplo, la mera traducción palabra por palabra puede conllevar errores significativos. Por ello, un enfoque basado en NLP considera el contexto y las relaciones entre las secciones del texto, como expresiones idiomáticas o frases hechas, reduciendo así la ambigüedad y resolviendo casos de polisemia.
+
+El funcionamiento básico del NLP se puede desglosar en varias etapas:
+\begin{itemize}
+\item Etiquetado de Partes del Discurso (POS): Relacionado con la morfología, esta fase implica extraer el significado individual de cada palabra. Se utilizan corpus de texto y algoritmos de aprendizaje automático para evitar ambigüedades lingüísticas.
+\item Árboles de Análisis Sintáctico: Se emplean diagramas de análisis sintáctico para comprender la estructura de las oraciones.
+\item Desambiguación del Significado: Se intenta determinar el significado de una palabra basándose en el contexto proporcionado por las palabras adyacentes, especialmente para términos polisémicos.
+\end{itemize}
+Además de su utilidad en tareas lingüísticas, el NLP facilita la gestión eficiente y objetiva de grandes volúmenes de datos. Esta capacidad de automatización es crucial dada la ingente cantidad de información generada diariamente, como registros médicos o datos de redes sociales.
+
+En resumen, el NLP constituye un componente vital de la inteligencia artificial, capacitando a las computadoras para entender, interpretar y manipular el lenguaje humano. Su importancia radica en la complejidad y diversidad inherentes al lenguaje, así como en la creciente cantidad de datos producidos constantemente.
+\section{Chatbots}
+A continuación, nos centraremos en el uso de NLP para chatbots, herramientas en las cuales se necesita hallar una respuesta ante la solicitud que ha enviado el usuario. Existen multitud de plataformas para chatbots que utilizan NLP, entre ellas, Rasa [32], Dialogflow, Bot Framework, Bard, Wit.ai o Amazon Lex.
+\section{Bard}
+Bard es una plataforma emergente que merece ser considerada en el panorama de las herramientas para chatbots. Aunque quizás no tan conocida como otras opciones, Bard ofrece un enfoque único que combina capacidades avanzadas de procesamiento del lenguaje natural (NLP) con algoritmos de aprendizaje automático, lo que permite la creación de chatbots altamente inteligentes y personalizables.
+
+Una de las características destacadas de Bard es su capacidad para comprender y procesar el lenguaje humano de manera eficiente, lo que le permite responder de manera precisa y natural a las solicitudes de los usuarios. Además, Bard ofrece un conjunto completo de herramientas y servicios para el desarrollo, implementación y gestión de chatbots, lo que facilita a los desarrolladores crear experiencias conversacionales fluidas y envolventes.
+
+Aunque todavía está ganando popularidad, Bard está respaldado por un equipo dedicado de desarrolladores y expertos en NLP, lo que sugiere un gran potencial para el futuro. Con su enfoque en la innovación y la calidad, Bard se posiciona como una opción prometedora para aquellos que buscan crear chatbots inteligentes y efectivos que puedan satisfacer las necesidades de sus usuarios de manera eficiente y satisfactoria.
+
+En un principio se tomo la decisión de utilizar la API de Bard y desarrollo un primer prototipo de chatbot sencillo según este modelo, sin embargo desde diciembre de 2023 PaLM, que es el modelo de inteligencia artificial que actualmente utiliza Bard se ha actualizado a Gemini y todavía no esta disponible en España, por lo tanto se tuvo que descartar el manejo de esta API y pasar a analizar otras alternativas. 
+\subsection{Dialogflow}
+Dialogflow, una herramienta desarrollada por Google, se destaca por su capacidad para crear chatbots o agentes capaces de comprender el lenguaje natural. Su principal ventaja radica en su accesibilidad y facilidad de uso, ya que no requiere instalación alguna y puede ser utilizado de manera intuitiva, sin necesidad de escribir código alguno para desarrollar un chatbot.
+
+Dialogflow ofrece una interfaz de usuario amigable que permite a los desarrolladores crear, compilar y probar agentes de manera eficiente. Además, el código generado puede ser almacenado en la nube, lo que facilita el acceso y la gestión del proyecto desde cualquier lugar con conexión a Internet.
+
+Sin embargo, una de las limitaciones de Dialogflow es su dependencia del servicio de alojamiento en la nube de Google, lo que impide a los usuarios alojar sus agentes en un entorno local o en su propio servidor. Esta restricción puede resultar inconveniente para algunos desarrolladores que prefieren tener un mayor control sobre el alojamiento y la gestión de sus chatbots.
+
+\subsection{Microsoft Bot Framework}
+El Microsoft Bot Framework es una plataforma integral que ofrece una amplia gama de servicios y herramientas para la construcción, publicación y despliegue de chatbots. Esta plataforma está disponible en dos versiones: una versión gratuita y otra versión de pago, lo que brinda flexibilidad a los desarrolladores según sus necesidades y recursos disponibles.
+
+Una de las fortalezas del Microsoft Bot Framework radica en su capacidad para crear asistentes virtuales sofisticados. Además, es altamente flexible y escalable, lo que permite a los desarrolladores adaptar sus chatbots a diversas situaciones y escenarios de uso. La plataforma también destaca por su integración con una variedad de plataformas de mensajería populares, como Slack, Facebook Messenger, Telegram y Skype, lo que amplía significativamente su alcance y accesibilidad.
+
+Otra característica destacada del Microsoft Bot Framework es su compatibilidad con Azure Bot Service, que proporciona una infraestructura sólida para la gestión del tráfico y la rápida respuesta a las consultas de los usuarios, incluso en momentos de alto volumen de tráfico. Además, la plataforma ofrece un SDK de código abierto que facilita la construcción y personalización de chatbots, así como la depuración mediante herramientas como Microsoft Bot Framework Emulator.
+
+En resumen, el Microsoft Bot Framework es una opción robusta y completa para el desarrollo de chatbots, ofreciendo una combinación de funcionalidades avanzadas, flexibilidad y herramientas de desarrollo que facilitan la creación y gestión de asistentes virtuales.
+\subsection{Wit.ai}
+Wit.ai es una plataforma versátil utilizada para el desarrollo de aplicaciones y dispositivos con capacidades de conversación y mensajería de texto. Esta plataforma, que es de código abierto, ofrece la posibilidad de crear interfaces de voz para aplicaciones, lo que amplía las opciones de interacción para los usuarios. Entre sus diversas aplicaciones, Wit.ai puede desempeñar roles como asistente para el hogar, permitiendo el control de dispositivos inteligentes, como electrodomésticos y dispositivos portátiles, por ejemplo, ajustando la temperatura del hogar mediante comandos de voz o texto.
+
+Wit.ai se destaca por su robusto sistema de procesamiento del lenguaje natural (NPL), el cual proporciona capacidades avanzadas para comprender y procesar el lenguaje humano. Sin embargo, algunos usuarios han señalado ciertas dificultades al entrenar los chatbots o al recuperar ciertos parámetros durante el proceso de desarrollo. Estas consideraciones pueden influir en la experiencia general del usuario y en la eficacia del chatbot en situaciones específicas.
+\subsection{Amazon Lex}
+Amazon Lex es una plataforma que emplea reconocimiento automático de voz (ASR) y comprensión del lenguaje natural (NLU) para facilitar a los desarrolladores la creación de chatbots intuitivos. Además, cuenta con el respaldo del aprendizaje automático de AWS, lo que permite que los chatbots mejoren su desempeño con el tiempo.
+
+Las ventajas de Amazon Lex son notables. Ofrece la capacidad de reconocer el lenguaje hablado y convertirlo en texto, lo que amplía las posibilidades de interacción. Además, su arquitectura escalable garantiza un rendimiento confiable incluso en entornos de alto tráfico, y su integración con dispositivos móviles brinda flexibilidad en cuanto a la plataforma de uso.
+
+Sin embargo, existen algunas limitaciones que vale la pena considerar. Amazon Lex se encuentra limitado al idioma inglés, lo que puede ser una barrera para proyectos multilingües o dirigidos a audiencias internacionales. Además, la preparación de conjuntos de datos de prueba puede resultar complicada debido a la dificultad en el mapeo de expresiones y entidades, lo que puede llevar a un proceso de desarrollo más tedioso y prolongado.
+\subsection{Rasa}
+Rasa se destaca como un conjunto de herramientas de código abierto diseñado para facilitar la creación de AIs conversacionales. Su documentación exhaustiva e interactiva brinda una sólida base para los desarrolladores, permitiéndoles personalizar los chatbots utilizando Python. Esta flexibilidad no solo ofrece una comprensión más profunda del funcionamiento interno de los chatbots, sino que también permite una mayor libertad para investigar y modificar el código base, gracias a su naturaleza de código abierto.
+
+Una de las ventajas significativas de Rasa radica en su capacidad para ejecutarse localmente y ser integrado en los servidores propios de los desarrolladores, una opción que no está disponible en las plataformas basadas únicamente en la nube. Este enfoque descentralizado otorga un mayor control sobre la implementación y el manejo de los datos del chatbot, al tiempo que ofrece un nivel adicional de seguridad y privacidad.
+
+Además, es importante destacar que el uso de Rasa fue una decisión tomada por el tutor del proyecto de software, quien desempeña el papel de cliente. Esta elección refleja la confianza en la tecnología y resalta su idoneidad para abordar los requisitos específicos del proyecto, lo que subraya aún más su valor y relevancia en el ámbito de la creación de AIs conversacionales.
+\subsection{Bard}
+
+
