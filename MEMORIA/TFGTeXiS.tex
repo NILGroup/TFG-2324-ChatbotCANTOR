@@ -95,7 +95,7 @@ constantes,guionado,Cascaras/bibliografia,config%
     pdfcreator = {\LaTeX\ con el paquete \flqq hyperref\frqq},
     pdfproducer = {pdfeTeX-0.\the\pdftexversion\pdftexrevision},
     }
-    \pdfinfo{/CreationDate (\today)}
+    
 \fi
 
 
@@ -120,8 +120,6 @@ constantes,guionado,Cascaras/bibliografia,config%
 \include{Cascaras/resumen}
 \begin{otherlanguage}{english}
 \include{Cascaras/abstract}
-% Si el trabajo se escribe en inglés, comentar esta línea y descomentar
-% otra igual que hay justo antes de \end{document}
 \end{otherlanguage}
 
 \ifx\generatoc\undefined
@@ -138,24 +136,18 @@ constantes,guionado,Cascaras/bibliografia,config%
 
 
 \include{Capitulos/Introduccion}
-\include{Capitulos/EstadoDeLaCuestion}
-\include{Capitulos/DescripcionTrabajo}
-%\include{Capitulos/Capitulo4}
-%\include{Capitulos/Capitulo5}
-\include{Capitulos/ConclusionesTrabajoFuturo}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Si el TFG se escribe en inglés, comentar las siguientes líneas 
-% porque no es necesario incluir nuevamente las Conclusiones en inglés
 \begin{otherlanguage}{english}
-\include{Capitulos/Introduction}
-\include{Capitulos/ConclusionsFutureWork}
+	\include{Capitulos/Introduction}
 \end{otherlanguage}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Capitulos/EstadoDeLaCuestion}
+\include{Capitulos/Objetivos y planteamientos}
+\include{Capitulos/ChatBot de apoyo a la terapia de Reminiscencia}
+\include{Capitulos/Interfaz y resultados finales}
+\include{Capitulos/ConclusionesTrabajoFuturo}
+\begin{otherlanguage}{english}
+	\include{Capitulos/ConclusionsFutureWork}
+\end{otherlanguage}
 
-\include{Capitulos/ContribucionesPersonales}
-
-%
 % Bibliografía
 %
 % Si el TFM se escribe en inglés, editar TeXiS/TeXiS_bib para cambiar el

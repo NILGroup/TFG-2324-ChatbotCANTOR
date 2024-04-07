@@ -1,11 +1,36 @@
 from config import * 
 import telebot
 
+import pathlib
+import textwrap
+import google.generativeai as genai
+
+from IPython.display import display
+from IPython.display import Image
+from IPython.core.display import HTML
+from IPython.display import Markdown
+
+import json
+import sys
+
+import re
+# -*- coding: utf-8 -*-
+
+#pip install telebot
+#pip install -q -U google-generativeai
+#pip install google
+
+#Configuración: cargamos la API KEY y instalamos el modelo 
+#pip install google
+#import tfg
+
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
+    
 @bot.message_handler(commands=["start"])
 def cmd_start(message):
-    bot.reply_to(message, "Hola ¿Puedes indicarme tu nombre?")
+    tfg.cargar_preguntas()
+    bot.reply_to(message, "Bienvenido al chatbot de ayuda a la terapia de reminiscencia. A continuación, le haré una serie de preguntas que me ayudarán a conocer más sobre usted para ayudarle a recordar y trabajar la mente. En primer lugar, ¿Cuál es su nombre?")
 
 
 @bot.message_handler(content_types=["text"])
@@ -13,25 +38,11 @@ def bot_mesajes_text(message):
     if message.text.startswith("/"):
         bot.send_message(message.chat.id, "El comando no esta disponible")
     else:
-        bot.send_message(message.chat.id, "Un mensaje cuando no es comando")
-
+        answer = siguientePregunta.siguientePregunta(message.text)
+       
 #MAIN
 if __name__ == '__main__':
-   print('Bot iniciado')
-   bot.infinity_polling()
-   print("Fin")
+    bot.infinity_polling()
 
-   from rasa.core.agent import Agent
 
-# Cargar el modelo de Rasa previamente entrenado
-agent = Agent.load("models")
 
-def procesar_mensaje(mensaje):
-    # Procesar el mensaje del usuario y obtener la respuesta del modelo de Rasa
-    respuesta = agent.handle_text(mensaje)
-    return respuesta
-
-# Ejemplo de uso de la función
-mensaje_usuario = "Hola, ¿cómo puedo ayudarte?"
-respuesta_rasa = procesar_mensaje(mensaje_usuario)
-print(respuesta_rasa)

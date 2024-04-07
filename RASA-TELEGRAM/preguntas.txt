@@ -1,0 +1,3 @@
+¿? : []
+¿Cuales son tus aficiones? : [aficiones]
+¿Cuál es tu comida favorita? : [comida favorita]
