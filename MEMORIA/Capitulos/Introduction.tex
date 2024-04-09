@@ -1,43 +1,50 @@
 \chapter*{Introduction}
-\label{cap:introduction}
-\addcontentsline{toc}{chapter}{Introduction}
-\chapterquote{There are incurable patients, but none that are beyond care.}{Francesc Torralba}
+\label{chap:introduction}
 
-In this first chapter, the reasons that have led me to undertake this project and the objectives sought to be achieved from the outset are presented.
+\chapterquote{There are incurable patients, but none that are careless}{Francesc Torralba}
 
+The advancement in the field of medicine in the last century has allowed for a notable increase in life expectancy worldwide. However, this lengthening of life has also brought about an increase in age-related diseases, such as Alzheimer's. As we live longer, we face a greater risk of developing these conditions.
 
 \section{Motivation}
-Currently, memory loss is a problem that affects a large portion of the population, from individuals with mild cognitive impairment to those suffering from more severe forms of dementia, such as Alzheimer's. This condition not only diminishes the patient's quality of life but also impacts the well-being of their family and loved ones. In Spain alone, according to the Spanish Society of Neurology, there are 800,000 people afflicted by this disease.
 
-Non-pharmacological techniques have shown highly positive results in preserving memory, maintaining cognitive abilities, and retaining memories, thereby contributing to delaying cognitive decline. Among these, approaches based on reviewing the individual's own Life History have proven to be highly effective. This involves the patient, even one suffering from dementia, personally recording the most significant experiences, people, and places in their life. The aim is to stimulate the patient to discuss various topics, past events, and historical occurrences. It has been found that these exercises help preserve skills such as reasoning, self-esteem, confidence, and social abilities. Up until now, therapists implementing reminiscence therapies have manually created patients' life stories and relied on printed documents to prepare the sessions.
+Despite advances in medical research, a definitive cure for Alzheimer's has not yet been found. Most treatments focus on alleviating symptoms and slowing the progression of the disease. Among these treatments, reminiscence therapy has emerged as a prominent non-pharmacological option.
 
-During the academic period of 2023-2024, the ReminiscenceBot application was developed with the purpose of facilitating therapists in conducting reminiscence-based therapies, streamlining and simplifying the process. This development starts from scratch and aims to create a functional and useful chatbot capable of engaging in a productive conversation with the patient to extract the necessary information.
+Reminiscence therapy focuses on stimulating the patient's memories of the past, which can have significant benefits for their social, mental, and emotional well-being. It helps individuals remember and share past experiences, which can be comforting and stimulating, especially for those facing the challenge of memory loss associated with Alzheimer's.
 
-This Bachelor's Thesis arises with the intention of assisting therapists, family members, or friends of dementia patients in obtaining the necessary material to apply reminiscence therapies on the patient. Thus, the goal is to enhance the effectiveness of these therapies and improve the quality of life for both the patients and their families.
+During the academic period 2023-2024, the YayoBot application was developed with the aim of facilitating therapists in conducting reminiscence-based therapies, simplifying and streamlining the process. This development starts from scratch and aims to create a functional and useful chatbot, capable of maintaining a useful conversation with the patient to extract the necessary information.
 
+This Bachelor's Thesis aims to assist therapists, family members, or friends of dementia patients in obtaining the necessary material to carry out reminiscence therapies. The goal is to improve the effectiveness of these therapies and, consequently, the quality of life of both patients and their families.
 
-\section{Goals}
-This work aims to develop a chatbot from scratch using the Bard API that is capable of:
-\begin{enumerate}
+\section{Objectives}
 
-\item Developing an initial basic chatbot capable of responding to predefined questions and storing answers.
-\item Enhancing the previous chatbot to make it more intelligent and capable of analyzing responses, identifying omitted information, asking specific questions to obtain missing information, etc.
-\item Creating a final version of the chatbot that can analyze responses and engage in a meaningful conversation. It should also be able to generate appropriate questions. 
-\end{enumerate}
+This work aims to develop a chatbot that allows therapists to apply reminiscence therapy to their patients. Specifically, it focuses on the first stage of searching for information with the aim of later generating life stories and applying therapy.
 
-\section{Work Plan}
+To achieve this general objective, the following specific objectives are addressed:
 
-The work plan to achieve the previously outlined objectives will be as follows:
-\begin{enumerate}
+\begin{itemize}
+	\item Develop an initial basic chatbot capable of asking predefined questions and storing responses efficiently.
+	\item Study modern natural language processing techniques such as LLMs, libraries like NLTK and spaCy, and different APIs for chatbot development.
+	\item Improve the initial chatbot, making it smarter and capable of analyzing responses, identifying omitted information, and asking specific questions to obtain the missing information.
+	\item Create a final version of the chatbot that can analyze responses and follow up on the conversation. Also, it should be able to generate appropriate questions.
+	\item Generate a user-friendly interface to make the chatbot a useful tool for its intended purpose.
+	\item Organize the obtained information to make it easy to analyze, understand, and process, with the intention of generating life stories from it.
+\end{itemize}
 
-\item Develop the first version of the chatbot by November 15th, with a focus on drafting the project introduction.
+For version control, we will use the GitHub repository: https://github.com/NILGroup/TFG-2324-ChatbotCANTOR.
 
-\item By the end of February, have the second version developed, along with 85% of the project report completed, primarily focusing on the core chapters.
+\section{Structure of the Document}
 
-\item Aim to complete the final version by May. Ensure that the code is finalized and the report includes all conclusions, results, and future work.
+This document consists of 5 chapters, including this one. They are organized as follows:
 
-\end{enumerate}
-To manage version control, we will use the GitHub repository at: https://github.com/NILGroup/TFG-2324-ChatbotCANTOR.
+\begin{itemize}
+	\item \textbf{Chapter 1: Introduction}. The current chapter introduces the project, motivation, objectives, and structure of the thesis.
+	\item \textbf{Chapter 2: State of the Art}. This chapter provides an overview of life stories, Alzheimer's disease, reminiscence therapy, as well as other related works, context, and precedents of the project.
+	\item \textbf{Chapter 3: Theoretical Framework}. In this third chapter, a deep study of natural language processing tools, interfaces, and information storage was conducted to decide how to implement the chatbot. The different options and the reasons for choosing each one are explained.
+	\item \textbf{Chapter 4: Chatbot Development}. This chapter describes how the project has been developed, explaining each of the versions that have been carried out. It explains, from the first version, the problems encountered, the additional functionalities added, etc.
+	\item \textbf{Chapter 5: Final Version and Results}. In Chapter 5, the final interface with all its functionalities is presented. The software and tools used, the installation and startup guide, the architecture of the final system, etc., are also discussed.
+	\item \textbf{Appendices}. Additionally, in the appendix, a conversation with a real patient is shown to see how the chatbot works.
+\end{itemize}
+
 
 
 

@@ -49,11 +49,15 @@ def cargar_json(d_json):
   except IndexError:
     print("cargar_json:Error al generar el json")
 
-def generate_json(pregunta,respuesta,datos):
+def generate_json(p):
   try:
-      prompt = f"He preguntado a un usuario {pregunta}, y me ha respondido {respuesta}. Quiero que me ayudes a rellenar un json con los siguientes datos: {datos}. Rellenados con los valores apropiados según la respuesta." 
-      prompt += "Quiero que vengan en formato json donde la clave sea el nombre del dato y el valor la información que has podido obtener en la respuesta de ese campo, en formato de lista. Es decir una lista de strings, donde cada string sea una información obtenida asociada a ese campo. En caso de que no se haya podido obtener ninguna información de un campo quiero que el valor asociado a la clave de ese dato sea una lista con un único string que sea No Encontrado"
-    
+      pregunta = p.enunciado
+      respuesta = p.respuesta
+      datos = list(p.campos.keys())
+     
+      prompt = f"Podrías, a partir de esta respuesta {respuesta} y partiendo de la siguiente pregunta {pregunta}, rellenarme si es posible estos datos {datos}" + "Quiero que vengan en formato json donde la clave sea el nombre del dato y el valor la información que has podido obtener en la respuesta de ese campo, en formato de lista. Es decir una lista de strings, donde cada string sea una información obtenida asociada a ese campo."
+      prompt = prompt + "Si no has podido encontrar una respuesta, rellena el json con el valor 'No Encontrado'"
+
       response = model.generate_content(prompt)
       
       while not response.candidates:
@@ -66,7 +70,8 @@ def generate_json(pregunta,respuesta,datos):
       json_obj = cargar_json(text)
       return json.loads(str(json_obj))
   except AttributeError:
-      print("Error en generate_json")
+      print(f"generate_json error: json_obj es {response.text}")
+      return "return"
 
 def generate_question(clave):
   prompt = f"Escribe preguntas dirigidas a una persona a la que estoy haciendo una entrevista personal. Quiero que las preguntas me ayuden a obtener información acerca del siguiente tema: {clave} "
@@ -94,25 +99,29 @@ def analizar_extra(respuesta):
 
     prompt2 = f"Generame un json con el formato campo:información asociada a ese campo con la información que puedas obtener de esta respuesta {respuesta}"
     response = model.generate_content(prompt2)
-
-    return cargar_json(response.text)
+    
+    return json.loads(cargar_json(response.text))
   else:
     return []
 
 def analizar_respuesta(pregunta):
-  keys = pregunta.campos.keys()
-  data = generate_json(pregunta.enunciado,pregunta.respuesta,keys)
+  data = generate_json(pregunta)
+  """
+  if data == "return":
+      return
   extra = analizar_extra(pregunta)
-  for clave,valor in data.items():
-      pregunta.actualizar_campo(clave, valor)
   if extra != []:
       for clave,valor in extra.items():
           pregunta.actualizar_campo(clave, valor)
-  for clave, valor in data.items():
-    if "No Encontrado" in valor and pregunta.extra[clave]:#Si ya había generado preguntas extra para ese campo paso
-        pregunta.marcarGeneradasExtra(clave)
-        pregunta.añadirPreguntasExtra(generate_question(clave))
-        return
+  """    
+  for clave,valor in data.items():
+      pregunta.actualizar_campo(clave, valor)
+      if "No Encontrado" in valor and not pregunta.extra[clave]:#Si ya había generado preguntas extra para ese campo paso
+          pregunta.marcarGeneradasExtra(clave)
+          nuevasPregs = generate_question(clave)
+          pregunta.añadirPreguntasExtra(nuevasPregs)
+          return
+    
   pregunta.pasarSiguiente()
         
 preguntas = []
@@ -127,7 +136,7 @@ def siguientePregunta(respuesta):
         index = index + 1
         return preguntas[1].enunciado 
     
-    preguntas[index].actualizar_respuesta = respuesta
+    preguntas[index].actualizar_respuesta(respuesta)
     analizar_respuesta(preguntas[index])
     if preguntas[index].pasar or len(preguntas[index].preguntasExtra) == 0:
         if index != (len(preguntas)-1):
@@ -138,7 +147,8 @@ def siguientePregunta(respuesta):
     else:
         pregunta = preguntas[index].preguntasExtra[0]
         preguntas[index].eliminarPreguntasExtra()
-        return pregunta
+        return "¿"+pregunta+"?"
+    
     
 
 def cargar_preguntas():

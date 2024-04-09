@@ -14,6 +14,7 @@ import json
 import sys
 
 import re
+import tfg
 # -*- coding: utf-8 -*-
 
 #pip install telebot
@@ -38,7 +39,8 @@ def bot_mesajes_text(message):
     if message.text.startswith("/"):
         bot.send_message(message.chat.id, "El comando no esta disponible")
     else:
-        answer = siguientePregunta.siguientePregunta(message.text)
+        answer = tfg.siguientePregunta(message.text)
+        bot.send_message(message.chat.id, answer)
        
 #MAIN
 if __name__ == '__main__':

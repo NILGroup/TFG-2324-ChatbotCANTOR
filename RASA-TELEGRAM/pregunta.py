@@ -18,7 +18,10 @@ class Pregunta:
         self.pasar = False
     
     def pasarSiguiente(self):
-        self.pasarSiguiente = True
+        self.pasar = True
+        
+    def añadirPreguntasExtra(self,preguntas):
+        self.preguntasExtra = preguntas
 
     def actualizar_respuesta(self, nueva_respuesta):
         self.respuesta = nueva_respuesta
@@ -26,7 +29,7 @@ class Pregunta:
     def actualizar_campo(self, nombre_campo, valor):
         self.campos[nombre_campo] = valor
 
-    def eliminarPreguntasExtra(self, preguntas):
+    def eliminarPreguntasExtra(self):
         self.preguntasExtra.pop(0)
     
     def agregar_respuesta_extra(self, pregunta_extra, respuesta_extra):
