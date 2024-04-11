@@ -86,6 +86,25 @@ constantes,guionado,Cascaras/bibliografia,config%
 %
 % "Metadatos" para el PDF
 %
+\usepackage{xcolor}
+% Definición del estilo Spyder
+\definecolor{spyder_keyword}{RGB}{140, 0, 255} % Color de las palabras clave
+\definecolor{spyder_comment}{RGB}{63, 127, 95} % Color de los comentarios
+\definecolor{spyder_string}{RGB}{206, 145, 120} % Color de las cadenas
+\definecolor{spyder_background}{RGB}{255, 255, 255} % Color de fondo del código
+\definecolor{spyder_frame}{RGB}{200, 200, 200} % Color del marco del código
+
+\lstdefinestyle{SpyderStyle}{
+	language=Python,
+	basicstyle=\ttfamily,
+	keywordstyle=\color{spyder_keyword},
+	commentstyle=\color{spyder_comment},
+	stringstyle=\color{spyder_string},
+	backgroundcolor=\color{spyder_background},
+	frame=single,
+	framerule=0.5pt,
+	framesep=3pt,
+}
 \ifpdf\hypersetup{%
     pdftitle = {\titulo},
     pdfsubject = {Plantilla de Tesis},
@@ -97,7 +116,6 @@ constantes,guionado,Cascaras/bibliografia,config%
     }
     
 \fi
-
 
 %- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 %                        Documento

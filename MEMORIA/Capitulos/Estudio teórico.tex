@@ -2,11 +2,59 @@
 \label{cap:Estudio teórico}
 En este capítulo se presenta de forma resumida toda la información que se analizó en el proceso de investigación para encontar las herramientas adecuadas para llevar a cabo nuestros objetivos. Por un lado, se presentan las distintas herramientas de procesamiento del lenguaje y diferentes APIs de generación del lenguaje. Por otro lado, las diferentes herramientas para la generación de interfaces y almacenamiento de la información que se han llevado a cabo para desarrollar este proyecto. En el repositorio de github, además de las que han sido utilizadas en la versión final, se puede ver la instalación y el uso de algunas de las siguientes apis, librerías y herramientas que fueron probadas para ver sus limitaciones y decantarse por unas u otras. 
 \section{Bibliotecas de Procesamiento del Lenguaje en Python}
-\subsection{NLTK (Natural Language Toolkit)}
+\subsection{NLTK}
+%https://www.nltk.org/
+%Bird, Steven, Edward Loper and Ewan Klein (2009), Natural Language Processing with Python. O’Reilly Media Inc.
+La biblioteca NLTK (Natural Language Toolkit) ofrece una amplia gama de herramientas y recursos para tareas de PLN.
 
-NLTK es una biblioteca popular para el procesamiento del lenguaje natural en Python. Ofrece una amplia gama de herramientas y recursos para tareas de PLN, como tokenización, etiquetado POS, análisis sintáctico, lematización, y más. Es especialmente útil para la enseñanza y la investigación en el campo de PLN debido a su extensa documentación y su comunidad activa. NLTK también incluye corpus de texto preprocesados para entrenar modelos y facilitar el desarrollo de aplicaciones de PLN.
+En primer lugar, NLTK permite realizar tareas como la tokenización y el  etiquetado POS (Part-Of-Speech tagging). Al utilizar las herramientas de tokenización, podemos dividir el texto en unidades más pequeñas, lo que facilita el análisis y la comprensión. El etiquetado POS asigna etiquetas gramaticales a cada palabra en el texto, lo que nos permite identificar la función de cada palabra en la oración. 
 
-Una de las principales ventajas de NLTK es su flexibilidad y extensibilidad, lo que permite a los usuarios implementar fácilmente algoritmos y experimentar con diferentes enfoques de procesamiento del lenguaje. Sin embargo, debido a su diseño modular y su enfoque en la educación, algunas de sus funcionalidades pueden no ser tan eficientes o escalables como otras bibliotecas más modernas.
+\begin{lstlisting}[style=SpyderStyle, caption={Ejemplo de código en Python}, captionpos=b, label={lst:python},breaklines = true]
+	sentence = "Reminiscence Therapy involves the discussion of past activities using prompts like photos."
+	tokens = nltk.word_tokenize(sentence)
+	tagged = nltk.pos_tag(tokens)
+	tagged[0:len(tagged)]
+\end{lstlisting}
+
+En este código $nltk$ tokeniza la oración introducida y etiqueta cada $token$ indicando la categoría sintáctica de cada $token$ como sigue:
+
+\begin{itemize}
+	\item NNP: Nombre propio singular
+	\item NN: Nombre, singular o sustantivo singular
+	\item VBZ: Verbo tercera persona del singular presente
+	\item DT: Determinante
+	\item IN: Preposición o oración subordinada
+	\item JJ: Adjetivo
+	\item NNS: Nombre plural 
+	\item VBG: Verbo, gerundio o participio
+	\item . : Signo de puntuación
+\end{itemize}
+
+\begin{lstlisting}[style=SpyderStyle, caption={Tokenización y etiquetado con nltk}, captionpos=b, label={lst:python},breaklines = true]
+>>[('Reminiscence', 'NNP'), ('Therapy','NNP'), ('involves','VBZ'), ('the', 'DT'), ('discussion', 'NN'), ('of', 'IN'), ('past', 'JJ'), ('activities', 'NNS'), ('using', 'VBG'), ('prompts', 'NNS'), ('like', 'IN'), ('photos', 'NNS'), ('.', '.')]
+
+\end{lstlisting}
+
+Otras de las funcionalidades que nos permite esta biblioteca es el análisis sintáctico o lematización. Por ejemplo, nos permite la obtención de árboles sintácticos, lo que permite visualizar la estructura gramatical de las oraciones, facilita el análisis y la interpretación del texto. \\
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{Imagenes/arbolsintactico}
+	\caption{Árbol sintáctico generado con nltk}
+	\label{fig:1}
+\end{figure}
+
+\begin{lstlisting}[style=SpyderStyle, caption={Análisis sintáctico y lematización con nltk}, captionpos=b, label={lst:python},breaklines = true]
+entities = nltk.chunk.ne_chunk(tagged)
+nltk.download('treebank')
+from nltk.corpus import treebank
+t = treebank.parsed_sents('wsj_0001.mrg')[0]
+t
+\end{lstlisting}
+
+
+Además de estas características fundamentales, NLTK ofrece una serie de otras funcionalidades que amplían aún más su utilidad. Por ejemplo, incluye herramientas para la extracción de entidades nombradas, el análisis de sentimientos, la generación de texto y la traducción automática. Estas capacidades adicionales permiten abordar una amplia variedad de tareas en el procesamiento del lenguaje natural, desde la clasificación de texto hasta la generación de resúmenes automáticos y la traducción de idiomas. En resumen, NLTK es una herramienta invaluable para investigadores, estudiantes y profesionales que trabajan en el campo del PLN, ofreciendo una amplia gama de funcionalidades que facilitan el análisis, la comprensión y la manipulación del lenguaje humano.
+
 
 \subsection{SpaCy}
 
@@ -107,6 +155,7 @@ El uso de objetos JavaScript (JSON) es una poderosa herramienta de programación
 Estas tripletas RDF se utilizan para almacenar información de manera estructurada y semántica, lo que permite una representación más rica y significativa de los datos en la web. A través de vocabularios y ontologías, como RDF Schema (RDFS) y Web Ontology Language (OWL), se establecen relaciones y significados precisos entre los términos utilizados en las tripletas RDF.
 
 Las tripletas RDF son ampliamente utilizadas en la web semántica para diversas aplicaciones, como la descripción de recursos y metadatos en la web, la integración de datos de diferentes fuentes, la creación de motores de búsqueda más inteligentes y la construcción de sistemas de recomendación personalizados. Además, RDF proporciona un marco estándar y flexible para representar conocimiento y facilita la interoperabilidad entre diferentes sistemas y aplicaciones en la web.
+
 \section{Bibliotecas para el desarrollo de interfaces}
 
 PyQt, wxPython y Kivy son opciones populares para la implementación de interfaces gráficas, cada una con sus propias ventajas y desventajas.
