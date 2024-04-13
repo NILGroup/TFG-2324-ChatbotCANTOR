@@ -1,0 +1,1 @@
+{'': False}{'aficiones': ['Jugar al tenis', 'Estar con amigas']}{'comida favorita': ['chocolate']}

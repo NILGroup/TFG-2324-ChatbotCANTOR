@@ -58,9 +58,54 @@ Además de estas características fundamentales, NLTK ofrece una serie de otras 
 
 \subsection{SpaCy}
 
-spaCy es una biblioteca de procesamiento del lenguaje natural diseñada para ser rápida, eficiente y fácil de usar. Ofrece herramientas para realizar tareas de PLN como tokenización, análisis sintáctico, reconocimiento de entidades nombradas y más. spaCy se destaca por su velocidad y rendimiento, lo que la hace ideal para aplicaciones que requieren procesamiento de texto a gran escala, como el análisis de grandes volúmenes de datos o el procesamiento en tiempo real.
+% https://spacy.io/
 
-Una de las principales ventajas de spaCy es su modelo de lenguaje pre-entrenado, que permite a los usuarios comenzar a trabajar con PLN de inmediato sin necesidad de entrenar modelos desde cero. Además, spaCy ofrece una API fácil de usar y una documentación exhaustiva que facilita su aprendizaje y su integración en proyectos. Sin embargo, debido a su enfoque en la velocidad y la eficiencia, spaCy puede carecer de ciertas funcionalidades más avanzadas que otras bibliotecas ofrecen.
+SpaCy ofrece soporte para más de 25 idiomas y cuenta con 84 pipelines de entrenamiento. Utiliza el aprendizaje multi-tarea con modelos preentrenados como BERT, lo que permite un rendimiento avanzado en tareas de procesamiento del lenguaje natural. Sus componentes incluyen herramientas para el reconocimiento de entidades nombradas, etiquetado de partes del discurso, análisis de dependencias, segmentación de oraciones, clasificación de texto, lematización, análisis morfológico, vinculación de entidades y más.
+
+\begin{lstlisting}[style=SpyderStyle, caption={Ejemplo de tokenización usando spaCy}, captionpos=b, label={lst:python},breaklines = true]
+import spaCy
+
+# Load English tokenizer, tagger, parser and NER
+nlp = spacy.load("en_core_web_sm")
+
+# Process whole documents
+text = ("Reminiscence Therapy involves the discussion of past activities using prompts like photos.")
+doc = nlp(text)
+
+# Analyze syntax
+print("Noun phrases:", [chunk.text for chunk in doc.noun_chunks])
+print("Verbs:", [token.lemma_ for token in doc if token.pos_ == "VERB"])
+\end{lstlisting}
+
+Este código carga el modelo preentrenado $"en\_core\_web\_sm"$ de spaCy, que incluye herramientas para tokenizar, etiquetar, analizar la sintaxis y reconocer entidades nombradas en textos en inglés. Luego, procesa el texto proporcionado y muestra las frases nominales identificadas utilizando la función $noun_chunks$ y los verbos lematizados utilizando la propiedad $lemma\_$. Este análisis gramatical permite identificar las partes clave del texto, como los sustantivos y las acciones descritas.
+
+\begin{lstlisting}[style=SpyderStyle, caption={Resultado de tokenización usando spaCy}, captionpos=b, label={lst:python},breaklines = true]
+>>> Noun phrases: ['Reminiscence Therapy', 'the discussion', 'past activities', 'prompts', 'photos']
+	Verbs: ['involve', 'use']
+\end{lstlisting}
+
+Además, es fácilmente ampliable con componentes y atributos personalizados, y es compatible con modelos personalizados en PyTorch, TensorFlow y otros frameworks. Spacy ofrece visualizadores integrados para la sintaxis y el reconocimiento de entidades nombradas, y facilita el empaquetado, despliegue y gestión de flujos de trabajo de modelos. Con su precisión rigurosamente evaluada y su robustez, Spacy es una herramienta poderosa y versátil para el procesamiento del lenguaje natural.
+
+La biblioteca spaCy cuenta con diferentes componentes que interactúan entre sí esuchando la salida unos de otros para mejorar su procesamiento ($listener$). Además, existen una serie de reglas y dependencias entre los componentes. Por ejemplo, el módulo $atribute\_ruler$ indica proporciona reglas de etiquetado a $tagger$.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{Imagenes/spaCy}
+	\caption{Árbol sintáctico generado con nltk}
+	\label{fig:1}
+\end{figure}
+
+El gráfico representa la estructura de una tubería de procesamiento de lenguaje natural (NLP) en spaCy, mostrando la secuencia de componentes y sus interacciones.
+
+\begin{itemize}
+	\item tok2vec: Este componente convierte los tokens en vectores de palabras, que capturan el significado semántico de las palabras en el contexto de la oración.
+	\item tagger: El $tagger$ asigna etiquetas gramaticales a cada token en el texto, como partes del discurso (POS).
+	\item  parser: El analizador sintáctico analiza la estructura sintáctica del texto, identificando las relaciones de dependencia entre las palabras. 
+	\item $attribute\_ruler$: Este componente aplica reglas para agregar atributos adicionales a los tokens, como excepciones de lema y POS, y manejar espacios en blanco de manera coherente.
+	\item $lemmatizer$: El lematizador determina la forma base de cada palabra (su lema) en función de su contexto y su parte del discurso.
+	\item $ner/tok2vec$: El componente de reconocimiento de entidades (NER) identifica entidades nombradas en el texto, como nombres de personas, lugares o organizaciones. En algunos modelos, este componente comparte la representación de vectores de palabras (tok2vec) con otros componentes para mejorar la coherencia y la precisión de las predicciones.
+\end{itemize}
+En resumen, este gráfico muestra cómo los componentes de spaCy interactúan entre sí para realizar tareas de procesamiento de lenguaje natural, aprovechando la información compartida y las reglas definidas para mejorar la precisión y la coherencia del análisis lingüístico.
 
 \subsection{Gensim}
 

@@ -15,6 +15,7 @@ import sys
 
 import re
 import tfg
+import imagenes
 # -*- coding: utf-8 -*-
 
 #pip install telebot
@@ -27,7 +28,8 @@ import tfg
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
-    
+i = 0
+
 @bot.message_handler(commands=["start"])
 def cmd_start(message):
     tfg.cargar_preguntas()
@@ -41,7 +43,23 @@ def bot_mesajes_text(message):
     else:
         answer = tfg.siguientePregunta(message.text)
         bot.send_message(message.chat.id, answer)
-       
+        
+@bot.message_handler(content_types=["photo"])
+def photo(message):
+    global i 
+    
+    fileID = message.photo[-1].file_id
+    
+    file_info = bot.get_file(fileID)
+    
+    downloaded_file = bot.download_file(file_info.file_path)
+
+    with open(f"image{i}.jpg", 'wb') as new_file:
+        new_file.write(downloaded_file)
+        answer = imagenes.analizador_imagenes(f"image{i}.jpg")
+        i = i + 1
+        bot.send_message(message.chat.id, answer)
+        
 #MAIN
 if __name__ == '__main__':
     bot.infinity_polling()

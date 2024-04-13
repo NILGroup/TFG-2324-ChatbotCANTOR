@@ -74,14 +74,17 @@ def generate_json(p):
       return "return"
 
 def generate_question(clave):
-  prompt = f"Escribe preguntas dirigidas a una persona a la que estoy haciendo una entrevista personal. Quiero que las preguntas me ayuden a obtener información acerca del siguiente tema: {clave} "
-  response = model.generate_content(prompt)
-  while not response.candidates:
-    response = model.generate_content(f"Generame varias preguntas que para hacer a alguien y saber más sobre él, quiero que las preguntas tengan que ver con {clave}")
-  text = response.text
-  patron = r'¿(.*?)\?'
-  preguntas = re.findall(patron, text)
-  return preguntas
+  try: 
+      prompt = f"Escribe preguntas dirigidas a una persona a la que estoy haciendo una entrevista personal. Quiero que las preguntas me ayuden a obtener información acerca del siguiente tema: {clave} "
+      response = model.generate_content(prompt)
+      while not response.candidates:
+        response = model.generate_content(f"Generame varias preguntas que para hacer a alguien y saber más sobre él, quiero que las preguntas tengan que ver con {clave}")
+      text = response.text
+      patron = r'¿(.*?)\?'
+      preguntas = re.findall(patron, text)
+      return preguntas
+  except KeyError:
+      print(f"Error de clave al trbaajar con la clave {clave}")
 
 def analizar_respuestaAux(pregunta,respuesta,clave):
   prompt = f"Tras preguntar {pregunta} en relacion con {clave} me han respondido {respuesta}. "
@@ -116,7 +119,10 @@ def analizar_respuesta(pregunta):
   """    
   for clave,valor in data.items():
       pregunta.actualizar_campo(clave, valor)
-      if "No Encontrado" in valor and not pregunta.extra[clave]:#Si ya había generado preguntas extra para ese campo paso
+      #Si ya había generado preguntas extra para ese campo paso
+      print(pregunta.extra.keys())
+      print(clave)
+      if "No Encontrado" in valor and not pregunta.extra[clave]:
           pregunta.marcarGeneradasExtra(clave)
           nuevasPregs = generate_question(clave)
           pregunta.añadirPreguntasExtra(nuevasPregs)
@@ -143,6 +149,9 @@ def siguientePregunta(respuesta):
             index = index + 1
             return preguntas[index].enunciado
         else:
+            with open("informacion.txt","w",encoding="utf-8") as archivo:
+                for p in preguntas:
+                    archivo.write(str(p.campos))
             return "Muchas gracias por la información"
     else:
         pregunta = preguntas[index].preguntasExtra[0]
