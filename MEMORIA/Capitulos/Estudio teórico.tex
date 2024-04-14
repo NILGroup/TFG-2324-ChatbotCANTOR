@@ -1,7 +1,104 @@
 \chapter{Estudio teórico}
 \label{cap:Estudio teórico}
-En este capítulo se presenta de forma resumida toda la información que se analizó en el proceso de investigación para encontar las herramientas adecuadas para llevar a cabo nuestros objetivos. Por un lado, se presentan las distintas herramientas de procesamiento del lenguaje y diferentes APIs de generación del lenguaje. Por otro lado, las diferentes herramientas para la generación de interfaces y almacenamiento de la información que se han llevado a cabo para desarrollar este proyecto. En el repositorio de github, además de las que han sido utilizadas en la versión final, se puede ver la instalación y el uso de algunas de las siguientes apis, librerías y herramientas que fueron probadas para ver sus limitaciones y decantarse por unas u otras. 
+Durante el desarrollo de este trabajo, gran parte del tiempo ha sido dedicada a estudiar, entender y desarrollar programas y modelos de procesamiento del lenguaje con diferentes bibliotecas o APIs con el objetivo de encontrar las herramientas adecuadas para desarrollar los objetivos presentados previamente. De la misma forma, se estudiaron distintas estructuras de almacenamiento de la información o desarrollo de interfaces entre otros. \\
+
+El código desarrollado con este propósito, puede consultarse en el repositorio de GitHub del proyecto. Por otro lado, los resultados y conclusiones sacadas de este estudio se presentan en este capítulo.  
+
 \section{Bibliotecas de Procesamiento del Lenguaje en Python}
+
+\subsection{Transformers}
+%https://huggingface.co/docs/transformers/es/index
+
+Los modelos basados en la arquitectura de Transformer han emergido como el nuevo estado del arte en PLN, demostrando excelentes resultados en diversas aplicaciones como generación de textos, resumen, identificación de entidades, clasificación de documentos, entre otras. Son algoritmos de propósito general, altamente versátiles y capaces de adaptarse a diferentes tareas de análisis de texto con facilidad.
+
+La investigación en estos modelos avanza rápidamente, con un enfoque en hacerlos más compactos y eficientes, lo que promete una mayor efectividad y una democratización en su uso en un futuro cercano.
+
+Con Transformers, se suele trabajar en dos fases:
+\begin{itemize}
+\item Pre-training. En esta fase, el modelo aprende cómo se estructura el lenguaje de forma general, además de conseguir un conocimiento genérico del significado de las palabras. Esto se hace de manera parecida a los exámenes de idiomas, resolviendo “ejercicios” en los que el modelo tiene que predecir qué palabra o palabras faltan en una frase.
+\item Fine-tuning. Una vez están pre-entrenados, se le añaden ciertas capas a la arquitectura para adaptar los modelos a tareas concretas, y se los re-entrena en esas tareas.
+
+El avance de los Transformers, así como su implantación de uso, están siendo posibles gracias a grandes volúmenes de texto en diferentes idiomas disponibles gratuitamente en Internet, así como al aumento de las capacidades de cómputo de los últimos años.
+\end{itemize}
+La biblioteca Transformers ofrece una solución de vanguardia para el aprendizaje automático, proporcionando interfaces para descargar y entrenar modelos preentrenados de última generación. Utilizar modelos preentrenados puede resultar en reducciones significativas de costos computacionales y tiempo de entrenamiento en comparación con los costes de entrenar nuestro modelo desde cero. \\
+
+Esta biblioteca ofrece una integración fluida entre tres de los marcos de trabajo de aprendizaje profundo más populares: PyTorch, TensorFlow y JAX. Además, cada arquitectura de Transformers se presenta en un módulo de Python independiente, lo que facilita su personalización para fines de investigación y experimentación.\\
+
+La forma más fácil de usar un modelo preentrenado para una tarea dada es usar $pipeline()$, que soporta diversas funcionalidades. \\
+
+
+\textbf{Funcionalidades soportadas para texto}:
+\begin{itemize}
+	\item Análisis de Sentimiento (Sentiment Analysis, en inglés): clasifica la polaridad de un texto dado.
+	
+	\begin{lstlisting}[style=SpyderStyle, caption={Análisis de sentimientos con Transformers}, captionpos=b, label={lst:python},breaklines = true]
+clasificador = pipeline("sentiment-analysis", model="pysentimiento/robertuito-sentiment-analysis")
+clasificador("Esta tarde me voy de picnic, que alegria.")
+clasificador("Esta tarde me voy de picnic, pero no tengo ganas.")
+	\end{lstlisting}
+	
+	Cargamos el modelo $pysentimiento/robertuito-sentiment-analysis$ y con él analizamos dos textos muy parecidos pero que tienen diferente connotación. Se obtienen los siguientes resultados. 
+	\begin{lstlisting}[style=SpyderStyle, caption={Resultados del análisis de sentimientos}, captionpos=b, label={lst:python},breaklines = true]
+>>> [{'label': 'POS', 'score': 0.9590370655059814}]
+>>> [{'label': 'NEU', 'score': 0.5384892225265503}]
+	\end{lstlisting}
+	
+Aquí podemos observar fácilmente que, pese a ser textos muy similiares obtenemos valoraciones muy diferentes. El primer texto se etiqueta como positivo ('$POS$') con una nota muy alta, mientras que el segundo tiene una etiqueta negativa ('$NEU$') y una puntuación más baja. 
+	
+	\item Generación de Texto (Text Generation, en inglés): genera texto a partir de un input dado.
+\begin{lstlisting}[style=SpyderStyle, caption={Generación de texto con transformers}, captionpos=b, label={lst:python},breaklines = true]
+
+generador_texto = pipeline("text-generation")
+texto_generado = generador_texto("Esta tarde ire a un picnic y ")
+print(texto_generado[0]['generated_text'])
+>>> "Esta tarde ire a un picnic y etape muy en pas. Mesant lui ou bien ca y el al. Qu un vu les dixons. Dans votre"
+texto_generado = generador_texto("Tomorrow, I'm going to the park and ")
+print(texto_generado[0]['generated_text'])
+>>> "Tomorrow, I'm going to the park and take my girlfriend to some friends for a couple of days. I never forget that morning, she wrote.
+
+After arriving at the park, she wrote, I felt like a girl. And like"
+\end{lstlisting}
+
+Cómo se puede observar, el modelo $text-generation$ no funciona tan bien como cabría esperar. Aunque su funcionamiento es algo mejor en inglés que en español (dónde en este ejemplo concreto ha escrito la salida en francés), la frase no es especialmente coherente. 
+
+	\item Reconocimiento de Entidades (Name Entity Recognition o NER, en inglés): etiqueta cada palabra con la entidad que representa (persona, fecha, ubicación, etc.).
+	\item Responder Preguntas (Question answering, en inglés): extrae la respuesta del contexto dado un contexto y una pregunta.
+	\item Rellenar Máscara (Fill-mask, en inglés): rellena el espacio faltante dado un texto con palabras enmascaradas.
+	\item Resumir (Summarization, en inglés): genera un resumen de una secuencia larga de texto o un documento.
+	\item Traducción (Translation, en inglés): traduce un texto a otro idioma.
+	\item Extracción de Características (Feature Extraction, en inglés): crea una representación tensorial del texto.
+	\item Tokenización. Un tokenizador se encarga de transformar el texto en un formato comprensible para el modelo. En primer lugar, divide el texto en unidades llamadas tokens, siguiendo diversas reglas de tokenización que dictan cómo separar las palabras y a qué nivel hacerlo. Es crucial recordar que debes instanciar el tokenizador con el mismo nombre que el modelo para garantizar que se apliquen las mismas reglas de tokenización utilizadas durante el preentrenamiento del modelo.
+	
+\begin{lstlisting}[style=SpyderStyle, caption={AutoTokenizer con transformers}, captionpos=b, label={lst:python},breaklines = true]
+nombre_del_modelo = "nlptown/bert-base-multilingual-uncased-sentiment"
+tokenizer = AutoTokenizer.from_pretrained(nombre_del_modelo)
+encoding = tokenizer("Estamos muy felices de aprender procesamiento del lenguaje.")
+print(encoding)
+>>> {'input_ids': [101, 10602, 14000, 13653, 43353, 10107, 10102, 86883, 80861, 16257, 10134, 61018, 119, 102], 'token_type_ids': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+\end{lstlisting}
+	
+El tokenizador devuelve un diccionario conteniendo:
+\begin{itemize}
+	\item inputs$\_$ids: representaciones numéricas de los tokens. %https://huggingface.co/docs/transformers/main/es/glossary#input-ids
+	\item attention$\_$mask:  indica cuáles tokens deben ser atendidos. %https://huggingface.co/docs/transformers/main/en/.glossary
+\end{itemize}
+
+\end{itemize}
+
+\textbf{Funcionalidades soportadas para imagen}:
+\begin{itemize}
+	\item Clasificación de Imágenes (Image Classification, en inglés): clasifica una imagen.
+	\item Segmentación de Imágenes (Image Segmentation, en inglés): clasifica cada pixel de una imagen.
+	\item Detección de Objetos (Object Detection, en inglés): detecta objetos dentro de una imagen.
+\end{itemize}
+
+\textbf{Funcionalidades soportadas para audio}:
+\begin{itemize}
+	\item Clasificación de Audios (Audio Classification, en inglés): asigna una etiqueta a un segmento de audio.
+	\item Reconocimiento de voz automático (Automatic Speech Recognition o ASR, en inglés): transcribe datos de audio a un texto.
+\end{itemize}
+
+
 \subsection{NLTK}
 %https://www.nltk.org/
 %Bird, Steven, Edward Loper and Ewan Klein (2009), Natural Language Processing with Python. O’Reilly Media Inc.
@@ -41,7 +138,7 @@ Otras de las funcionalidades que nos permite esta biblioteca es el análisis sin
 	\centering
 	\includegraphics[width=0.9\textwidth]{Imagenes/arbolsintactico}
 	\caption{Árbol sintáctico generado con nltk}
-	\label{fig:1}
+	\label{fig:2}
 \end{figure}
 
 \begin{lstlisting}[style=SpyderStyle, caption={Análisis sintáctico y lematización con nltk}, captionpos=b, label={lst:python},breaklines = true]
@@ -107,30 +204,11 @@ El gráfico representa la estructura de una tubería de procesamiento de lenguaj
 \end{itemize}
 En resumen, este gráfico muestra cómo los componentes de spaCy interactúan entre sí para realizar tareas de procesamiento de lenguaje natural, aprovechando la información compartida y las reglas definidas para mejorar la precisión y la coherencia del análisis lingüístico.
 
-\subsection{Gensim}
-
-Gensim es una biblioteca de PLN especializada en modelado de temas y procesamiento de texto a gran escala. Ofrece herramientas para construir, entrenar y utilizar modelos de vectores de palabras (word embeddings), modelos de espacio vectorial, y modelos de temas para analizar grandes colecciones de texto. Gensim se destaca por su eficiencia y su capacidad para manejar grandes conjuntos de datos de texto de manera rápida y efectiva.
-
-Una de las principales ventajas de Gensim es su enfoque en el modelado de temas, que permite a los usuarios descubrir patrones y estructuras ocultas en grandes corpus de texto. Además, Gensim ofrece una API intuitiva y fácil de usar, así como una variedad de algoritmos de modelado de temas y similitud de documentos. Sin embargo, Gensim puede requerir cierto conocimiento previo de PLN y estadística para utilizarlo de manera efectiva, y puede carecer de algunas funcionalidades más generales de PLN que otras bibliotecas ofrecen.
-
-\subsection{TextBlob}
-
-TextBlob es una biblioteca de PLN que proporciona una interfaz sencilla para realizar tareas comunes de procesamiento del lenguaje natural, como tokenización, etiquetado POS, análisis de sentimientos y más. Está construida sobre NLTK y Pattern, dos bibliotecas populares de PLN en Python, lo que le permite aprovechar sus funcionalidades mientras simplifica su uso con una API más amigable para los usuarios.
-
-Una de las principales ventajas de TextBlob es su facilidad de uso y su API intuitiva, que permite a los usuarios realizar tareas de PLN con solo unas pocas líneas de código. Además, TextBlob ofrece modelos pre-entrenados para el análisis de sentimientos y la corrección ortográfica, lo que facilita el desarrollo de aplicaciones de PLN sin necesidad de entrenar modelos desde cero. Sin embargo, debido a su enfoque en la simplicidad y la facilidad de uso, TextBlob puede carecer de algunas funcionalidades más avanzadas que otras bibliotecas ofrecen.
-
-\subsection{Transformers}
-
-Transformers es una biblioteca de PLN basada en la arquitectura de atención, que ha demostrado ser muy eficaz en una variedad de tareas de PLN, como modelado de lenguaje, traducción automática, y más. Ofrece una amplia gama de modelos pre-entrenados, como BERT, GPT y T5, que han establecido nuevos estándares de rendimiento en muchas tareas de PLN. Transformers se destaca por su capacidad para capturar relaciones semánticas complejas y su flexibilidad para adaptarse a diferentes dominios y lenguas.
-
-Una de las principales ventajas de Transformers es su estado del arte en rendimiento, que ha superado a muchas otras bibliotecas y enfoques de PLN en una variedad de tareas. Además, Transformers ofrece una API fácil de usar y una variedad de modelos pre-entrenados listos para usar, lo que facilita su integración en proyectos de PLN. Sin embargo, debido a su complejidad y su enfoque en modelos de última generación, Transformers puede requerir recursos computacionales significativos y puede ser más difícil de entender y utilizar para usuarios principiantes en PLN.
-
 \section{APIs de procesamiento del lenguaje}
 
 Las APIs de procesamiento del lenguaje son conjuntos de herramientas y servicios que permiten a los desarrolladores integrar capacidades de procesamiento del lenguaje natural (NLP) en sus aplicaciones y sistemas. Estas APIs ofrecen funcionalidades como análisis de sentimientos, reconocimiento de entidades nombradas, etiquetado de partes del discurso, traducción automática, resumen de texto, entre otros. Al utilizar una API de procesamiento del lenguaje, los desarrolladores pueden aprovechar las capacidades avanzadas de NLP sin necesidad de desarrollar desde cero sus propios algoritmos y modelos. Esto facilita la implementación de características de procesamiento del lenguaje en una amplia variedad de aplicaciones, desde chatbots hasta análisis de redes sociales y sistemas de recomendación.
 
 Las APIs modernas suelen contar con todas las funcionalidades que contaban las bibliotecas de Python mencionadas anteriormente. En concreto, para el desarrollo de este proyecto se estudiaron las APIs que se presentan a continuación.
-
 \subsection{Bard}
 Bard es una API de procesamiento del lenguaje natural creada por Google, diseñada para ofrecer respuestas conversacionales a través de interacciones de mensajes. Basada en LaMDA, un modelo de lenguaje experimental de Google, Bard se enfoca en proporcionar respuestas coherentes y relevantes a preguntas realizadas en lenguaje natural.
 
