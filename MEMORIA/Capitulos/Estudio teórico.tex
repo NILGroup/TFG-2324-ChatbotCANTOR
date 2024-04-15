@@ -9,17 +9,15 @@ El código desarrollado con este propósito, puede consultarse en el repositorio
 \subsection{Transformers}
 %https://huggingface.co/docs/transformers/es/index
 
-Los modelos basados en la arquitectura de Transformer han emergido como el nuevo estado del arte en PLN, demostrando excelentes resultados en diversas aplicaciones como generación de textos, resumen, identificación de entidades, clasificación de documentos, entre otras. Son algoritmos de propósito general, altamente versátiles y capaces de adaptarse a diferentes tareas de análisis de texto con facilidad.
-
-La investigación en estos modelos avanza rápidamente, con un enfoque en hacerlos más compactos y eficientes, lo que promete una mayor efectividad y una democratización en su uso en un futuro cercano.
+Los modelos basados en $Transformers$ se han desarrollado significativamente en el campo del procesamiento del lenguaje durante los últimos años. Realizan tareas como la clasificación de textos, resúmenes, identificación de entidades o sentimientos y son fácilmente adaptables y versátiles. La investigación en este campo avanza y actualmente busca hacer estos modelos más compactos y eficientes. 
 
 Con Transformers, se suele trabajar en dos fases:
 \begin{itemize}
-\item Pre-training. En esta fase, el modelo aprende cómo se estructura el lenguaje de forma general, además de conseguir un conocimiento genérico del significado de las palabras. Esto se hace de manera parecida a los exámenes de idiomas, resolviendo “ejercicios” en los que el modelo tiene que predecir qué palabra o palabras faltan en una frase.
-\item Fine-tuning. Una vez están pre-entrenados, se le añaden ciertas capas a la arquitectura para adaptar los modelos a tareas concretas, y se los re-entrena en esas tareas.
+\item \textbf{Pre-training}: En esta fase, el modelo aprende cómo se estructura el lenguaje de forma general y trata de conseguir un conocimiento genérico del significado de las palabras. Este proceso se hace resolviendo ejercicios en los que el modelo tiene que predecir qué palabras faltan en una frase.
 
-El avance de los Transformers, así como su implantación de uso, están siendo posibles gracias a grandes volúmenes de texto en diferentes idiomas disponibles gratuitamente en Internet, así como al aumento de las capacidades de cómputo de los últimos años.
+\item \textbf{Fine-tuning}. Una vez pre-entrenados, se añaden ciertas capas a la arquitectura de estos modelos para adaptarlos a tareas concretas. Después, se los re-entrena para esas tareas en específico.
 \end{itemize}
+
 La biblioteca Transformers ofrece una solución de vanguardia para el aprendizaje automático, proporcionando interfaces para descargar y entrenar modelos preentrenados de última generación. Utilizar modelos preentrenados puede resultar en reducciones significativas de costos computacionales y tiempo de entrenamiento en comparación con los costes de entrenar nuestro modelo desde cero. \\
 
 Esta biblioteca ofrece una integración fluida entre tres de los marcos de trabajo de aprendizaje profundo más populares: PyTorch, TensorFlow y JAX. Además, cada arquitectura de Transformers se presenta en un módulo de Python independiente, lo que facilita su personalización para fines de investigación y experimentación.\\
@@ -206,19 +204,24 @@ En resumen, este gráfico muestra cómo los componentes de spaCy interactúan en
 
 \section{APIs de procesamiento del lenguaje}
 
-Las APIs de procesamiento del lenguaje son conjuntos de herramientas y servicios que permiten a los desarrolladores integrar capacidades de procesamiento del lenguaje natural (NLP) en sus aplicaciones y sistemas. Estas APIs ofrecen funcionalidades como análisis de sentimientos, reconocimiento de entidades nombradas, etiquetado de partes del discurso, traducción automática, resumen de texto, entre otros. Al utilizar una API de procesamiento del lenguaje, los desarrolladores pueden aprovechar las capacidades avanzadas de NLP sin necesidad de desarrollar desde cero sus propios algoritmos y modelos. Esto facilita la implementación de características de procesamiento del lenguaje en una amplia variedad de aplicaciones, desde chatbots hasta análisis de redes sociales y sistemas de recomendación.
+Las APIs de procesamiento del lenguaje son conjuntos de herramientas y servicios que integran múltiples funcionalidades relacionadas con el PLN en sus aplicaciones y sistemas. Es decir, son herramientas que aúnan y ofrecen funcionalidades como el análisis de sentimientos, el reconocimiento de entidades o la tokenización. Frente a las bibliotecas y modelos presentados anteriormente presentan la ventaja de que se pueden usar sin necesidad de desarrollar desde cero algoritmos o modelos, lo que facilita su uso. Estas características hacen que este tipo de APIs sean comúnmente usadas en variedad de aplicaciones, desde chatbots hasta sistemas de recomendación. 
 
-Las APIs modernas suelen contar con todas las funcionalidades que contaban las bibliotecas de Python mencionadas anteriormente. En concreto, para el desarrollo de este proyecto se estudiaron las APIs que se presentan a continuación.
 \subsection{Bard}
-Bard es una API de procesamiento del lenguaje natural creada por Google, diseñada para ofrecer respuestas conversacionales a través de interacciones de mensajes. Basada en LaMDA, un modelo de lenguaje experimental de Google, Bard se enfoca en proporcionar respuestas coherentes y relevantes a preguntas realizadas en lenguaje natural.
+Bard es una API de procesamiento del lenguaje natural desarrollada por Google con el objetivo de ofrecer respuestas conversacionales coherentes y relevantes a través de interacciones de mensajes. Basada en LaMDA, un modelo de lenguaje experimental de Google, Bard compite directamente con ChatGPT en el campo del procesamiento del lenguaje natural, permitiendo realizar consultas y recibir respuestas sin necesidad de navegar por diferentes páginas web.
 
-Esta inteligencia artificial compite directamente con ChatGPT y ChatGPT Plus, con el objetivo de ofrecer una alternativa propia en el campo del procesamiento del lenguaje natural. Al igual que sus competidores, Bard permite realizar consultas y recibir respuestas sin necesidad de navegar por diferentes páginas web.
+Google ha priorizado la accesibilidad y la transparencia en el desarrollo de Bard, ofreciendo modelos y recursos de PLN de código abierto que pueden ser utilizados y modificados por la comunidad. Inicialmente lanzado con un modelo reducido de LaMDA, Bard busca ampliar su alcance y obtener comentarios para su mejora continua.
 
-En su desarrollo, Google ha priorizado la accesibilidad y la transparencia, ofreciendo modelos y recursos de PLN de código abierto que pueden ser utilizados y modificados por la comunidad. Bard se basa en el modelo LaMDA, anteriormente en fase de pruebas cerradas, pero ahora disponible para un público más amplio.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{Imagenes/EstudioTeorico/Bard}
+	\caption{Ejemplo de uso de BARD}
+	\label{fig:3}
+\end{figure}
 
-LaMDA, que significa "Language Model for Dialogue Applications", ha sido rebautizado como Bard para su lanzamiento oficial. Inicialmente, Bard se lanzará con un modelo reducido de LaMDA, lo que permitirá su uso por parte de más usuarios y facilitará la obtención de comentarios para su mejora continua.
+Cómo se puede ver en el ejemplo, Bard es capaz de analizar la información proporcionada y generar respuestas coherentes y formateadas según las especificaciones dadas. Gracias a su capacidad para comprender el contexto y generar texto de manera precisa, Bard es una herramienta valiosa para tareas que requieren PLN, como la generación de respuestas conversacionales. Todo ello lo convierte en una opción ideal para una amplia gama de aplicaciones, desde chatbots hasta sistemas de asistencia virtual. 
 
-En diciembre de 2023, Google fortaleció la capacidad de Bard al incorporar Gemini Pro en inglés, brindando habilidades más avanzadas de comprensión, razonamiento, resumen y codificación. Posteriormente, en febrero de 2024, se anunció la expansión de Gemini Pro a más de 40 idiomas y se oficializó el cambio de nombre de Bard a Gemini, con lo que se tuvo que descartar el primer modelo del proyecto desarrollado en Bard, y tampoco se pudo volcar a Gemini ya que, por el momento, no está disponible en España. 
+Sin embargo, Bard ya no está disponible. En diciembre de 2023, Google fortaleció la capacidad de Bard al incorporar Gemini Pro en inglés, brindando habilidades más avanzadas de comprensión, razonamiento, resumen y codificación. Más adelante, en febrero de 2024, se anunció la expansión de Gemini Pro a más de 40 idiomas y se oficializó el cambio de nombre de Bard a Gemini, lo que implicó descartar el primer modelo del proyecto desarrollado en Bard debido a la indisponibilidad de Gemini en España en ese momento.
+
 \subsection{Gemma}
 
 Gemma es una API de PLN desarrollada por OpenAI. Utiliza modelos de lenguaje basados en la arquitectura GPT (Generative Pre-trained Transformer) para una variedad de tareas de PLN, como generación de texto, análisis de sentimientos, clasificación de texto, y más. Gemma se destaca por su capacidad para generar texto coherente y de alta calidad en una variedad de estilos y tonos, así como por su facilidad de uso y su API intuitiva.
@@ -249,16 +252,14 @@ Entre las opciones que se barajaron para seguir desarrollando el proyecto se enc
 
 %De aqui quiero sacar varias páginas, ver el tutorial y ir metiendo todo
 
-Gemini es una API de PLN desarrollada por Google. Utiliza modelos de lenguaje basados en la arquitectura Transformer para una variedad de tareas de PLN, como análisis de sentimientos, extracción de entidades, traducción automática, y más. Gemini se destaca por su rendimiento en tareas de procesamiento de texto, donde ha demostrado superar a muchas otras APIs y enfoques de PLN en términos de precisión y velocidad.
+Gemini es una API de procesamiento del lenguaje natural (PLN) desarrollada por Google que permite a los usuarios interactuar con modelos de lenguaje avanzados para generar texto coherente y relevante en respuesta a consultas y solicitudes. Utiliza modelos de lenguaje de última generación entrenados por Google, que son capaces de comprender y generar texto en varios idiomas y contextos. Los usuarios pueden enviar texto de entrada a través de la API y recibir respuestas generadas por los modelos de Gemini. Ofrece varios modelos para satisfacer diferentes necesidades y casos de uso, entre los que se encuentran:
+\begin{itemize}[label=$\bullet$, leftmargin=*]
+	\item \textbf{gemini-pro}: Optimizado para entradas de texto.
+	\item \textbf{gemini-pro-vision}: Optimizado para entradas multimodales de texto e imágenes.
+\end{itemize}
 
-Una de las principales ventajas de Gemini es su capacidad para manejar grandes volúmenes de texto de manera eficiente y efectiva. Además, ofrece una API fácil de usar que permite a los desarrolladores integrar fácilmente capacidades de PLN en sus aplicaciones. Sin embargo, debido a su enfoque en el rendimiento y la eficiencia, Gemini puede carecer de algunas funcionalidades más avanzadas que otras APIs ofrecen.
+Gemini puede utilizarse para una variedad de aplicaciones, incluyendo generación de texto a partir de entradas bien sean de texto, o imágenes, conversaciones de varios turnos (chats) o para la obtención de embeddings para modelos del lenguaje. 
 
-Finalmente, se decidio utilizar la API de Gemini descartada en un primer momento por no estar disponible en España. Por tanto, para su uso, y en consecuencia para hacer funcionar el proyecto es necesario tener una VPN conectada a uno de los países en los que Gemini esta disponible. Una vez conectado se ha de obtener una API KEY y configurar el proyecto adecuadamente. Durante el resto de uso del programa, sigue siendo necesario estar conectado a la VPN.
-
-%No sé incluso si no hacerlo un propio cápitulo de la elección de API ya que ha sido 3 meses dedicado a la investigación de qué api usar
-
-
-%Pasar todas las APIs de las que se hablo en el otro sitio 
 
 %Hablar de las VPN y de la aplicación que se ha usado para eso mismo
 
