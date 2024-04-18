@@ -1,101 +1,10 @@
-\chapter{Estudio teórico}
+\chapter{Tecnologías utilizadas}
 \label{cap:Estudio teórico}
-Durante el desarrollo de este trabajo, gran parte del tiempo ha sido dedicada a estudiar, entender y desarrollar programas y modelos de procesamiento del lenguaje con diferentes bibliotecas o APIs con el objetivo de encontrar las herramientas adecuadas para desarrollar los objetivos presentados previamente. De la misma forma, se estudiaron distintas estructuras de almacenamiento de la información o desarrollo de interfaces entre otros. \\
+Durante el desarrollo de este trabajo, gran parte del tiempo ha sido dedicada a estudiar, entender y desarrollar programas y modelos de procesamiento del lenguaje con diferentes bibliotecas o APIs con el objetivo de encontrar las herramientas adecuadas para desarrollar los objetivos presentados previamente. De la misma forma, se estudiaron distintas estructuras de almacenamiento de la información o desarrollo de interfaces entre otros. 
 
 El código desarrollado con este propósito, puede consultarse en el repositorio de GitHub del proyecto. Por otro lado, los resultados y conclusiones sacadas de este estudio se presentan en este capítulo.  
 
 \section{Bibliotecas de Procesamiento del Lenguaje en Python}
-
-\subsection{Transformers}
-%https://huggingface.co/docs/transformers/es/index
-
-Los modelos basados en $Transformers$ se han desarrollado significativamente en el campo del procesamiento del lenguaje durante los últimos años. Realizan tareas como la clasificación de textos, resúmenes, identificación de entidades o sentimientos y son fácilmente adaptables y versátiles. La investigación en este campo avanza y actualmente busca hacer estos modelos más compactos y eficientes. 
-
-Con Transformers, se suele trabajar en dos fases:
-\begin{itemize}
-\item \textbf{Pre-training}: En esta fase, el modelo aprende cómo se estructura el lenguaje de forma general y trata de conseguir un conocimiento genérico del significado de las palabras. Este proceso se hace resolviendo ejercicios en los que el modelo tiene que predecir qué palabras faltan en una frase.
-
-\item \textbf{Fine-tuning}. Una vez pre-entrenados, se añaden ciertas capas a la arquitectura de estos modelos para adaptarlos a tareas concretas. Después, se los re-entrena para esas tareas en específico.
-\end{itemize}
-
-La biblioteca Transformers ofrece una solución de vanguardia para el aprendizaje automático, proporcionando interfaces para descargar y entrenar modelos preentrenados de última generación. Utilizar modelos preentrenados puede resultar en reducciones significativas de costos computacionales y tiempo de entrenamiento en comparación con los costes de entrenar nuestro modelo desde cero. \\
-
-Esta biblioteca ofrece una integración fluida entre tres de los marcos de trabajo de aprendizaje profundo más populares: PyTorch, TensorFlow y JAX. Además, cada arquitectura de Transformers se presenta en un módulo de Python independiente, lo que facilita su personalización para fines de investigación y experimentación.\\
-
-La forma más fácil de usar un modelo preentrenado para una tarea dada es usar $pipeline()$, que soporta diversas funcionalidades. \\
-
-
-\textbf{Funcionalidades soportadas para texto}:
-\begin{itemize}
-	\item Análisis de Sentimiento (Sentiment Analysis, en inglés): clasifica la polaridad de un texto dado.
-	
-	\begin{lstlisting}[style=SpyderStyle, caption={Análisis de sentimientos con Transformers}, captionpos=b, label={lst:python},breaklines = true]
-clasificador = pipeline("sentiment-analysis", model="pysentimiento/robertuito-sentiment-analysis")
-clasificador("Esta tarde me voy de picnic, que alegria.")
-clasificador("Esta tarde me voy de picnic, pero no tengo ganas.")
-	\end{lstlisting}
-	
-	Cargamos el modelo $pysentimiento/robertuito-sentiment-analysis$ y con él analizamos dos textos muy parecidos pero que tienen diferente connotación. Se obtienen los siguientes resultados. 
-	\begin{lstlisting}[style=SpyderStyle, caption={Resultados del análisis de sentimientos}, captionpos=b, label={lst:python},breaklines = true]
->>> [{'label': 'POS', 'score': 0.9590370655059814}]
->>> [{'label': 'NEU', 'score': 0.5384892225265503}]
-	\end{lstlisting}
-	
-Aquí podemos observar fácilmente que, pese a ser textos muy similiares obtenemos valoraciones muy diferentes. El primer texto se etiqueta como positivo ('$POS$') con una nota muy alta, mientras que el segundo tiene una etiqueta negativa ('$NEU$') y una puntuación más baja. 
-	
-	\item Generación de Texto (Text Generation, en inglés): genera texto a partir de un input dado.
-\begin{lstlisting}[style=SpyderStyle, caption={Generación de texto con transformers}, captionpos=b, label={lst:python},breaklines = true]
-
-generador_texto = pipeline("text-generation")
-texto_generado = generador_texto("Esta tarde ire a un picnic y ")
-print(texto_generado[0]['generated_text'])
->>> "Esta tarde ire a un picnic y etape muy en pas. Mesant lui ou bien ca y el al. Qu un vu les dixons. Dans votre"
-texto_generado = generador_texto("Tomorrow, I'm going to the park and ")
-print(texto_generado[0]['generated_text'])
->>> "Tomorrow, I'm going to the park and take my girlfriend to some friends for a couple of days. I never forget that morning, she wrote.
-
-After arriving at the park, she wrote, I felt like a girl. And like"
-\end{lstlisting}
-
-Cómo se puede observar, el modelo $text-generation$ no funciona tan bien como cabría esperar. Aunque su funcionamiento es algo mejor en inglés que en español (dónde en este ejemplo concreto ha escrito la salida en francés), la frase no es especialmente coherente. 
-
-	\item Reconocimiento de Entidades (Name Entity Recognition o NER, en inglés): etiqueta cada palabra con la entidad que representa (persona, fecha, ubicación, etc.).
-	\item Responder Preguntas (Question answering, en inglés): extrae la respuesta del contexto dado un contexto y una pregunta.
-	\item Rellenar Máscara (Fill-mask, en inglés): rellena el espacio faltante dado un texto con palabras enmascaradas.
-	\item Resumir (Summarization, en inglés): genera un resumen de una secuencia larga de texto o un documento.
-	\item Traducción (Translation, en inglés): traduce un texto a otro idioma.
-	\item Extracción de Características (Feature Extraction, en inglés): crea una representación tensorial del texto.
-	\item Tokenización. Un tokenizador se encarga de transformar el texto en un formato comprensible para el modelo. En primer lugar, divide el texto en unidades llamadas tokens, siguiendo diversas reglas de tokenización que dictan cómo separar las palabras y a qué nivel hacerlo. Es crucial recordar que debes instanciar el tokenizador con el mismo nombre que el modelo para garantizar que se apliquen las mismas reglas de tokenización utilizadas durante el preentrenamiento del modelo.
-	
-\begin{lstlisting}[style=SpyderStyle, caption={AutoTokenizer con transformers}, captionpos=b, label={lst:python},breaklines = true]
-nombre_del_modelo = "nlptown/bert-base-multilingual-uncased-sentiment"
-tokenizer = AutoTokenizer.from_pretrained(nombre_del_modelo)
-encoding = tokenizer("Estamos muy felices de aprender procesamiento del lenguaje.")
-print(encoding)
->>> {'input_ids': [101, 10602, 14000, 13653, 43353, 10107, 10102, 86883, 80861, 16257, 10134, 61018, 119, 102], 'token_type_ids': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
-\end{lstlisting}
-	
-El tokenizador devuelve un diccionario conteniendo:
-\begin{itemize}
-	\item inputs$\_$ids: representaciones numéricas de los tokens. %https://huggingface.co/docs/transformers/main/es/glossary#input-ids
-	\item attention$\_$mask:  indica cuáles tokens deben ser atendidos. %https://huggingface.co/docs/transformers/main/en/.glossary
-\end{itemize}
-
-\end{itemize}
-
-\textbf{Funcionalidades soportadas para imagen}:
-\begin{itemize}
-	\item Clasificación de Imágenes (Image Classification, en inglés): clasifica una imagen.
-	\item Segmentación de Imágenes (Image Segmentation, en inglés): clasifica cada pixel de una imagen.
-	\item Detección de Objetos (Object Detection, en inglés): detecta objetos dentro de una imagen.
-\end{itemize}
-
-\textbf{Funcionalidades soportadas para audio}:
-\begin{itemize}
-	\item Clasificación de Audios (Audio Classification, en inglés): asigna una etiqueta a un segmento de audio.
-	\item Reconocimiento de voz automático (Automatic Speech Recognition o ASR, en inglés): transcribe datos de audio a un texto.
-\end{itemize}
-
 
 \subsection{NLTK}
 %https://www.nltk.org/
@@ -126,8 +35,8 @@ En este código $nltk$ tokeniza la oración introducida y etiqueta cada $token$ 
 \end{itemize}
 
 \begin{lstlisting}[style=SpyderStyle, caption={Tokenización y etiquetado con nltk}, captionpos=b, label={lst:python},breaklines = true]
->>[('Reminiscence', 'NNP'), ('Therapy','NNP'), ('involves','VBZ'), ('the', 'DT'), ('discussion', 'NN'), ('of', 'IN'), ('past', 'JJ'), ('activities', 'NNS'), ('using', 'VBG'), ('prompts', 'NNS'), ('like', 'IN'), ('photos', 'NNS'), ('.', '.')]
-
+	>>[('Reminiscence', 'NNP'), ('Therapy','NNP'), ('involves','VBZ'), ('the', 'DT'), ('discussion', 'NN'), ('of', 'IN'), ('past', 'JJ'), ('activities', 'NNS'), ('using', 'VBG'), ('prompts', 'NNS'), ('like', 'IN'), ('photos', 'NNS'), ('.', '.')]
+	
 \end{lstlisting}
 
 Otras de las funcionalidades que nos permite esta biblioteca es el análisis sintáctico o lematización. Por ejemplo, nos permite la obtención de árboles sintácticos, lo que permite visualizar la estructura gramatical de las oraciones, facilita el análisis y la interpretación del texto. \\
@@ -140,11 +49,11 @@ Otras de las funcionalidades que nos permite esta biblioteca es el análisis sin
 \end{figure}
 
 \begin{lstlisting}[style=SpyderStyle, caption={Análisis sintáctico y lematización con nltk}, captionpos=b, label={lst:python},breaklines = true]
-entities = nltk.chunk.ne_chunk(tagged)
-nltk.download('treebank')
-from nltk.corpus import treebank
-t = treebank.parsed_sents('wsj_0001.mrg')[0]
-t
+	entities = nltk.chunk.ne_chunk(tagged)
+	nltk.download('treebank')
+	from nltk.corpus import treebank
+	t = treebank.parsed_sents('wsj_0001.mrg')[0]
+	t
 \end{lstlisting}
 
 
@@ -158,24 +67,24 @@ Además de estas características fundamentales, NLTK ofrece una serie de otras 
 SpaCy ofrece soporte para más de 25 idiomas y cuenta con 84 pipelines de entrenamiento. Utiliza el aprendizaje multi-tarea con modelos preentrenados como BERT, lo que permite un rendimiento avanzado en tareas de procesamiento del lenguaje natural. Sus componentes incluyen herramientas para el reconocimiento de entidades nombradas, etiquetado de partes del discurso, análisis de dependencias, segmentación de oraciones, clasificación de texto, lematización, análisis morfológico, vinculación de entidades y más.
 
 \begin{lstlisting}[style=SpyderStyle, caption={Ejemplo de tokenización usando spaCy}, captionpos=b, label={lst:python},breaklines = true]
-import spaCy
-
-# Load English tokenizer, tagger, parser and NER
-nlp = spacy.load("en_core_web_sm")
-
-# Process whole documents
-text = ("Reminiscence Therapy involves the discussion of past activities using prompts like photos.")
-doc = nlp(text)
-
-# Analyze syntax
-print("Noun phrases:", [chunk.text for chunk in doc.noun_chunks])
-print("Verbs:", [token.lemma_ for token in doc if token.pos_ == "VERB"])
+	import spaCy
+	
+	# Load English tokenizer, tagger, parser and NER
+	nlp = spacy.load("en_core_web_sm")
+	
+	# Process whole documents
+	text = ("Reminiscence Therapy involves the discussion of past activities using prompts like photos.")
+	doc = nlp(text)
+	
+	# Analyze syntax
+	print("Noun phrases:", [chunk.text for chunk in doc.noun_chunks])
+	print("Verbs:", [token.lemma_ for token in doc if token.pos_ == "VERB"])
 \end{lstlisting}
 
 Este código carga el modelo preentrenado $"en\_core\_web\_sm"$ de spaCy, que incluye herramientas para tokenizar, etiquetar, analizar la sintaxis y reconocer entidades nombradas en textos en inglés. Luego, procesa el texto proporcionado y muestra las frases nominales identificadas utilizando la función $noun_chunks$ y los verbos lematizados utilizando la propiedad $lemma\_$. Este análisis gramatical permite identificar las partes clave del texto, como los sustantivos y las acciones descritas.
 
 \begin{lstlisting}[style=SpyderStyle, caption={Resultado de tokenización usando spaCy}, captionpos=b, label={lst:python},breaklines = true]
->>> Noun phrases: ['Reminiscence Therapy', 'the discussion', 'past activities', 'prompts', 'photos']
+	>>> Noun phrases: ['Reminiscence Therapy', 'the discussion', 'past activities', 'prompts', 'photos']
 	Verbs: ['involve', 'use']
 \end{lstlisting}
 
@@ -201,6 +110,18 @@ El gráfico representa la estructura de una tubería de procesamiento de lenguaj
 	\item $ner/tok2vec$: El componente de reconocimiento de entidades (NER) identifica entidades nombradas en el texto, como nombres de personas, lugares o organizaciones. En algunos modelos, este componente comparte la representación de vectores de palabras (tok2vec) con otros componentes para mejorar la coherencia y la precisión de las predicciones.
 \end{itemize}
 En resumen, este gráfico muestra cómo los componentes de spaCy interactúan entre sí para realizar tareas de procesamiento de lenguaje natural, aprovechando la información compartida y las reglas definidas para mejorar la precisión y la coherencia del análisis lingüístico.
+
+
+%Hablar de las VPN y de la aplicación que se ha usado para eso mismo
+
+%Finalmente poner capturas de consultas a la api de gemini, la estructura de las respuestas, analizar los diferentes modelos, decir porque se ha elegido gemini pro
+
+
+%Decir ventajas poniendo capturas de preguntas y respuestas que da gemini 
+%También hablar de las limitaciones
+
+
+Con esto la interfaz se ve de la siguiente forma: 
 
 \section{APIs de procesamiento del lenguaje}
 
@@ -261,13 +182,123 @@ Gemini es una API de procesamiento del lenguaje natural (PLN) desarrollada por G
 Gemini puede utilizarse para una variedad de aplicaciones, incluyendo generación de texto a partir de entradas bien sean de texto, o imágenes, conversaciones de varios turnos (chats) o para la obtención de embeddings para modelos del lenguaje. 
 
 
-%Hablar de las VPN y de la aplicación que se ha usado para eso mismo
 
-%Finalmente poner capturas de consultas a la api de gemini, la estructura de las respuestas, analizar los diferentes modelos, decir porque se ha elegido gemini pro
+\includegraphics[width=0.5\textwidth]{Imagenes/telegram1}
+
+%PRIMERA VERSIÓN EN BARD
+%PRIMERA VERSIÓN EN GEMMA
+%PRIMERA VERSIÓN GEMINI - GOOGLE COLLABORATE
+%REFACTORIZACIÓN PARA HACER VERSIÓN LOCAL
+%TELEGRAM
+%GENERAR LAS ETAPAS 
+%IMAGENES
+%WHISPER
+%GRÁFOS
+%GENERACIÓN DE HISTORIAS DE VIDA
+Para configurarlo, en primer lugar hay que ejecutar el programa mibot.py estando en telegram en la conversaa conversación de telegram el comando /start para comenzar la conversación y ya. 
+
+Sin embago, y pese a las grandes funcionalidades de todas estas alternativas nos hemos decantado por hacer una interfaz con telegram desarrollando nuestro propio chatbot usando rasa. 
+
+Para desarrollar el chatbot de telegram me he decantado por usar la interfaz de telegram para la cuál se necesita la API de Rasa. Las principales ventajas que ofrece esta herramienta es la facilidad del manejo de la interfaz pues telegram es una herramienta muy conocida con la que los terapeutas pueden estar más familiarizados. Además, esto nos permite también usar la versión del chatbotyayo para móvil. 
+
+Para crear está interfaz hay que: 
+1. Instalar rasa
+2. Instalar telegram 
+2. Obtener una api de rasa
+4. crear un nuevo chatbot desde telegram con @botFather
+5. Enviar a tu chatbot el comando /start
+
+Una vez seguidos todos estos pasos ya puedes comenzar a interactuar con la API de rasa. 
 
 
-%Decir ventajas poniendo capturas de preguntas y respuestas que da gemini 
-%También hablar de las limitaciones 
+\section{Respuestas de Gemini}
+
+El modelo más apropiado para el procesamiento de texto es $gemini-pro$. La estructura de las respuestas de este modelo es la siguiente. 
+
+\begin{lstlisting}[style=SpyderStyle, caption={Estructura de una respuesta de Gemini}, captionpos=b, label={lst:python},breaklines = true]
+	{
+		"candidates": [
+		{
+			"content": {
+				"parts": [
+				{
+					"text": string
+				}
+				]
+			},
+			"finishReason": enum (FinishReason),
+			"safetyRatings": [
+			{
+				"category": enum (HarmCategory),
+				"probability": enum (HarmProbability),
+				"blocked": boolean
+			}
+			],
+			"citationMetadata": {
+				"citations": [
+				{
+					"startIndex": integer,
+					"endIndex": integer,
+					"uri": string,
+					"title": string,
+					"license": string,
+					"publicationDate": {
+						"year": integer,
+						"month": integer,
+						"day": integer
+					}
+				}
+				]
+			}
+		}
+		],
+		"usageMetadata": {
+			"promptTokenCount": integer,
+			"candidatesTokenCount": integer,
+			"totalTokenCount": integer
+		}
+	}
+\end{lstlisting}
+
+\begin{itemize}
+	\item \textbf{text}	El texto generado.
+	\item \textbf{finishReason}	El motivo por el que el modelo dejó de generar tokens. Si está vacío, el modelo no dejó de generar los tokens. El motivo puede ser cualquiera de los siguientes:
+	\begin{enumerate}
+		\item $FINISH\_REASON\_UNSPECIFIED$: no se especifica el motivo de finalización.
+		\item $FINISH\_REASON\_STOP$: punto de detención natural del modelo o secuencia de detención proporcionada.
+		\item $FINISH\_REASON\_MAX\_TOKENS$: se alcanzó la cantidad máxima de tokens especificada en la solicitud.
+		\item $FINISH\_REASON\_SAFETY$: la generación del token se detuvo porque la respuesta se marcó por motivos de seguridad. Ten en cuenta que Candidate.content está vacío si los filtros de contenido bloquean el resultado.
+		\item $FINISH\_REASON\_RECITATION$: la generación del token se detuvo porque la respuesta se marcó para citas no autorizadas.
+		\item $FINISH\_REASON\_OTHER$: todos los demás motivos que detuvieron el token
+	\end{enumerate}
+	
+	\item \textbf{category}	La categoría de seguridad para la que se configura un umbral. Los valores aceptables son los siguientes:
+	Haz clic para expandir las categorías de seguridad
+	\begin{enumerate}
+		\item $HARM\_CATEGORY\_SEXUALLY\_EXPLICIT$
+		\item $HARM\_CATEGORY\_HATE\_SPEECH$
+		\item $HARM\_CATEGORY\_HARASSMENT$
+		\item $HARM\_CATEGORY\_DANGEROUS\_CONTENT$
+	\end{enumerate}
+	\item \textbf{probability}	Los niveles de probabilidad de daños en el contenido.
+	\begin{enumerate}
+		\item $HARM\_PROBABILITY\_UNSPECIFIED$
+		\item $NEGLIGIBLE$
+		\item $LOW$
+		\item $MEDIUM$
+		\item $HIGH$
+	\end{enumerate}
+	\item \textbf{blocked}	Una marca boolean asociada con un atributo de seguridad que indica si la entrada o salida del modelo se bloqueó. Si blocked es true, el campo errors en la respuesta contiene uno o más códigos de error. Si blocked es false, la respuesta no incluye el campo errors.
+	\item \textbf{startIndex}	Un número entero que especifica dónde comienza una cita en el contenido.
+	\item \textbf{endIndex}	Un número entero que especifica dónde termina una cita en content.
+	\item \textbf{url}	Es la URL de una fuente de cita. Los ejemplos de una fuente de URL pueden ser un sitio web de noticias o un repositorio de GitHub.
+	\item \textbf{title}	Es el título de una fuente de cita. Los ejemplos de títulos de origen pueden ser los de un artículo de noticias o un libro.
+	\item \textbf{license}	Es la licencia asociada con una cita.
+	\item \textbf{publicationDate}	La fecha en que se publicó una cita. Sus formatos válidos son YYYY, YYYY-MM y YYYY-MM-DD.
+	\item \textbf{promptTokenCount}	Cantidad de tokens en la solicitud.
+	\item \textbf{candidatesTokenCount}	Cantidad de tokens en las respuestas.
+	\item \textbf{totalTokenCount}	Cantidad de tokens en la solicitud y las respuestas.
+\end{itemize} 
 \section{Almacenamiento de la información}	
 \subsection{JSON}
 El uso de objetos JavaScript (JSON) es una poderosa herramienta de programación. Ya sea para almacenar datos o crear una API, convertir sus datos en JSON los hace reutilizables, independientemente de la tecnología que acceda a ellos. La diferencia entre un objeto JSON y un diccionario de Python es mínima, por lo tanto, es fácil almacenar un diccionario de Python como JSON utilizando la biblioteca del analizador json. Las ventajas de utilizar JSON para almacenar información radican en su legibilidad humana, ligereza en términos de uso de recursos y tamaño de almacenamiento, flexibilidad para representar una variedad de estructuras de datos, interoperabilidad entre diferentes sistemas y lenguajes de programación, y su fácil manejo en entornos como Python, donde se pueden mapear directamente a diccionarios, facilitando así el procesamiento y manipulación de datos en aplicaciones. Unificar toda esta información permite una comprensión clara y completa de las ventajas y usos de JSON en el almacenamiento de datos y la comunicación entre sistemas.
