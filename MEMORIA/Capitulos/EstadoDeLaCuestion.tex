@@ -150,7 +150,7 @@ El objetivo principal de T5 es proporcionar una perspectiva exhaustiva sobre el 
 Cómo se puede ver en la figura \ref{fig:3.2} el modelo T5 nos permite realizar diversas tareas como la traducción o la realización de resumenes.
 %completar con las otras tareas que nos permite hacer no identifico que hace en lo rojo y amarillo 
 
-\subsection{Generative Pretrained Transformer}
+\subsection{GPT \textit{Generative Pretrained Transformer}}
 
 Los modelos de lenguaje casual o \textit{Casual Language Models}, tienen como idea principal predecir una palabra o token enmascarado en una oración. Podemos ver una palabra enmascarada como un hueco en blanco en una frase. En este caso, el modelo solo consideraría el contexto anterior (palabras situadas a su izquierda) y dejaría de tener en cuenta el contexto posterior. El sentido de procesamiento (izquierda a derecha o derecha a izquierda) no es relevante mientras que se realice en un único sentido, teniendo en cuenta para la predicción las palabras pertenecientes a ese contexto y dejando de lado el resto de palabras. Así, la propiedad clave de este tipo de modelos es la naturaleza unidireccional en su predicción de las palabras enmascaradas y se verá reflejado en el esquema de entrenamiento \cite{rothman2022}.
 
@@ -194,20 +194,39 @@ Una de las características principales de GPT-4 es su capacidad para procesar e
 En una serie de benchmarks tradicionales de NLP, GPT-4 supera tanto a modelos de lenguaje grandes anteriores como a la mayoría de los sistemas de vanguardia (que a menudo tienen entrenamiento específico para el benchmark o ingeniería manual). En el benchmark MMLU, que cubre 57 temas en inglés, GPT-4 no solo supera a los modelos existentes en inglés, sino que también demuestra un rendimiento sólido en otros idiomas.
 
 A pesar de sus capacidades, GPT-4 tiene limitaciones similares a modelos anteriores, como la falta de fiabilidad completa, una ventana de contexto limitada y la incapacidad de aprender de la experiencia. Se debe tener cuidado al usar las salidas de GPT-4, especialmente en contextos donde la fiabilidad es importante. Las capacidades y limitaciones de GPT-4 plantean desafíos de seguridad significativos y novedosos, y se considera que el estudio cuidadoso de estos desafíos es un área de investigación importante dada la posible repercusión societal.
-\subsection{PaLM}
 \subsection{Llama}
-%https://arxiv.org/pdf/2302.13971.pdf
+A diferencia de la creencia común de que más parámetros conducen a un mejor rendimiento, investigaciones recientes muestran que modelos más pequeños entrenados con más datos pueden superar a los modelos más grandes. Se ha desarrollado una serie de modelos llamados LLaMA, \cite{touvron2023llama} que van desde 7B hasta 65B de parámetros, con un rendimiento competitivo en comparación con los mejores LLMs existentes.
+
+Por ejemplo, LLaMA-13B supera a GPT-3 en la mayoría de las pruebas, a pesar de ser 10 veces más pequeño. Se espera que estos modelos democratizen el acceso y el estudio de los LLMs, ya que pueden ejecutarse en una sola GPU. Además, se asegura la compatibilidad con la fuente abierta al utilizar solo datos públicamente disponibles, a diferencia de otros modelos que dependen de datos no disponibles públicamente. El trabajo detalla las modificaciones realizadas en la arquitectura del transformer y el método de entrenamiento, además de presentar el rendimiento de los modelos en comparación con otros LLMs en una serie de pruebas estándar. También se examinan los sesgos y la toxicidad codificados en los modelos, utilizando benchmarks de la comunidad de inteligencia artificial responsable.
+
+El conjunto de datos de entrenamiento es una mezcla de varias fuentes, que cubren un conjunto diverso de dominios. Mayormente reutiliza fuentes de datos que se han utilizado para entrenar otros LLMs, con la restricción de utilizar solo datos públicamente disponibles y compatibles con la distribución abierta.
+
+La tokenización de los datos se lleva a cabo con el algoritmo de codificación de bytes (BPE), utilizando la implementación de \footnote{El algoritmo $SentencePiece$ \cite{kudo2018sentencepiece} utiliza un enfoque basado en subpalabras, donde construye un vocabulario de subpalabras que se adaptan a la frecuencia de aparición en el corpus de entrenamiento. }{$SentencePiece$}. Dividimos todos los números en dígitos individuales y recurrimos a bytes para descomponer caracteres UTF-8 desconocidos. El tamaño total de nuestro conjunto de datos de entrenamiento contiene aproximadamente 1.4T de tokens después de la tokenización. La mayoría de los datos de entrenamiento se utilizan solo una vez durante el entrenamiento, con la excepción de los dominios de Wikipedia y Libros, sobre los cuales se realizan aproximadamente en dos épocas.
+
+
 \section{Otros trabajos relacionados}
 \subsection{Generación de historias de vida usando técnias de Deep Learning}
 En el curso 2021-2022, la compañera María Cristina Alameda Salas \cite{cristinaalameda}, en su trabajo de fin de grado, Generación de historias de vida
 usando técnicas de Deep Learning, desarrolló un sistema basados en técnicas
 de Deep Learning que de soporte a la generación de historias de vida. Partiendo de unos datos de entrada en forma de datos estructurados de tipo biográfico, ese trabajo permite la construcción de un sistema de generación de lenguaje natural, transformador de los datos de entrada a un escrito fluido y coherente, que abarque la representación de los datos de partida de manera completa, sin incorrecciones y lo más cercana posible a una redacción humana. Nuestro objetivo ahora sería el desarrollo de un programa que interactuara con el usuario y nos permitiera obtener toda esa información bibliográfica que da lugar a las historias de vida. 
+\subsection{Extracción de preguntas a partir de imágenes para personas con problemas de memoria mediante técnicas de Deep Learning}
+En 2021, en la UCM se desarrollo un trabajo de extracción de preguntas a partir de imagenes con técnicas de Deep Learning \cite{boto2021extraccion}. Este proyecto ayuda a las personas con problemas de memoria a recordar aspectos de su vida utilizando técnicas de IA como redes convolucionales y recurrentes. Para lograrlo se desarrolló un sistema capaz de extraer preguntas de fotografías que puedan representar recuerdos para las personas con problemas de memoria utilizando un bot que simula una sesión de terapia de reminiscencia.
+El usuario ha de enviar fotografías al bot y este se encargará de enviarle, una a una, las preguntas generadas por la red neuronal. En este momento, el usuario deberá recordar todo lo posible sobre la imagen para poder responder a las preguntas y conseguir ejercitar su memoria.
+
+\subsection{Extracción de información personal a partir de redes sociales para la creación de un libro de vida}
+Este proyecto, desarrollado por \cite{aguilera2021extraccion}, tiene como objetivo principal ayudar a terapeutas ocupacionales en el tratamiento de pacientes con problemas de memoria, especialmente aquellos relacionados con el deterioro cognitivo asociado con la edad. Se propone la creación de una herramienta para desarrollar un libro de vida, una técnica terapéutica conocida como terapia basada en reminiscencia. 
+
+La herramienta combina técnicas de extracción y tratamiento de datos de diferentes redes sociales proporcionadas por el paciente, almacenándolos en una base de datos SQL para obtener la información más relevante. Esta información se utilizará para crear el libro de vida, que se presentará en una interfaz web desarrollada con React. La interfaz permitirá visualizar fácilmente los datos recopilados, utilizando tablas, mapas, líneas de tiempo y galerías de fotos.
+
+El proyecto forma parte de un proyecto más amplio llamado CANTOR (Composición automática de narrativas personales como apoyo a terapia ocupacional basada en reminiscencia), financiado por el Ministerio de Ciencia e Innovación, en colaboración entre académicos de la Universidad Complutense de Madrid y la Universidad de La Coruña. El objetivo de CANTOR es desarrollar herramientas que faciliten la terapia ocupacional basada en reminiscencia para mejorar la calidad de vida de pacientes con deterioro cognitivo.
+
 \subsection{Celia}
-%https://www.ambito.com/tecnologia/asi-es-celia-la-inteligencia-artificial-adultos-mayores-que-puede-detectar-indicios-alzheimer-n5921639
-Celia es un chatbot impulsado por inteligencia artificial (IA) desarrollado por la compañía Atlantic, con el respaldo de la Xunta de Galicia en España. Este chatbot tiene como objetivo acompañar, entretener y brindar asistencia a las personas mayores y dependientes, y se destaca por su capacidad para detectar indicios y patrones de enfermedades neurodegenerativas, como el Alzheimer, mediante el análisis de la voz del usuario.
+
+Celia, \footnote{\href{https://www.ambito.com/tecnologia/asi-es-celia-la-inteligencia-artificial-adultos-mayores-que-puede-detectar-indicios-alzheimer-n5921639}{Así es Celia, la inteligencia artificial para adultos mayores que puede detectar indicios de alzheimer}} es un chatbot impulsado por inteligencia artificial (IA) desarrollado por la compañía Atlantic, con el respaldo de la Xunta de Galicia en España. Este chatbot tiene como objetivo acompañar, entretener y brindar asistencia a las personas mayores y dependientes, y se destaca por su capacidad para detectar indicios y patrones de enfermedades neurodegenerativas, como el Alzheimer, mediante el análisis de la voz del usuario.
 
 A diferencia de otros asistentes de conversación como Alexa o Siri, Celia va más allá al utilizar herramientas biométricas para medir y monitorear parámetros indicativos no solo de enfermedades neurológicas, sino también de condiciones emocionales como la ansiedad y la depresión.
 
 Celia está disponible para su uso a través de tres plataformas: WhatsApp, la versión web y una aplicación oficial disponible actualmente solo para dispositivos Android. Los usuarios pueden interactuar con Celia a través de mensajes de texto o de voz, y la instalación es sencilla, lo que permite un acceso rápido y eficiente a este recurso tecnológico.
 
 Una característica destacada de Celia es su capacidad para tomar la iniciativa en las conversaciones y proponer actividades sin necesidad de instrucciones. Además, ofrece la posibilidad de establecer recordatorios para citas médicas o la toma de medicamentos, brindando un apoyo integral en la gestión de la salud de los usuarios.
+
