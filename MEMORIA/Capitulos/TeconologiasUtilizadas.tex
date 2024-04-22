@@ -1,9 +1,12 @@
 \chapter{Tecnologías utilizadas}
 \label{cap:TecnologiasUtilizadas}
 
-El presente capítulo se centra en las tecnologías utilizadas para la construcción y el despliegue del chatbot de ayuda a la terapia de reminiscencia. Se explorarán las herramientas y metodologías empleadas en el desarrollo de prototipos, así como su integración con los conceptos y conocimientos presentados en el estado de la cuestión. 
+El capítulo actual se enfoca en detallar las tecnologías empleadas en la construcción y el despliegue del chatbot diseñado para asistir en terapias de reminiscencia. También se analizarán las herramientas y metodologías utilizadas en el proceso de desarrollo de prototipos, que se presenta en el capítulo \ref{cap:Desarrollo de prototipos}, así como su integración con los conceptos y conocimientos presentados en el estado de la cuestión.
 
-El capítulo se desarrolla en diferentes secciones. En cada una se estudian las diferentes alternativas para la construcción de cada uno de los módulos que componen el chatbot, desde las API'S y bibliotecas de PLN hasta las diferentes opciones consideradas para el desarrollo de la interfaz. Esto ayudará a dar contexto y entender el por qué de las decisiones que se van tomando en el capítulo~\ref{cap:Desarrollo de prototipos}.
+En cada sección del capítulo, se llevará a cabo un análisis de las diferentes alternativas consideradas para la construcción de cada uno de los módulos que componen el chatbot. Desde la evaluación de diversas API's y bibliotecas de Procesamiento del Lenguaje Natural (PLN) hasta la exploración de las múltiples opciones disponibles para el desarrollo de la interfaz de usuario.
+
+Esta metodología permitirá proporcionar un contexto completo y comprensible que facilitará la comprensión de las decisiones tomadas a lo largo del desarrollo del proyecto, como se detalla en el capítulo \ref{cap:Desarrollo de prototipos}. 
+\newpage
 
 
 \section{Bibliotecas de Procesamiento del Lenguaje en Python}
@@ -35,7 +38,7 @@ En este código $nltk$ tokeniza la oración introducida y etiqueta cada $token$ 
 \end{itemize}
 
 \begin{lstlisting}[style=SpyderStyle, caption={Tokenización y etiquetado con nltk}, captionpos=b, label={lst:python},breaklines = true]
-	>>[('Reminiscence', 'NNP'), ('Therapy','NNP'), ('involves','VBZ'), ('the', 'DT'), ('discussion', 'NN'), ('of', 'IN'), ('past', 'JJ'), ('activities', 'NNS'), ('using', 'VBG'), ('prompts', 'NNS'), ('like', 'IN'), ('photos', 'NNS'), ('.', '.')]
+	>>>[('Reminiscence', 'NNP'), ('Therapy','NNP'), ('involves','VBZ'), ('the', 'DT'), ('discussion', 'NN'), ('of', 'IN'), ('past', 'JJ'), ('activities', 'NNS'), ('using', 'VBG'), ('prompts', 'NNS'), ('like', 'IN'), ('photos', 'NNS'), ('.', '.')]
 	
 \end{lstlisting}
 
@@ -112,16 +115,6 @@ El gráfico representa la estructura de una tubería de procesamiento de lenguaj
 En resumen, este gráfico muestra cómo los componentes de spaCy interactúan entre sí para realizar tareas de procesamiento de lenguaje natural, aprovechando la información compartida y las reglas definidas para mejorar la precisión y la coherencia del análisis lingüístico.
 
 
-%Hablar de las VPN y de la aplicación que se ha usado para eso mismo
-
-%Finalmente poner capturas de consultas a la api de gemini, la estructura de las respuestas, analizar los diferentes modelos, decir porque se ha elegido gemini pro
-
-
-%Decir ventajas poniendo capturas de preguntas y respuestas que da gemini 
-%También hablar de las limitaciones
-
-
-Con esto la interfaz se ve de la siguiente forma: 
 
 \section{APIs de procesamiento del lenguaje}
 
@@ -130,7 +123,7 @@ Las APIs de procesamiento del lenguaje son conjuntos de herramientas y servicios
 \subsection{Bard}
 Bard es una API de procesamiento del lenguaje natural desarrollada por Google con el objetivo de ofrecer respuestas conversacionales coherentes y relevantes a través de interacciones de mensajes. Basada en LaMDA, un modelo de lenguaje experimental de Google, Bard compite directamente con ChatGPT en el campo del procesamiento del lenguaje natural, permitiendo realizar consultas y recibir respuestas sin necesidad de navegar por diferentes páginas web.
 
-Google ha priorizado la accesibilidad y la transparencia en el desarrollo de Bard, ofreciendo modelos y recursos de PLN de código abierto que pueden ser utilizados y modificados por la comunidad. Inicialmente lanzado con un modelo reducido de LaMDA, Bard busca ampliar su alcance y obtener comentarios para su mejora continua.
+Google ha priorizado la accesibilidad y la transparencia en el desarrollo de Bard, ofreciendo modelos y recursos de PLN de código abierto que pueden ser utilizados y modificados por la comunidad. Inicialmente lanzado con un modelo reducido de LaMDA \ref{sec:LaMDA}, Bard busca ampliar su alcance y obtener comentarios para su mejora continua.
 
 \begin{figure}[h]
 	\centering
@@ -181,20 +174,6 @@ Gemini es una API de procesamiento del lenguaje natural (PLN) desarrollada por G
 
 Gemini puede utilizarse para una variedad de aplicaciones, incluyendo generación de texto a partir de entradas bien sean de texto, o imágenes, conversaciones de varios turnos (chats) o para la obtención de embeddings para modelos del lenguaje. 
 
-
-
-\includegraphics[width=0.5\textwidth]{Imagenes/telegram1}
-
-%PRIMERA VERSIÓN EN BARD
-%PRIMERA VERSIÓN EN GEMMA
-%PRIMERA VERSIÓN GEMINI - GOOGLE COLLABORATE
-%REFACTORIZACIÓN PARA HACER VERSIÓN LOCAL
-%TELEGRAM
-%GENERAR LAS ETAPAS 
-%IMAGENES
-%WHISPER
-%GRÁFOS
-%GENERACIÓN DE HISTORIAS DE VIDA
 Para configurarlo, en primer lugar hay que ejecutar el programa mibot.py estando en telegram en la conversaa conversación de telegram el comando /start para comenzar la conversación y ya. 
 
 Sin embago, y pese a las grandes funcionalidades de todas estas alternativas nos hemos decantado por hacer una interfaz con telegram desarrollando nuestro propio chatbot usando rasa. 
@@ -311,6 +290,59 @@ Estas tripletas RDF se utilizan para almacenar información de manera estructura
 
 Las tripletas RDF son ampliamente utilizadas en la web semántica para diversas aplicaciones, como la descripción de recursos y metadatos en la web, la integración de datos de diferentes fuentes, la creación de motores de búsqueda más inteligentes y la construcción de sistemas de recomendación personalizados. Además, RDF proporciona un marco estándar y flexible para representar conocimiento y facilita la interoperabilidad entre diferentes sistemas y aplicaciones en la web.
 
+	
+El Framework de Descripción de Recursos (RDF, por sus siglas en inglés) es un lenguaje de propósito general orientado a la representación de información en la web. Su uso se centra en el desarrollo de la web semántica, y tiene como finalidad describir los recursos de la misma de una manera no orientada a la legibilidad por parte de un humano, sino a la computación de la información contenido por un ordenador.
+
+La web semántica es un proyecto de futuro en el que la información web tiene un significado exactamente definido y puede ser procesado por ordenadores. Por lo tanto, los ordenadores pueden integrar y usar la información disponible en la web. Más información sobre la web semántica puede ser encontrada en \cite{iswc2007}.
+
+RDF está considerado como un lenguaje de metadatos, o "datos sobre datos", ya que con los símbolos de RDF añadimos metainformación a los datos que realmente nos interesan para poder interpretarlos de una manera exacta, es decir, de aquella que el autor de los datos (o, al menos, del autor del marcado RDF sobre estos datos) quería que estos fuesen interpretados.
+
+RDF define los recursos mediante descripciones de los mismos, como puede verse en el listado \ref{fig:ejemploRDF1}. Puede encontrarse más información sobre la manera de la tecnología RDF de describir estos recursos en \cite{champin2002rdf}.
+
+\begin{figure}[h]
+	\centering
+	\begin{verbatim}
+		<rdf:Description
+		rdf:about="http://www.recshop.fake/cd/Empire Burlesque">
+		<cd:artist>Bob Dylan</cd:artist>
+		<cd:country>USA</cd:country>
+		<cd:company>Columbia</cd:company>
+		<cd:price>10.90</cd:price>
+		<cd:year>1985</cd:year>
+		</rdf:Description>
+	\end{verbatim}
+	\caption{ Ejemplo de un recurso RDF.}
+	\label{fig:ejemploRDF1}
+\end{figure}
+
+
+RDF no define clases de datos específicas para las aplicaciones. En vez de esto, el estándar RDF dispone de RDF Schema. Estos documentos definen nuevas clases, y relaciones entre ellas (herencia, agregación) de una manera muy similar a aquella con la que se acostumbra en la programación orientada a objetos. En la Figura 2.7 podemos ver un ejemplo de un RDF Schema.
+
+\begin{figure}[h]
+	\centering
+\begin{verbatim}
+	<?xml version="1.0"?>
+	<rdf:RDF
+	xmlns:rdf= "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xml:base= "http://www.animals.fake/animals#">
+	<rdf:Description rdf:ID="animal">
+	<rdf:type
+	rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+	</rdf:Description>
+	<rdf:Description rdf:ID="horse">
+	<rdf:type
+	rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+	<rdfs:subClassOf rdf:resource="#animal"/>
+	</rdf:Description>
+	</rdf:RDF>
+\end{verbatim}
+	\caption{ Ejemplo de un recurso RDF SCHEMA.}
+	\label{fig:ejemploRDF2}
+\end{figure}
+
+
+
 \section{Bibliotecas para el desarrollo de interfaces}
 
 PyQt, wxPython y Kivy son opciones populares para la implementación de interfaces gráficas, cada una con sus propias ventajas y desventajas.
@@ -320,6 +352,15 @@ PyQt es conocido por su completo conjunto de widgets, lo que te permite crear in
 Por otro lado, wxPython ofrece una sintaxis más simple y fácil de entender, lo que puede ser beneficioso si estás empezando o prefieres un enfoque más directo. Aunque tiene menos widgets y funcionalidades avanzadas que PyQt, sigue siendo una opción sólida con una comunidad activa que proporciona soporte.
 
 Kivy destaca por su diseño adaptable, diseñado para crear aplicaciones con interfaces gráficas que funcionan en una amplia gama de dispositivos. Utiliza un lenguaje de marcado declarativo que permite definir la interfaz de usuario de manera intuitiva y separada del código Python. Sin embargo, puede tener menos documentación y recursos disponibles en comparación con PyQt y wxPython.
+
+%Hablar de las VPN y de la aplicación que se ha usado para eso mismo
+
+%Finalmente poner capturas de consultas a la api de gemini, la estructura de las respuestas, analizar los diferentes modelos, decir porque se ha elegido gemini pro
+
+
+%Decir ventajas poniendo capturas de preguntas y respuestas que da gemini 
+%También hablar de las limitaciones
+\includegraphics[width=0.5\textwidth]{Imagenes/telegram1}
 
 \section{Programación orientada a objetos}
 La clase pregunta.
