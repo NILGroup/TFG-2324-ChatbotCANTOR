@@ -1,0 +1,333 @@
+\chapter{Tecnologías utilizadas}
+\label{cap:TecnologiasUtilizadas}
+
+El presente capítulo se centra en las tecnologías utilizadas para la construcción y el despliegue del chatbot de ayuda a la terapia de reminiscencia. Se explorarán las herramientas y metodologías empleadas en el desarrollo de prototipos, así como su integración con los conceptos y conocimientos presentados en el estado de la cuestión. 
+
+El capítulo se desarrolla en diferentes secciones. En cada una se estudian las diferentes alternativas para la construcción de cada uno de los módulos que componen el chatbot, desde las API'S y bibliotecas de PLN hasta las diferentes opciones consideradas para el desarrollo de la interfaz. Esto ayudará a dar contexto y entender el por qué de las decisiones que se van tomando en el capítulo~\ref{cap:Desarrollo de prototipos}.
+
+
+\section{Bibliotecas de Procesamiento del Lenguaje en Python}
+
+\subsection{NLTK}
+La biblioteca NLTK (Natural Language Toolkit) \footnote{\href{https://www.nltk.org/}{Página oficial de NLTK}} ofrece una amplia gama de herramientas y recursos para tareas de PLN.
+
+En primer lugar, NLTK permite realizar tareas como la tokenización y el  etiquetado POS (Part-Of-Speech tagging). Al utilizar las herramientas de tokenización, podemos dividir el texto en unidades más pequeñas, lo que facilita el análisis y la comprensión. El etiquetado POS asigna etiquetas gramaticales a cada palabra en el texto, lo que nos permite identificar la función de cada palabra en la oración. \\
+
+\begin{lstlisting}[style=SpyderStyle, caption={Ejemplo de código en Python. Se pueden consultar más ejemplos en \cite{bird2009natural}}, captionpos=b, label={lst:python},breaklines = true]
+	sentence = "Reminiscence Therapy involves the discussion of past activities using prompts like photos."
+	tokens = nltk.word_tokenize(sentence)
+	tagged = nltk.pos_tag(tokens)
+	tagged[0:len(tagged)]
+\end{lstlisting}
+
+En este código $nltk$ tokeniza la oración introducida y etiqueta cada $token$ indicando la categoría sintáctica de cada $token$ como sigue:
+
+\begin{itemize}
+	\item NNP: Nombre propio singular
+	\item NN: Nombre, singular o sustantivo singular
+	\item VBZ: Verbo tercera persona del singular presente
+	\item DT: Determinante
+	\item IN: Preposición o oración subordinada
+	\item JJ: Adjetivo
+	\item NNS: Nombre plural 
+	\item VBG: Verbo, gerundio o participio
+	\item . : Signo de puntuación
+\end{itemize}
+
+\begin{lstlisting}[style=SpyderStyle, caption={Tokenización y etiquetado con nltk}, captionpos=b, label={lst:python},breaklines = true]
+	>>[('Reminiscence', 'NNP'), ('Therapy','NNP'), ('involves','VBZ'), ('the', 'DT'), ('discussion', 'NN'), ('of', 'IN'), ('past', 'JJ'), ('activities', 'NNS'), ('using', 'VBG'), ('prompts', 'NNS'), ('like', 'IN'), ('photos', 'NNS'), ('.', '.')]
+	
+\end{lstlisting}
+
+Otras de las funcionalidades que nos permite esta biblioteca es el análisis sintáctico o lematización. Por ejemplo, nos permite la obtención de árboles sintácticos, lo que permite visualizar la estructura gramatical de las oraciones, facilita el análisis y la interpretación del texto. \\
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{Imagenes/arbolsintactico}
+	\caption{Árbol sintáctico generado con nltk}
+	\label{fig:2}
+\end{figure}
+
+\begin{lstlisting}[style=SpyderStyle, caption={Análisis sintáctico y lematización con nltk}, captionpos=b, label={lst:python},breaklines = true]
+	entities = nltk.chunk.ne_chunk(tagged)
+	nltk.download('treebank')
+	from nltk.corpus import treebank
+	t = treebank.parsed_sents('wsj_0001.mrg')[0]
+	t
+\end{lstlisting}
+
+
+Además de estas características fundamentales, NLTK ofrece una serie de otras funcionalidades que amplían aún más su utilidad. Por ejemplo, incluye herramientas para la extracción de entidades nombradas, el análisis de sentimientos, la generación de texto y la traducción automática. Estas capacidades adicionales permiten abordar una amplia variedad de tareas en el procesamiento del lenguaje natural, desde la clasificación de texto hasta la generación de resúmenes automáticos y la traducción de idiomas. En resumen, NLTK es una herramienta invaluable para investigadores, estudiantes y profesionales que trabajan en el campo del PLN, ofreciendo una amplia gama de funcionalidades que facilitan el análisis, la comprensión y la manipulación del lenguaje humano.
+
+
+\subsection{SpaCy}
+
+% https://spacy.io/
+
+SpaCy ofrece soporte para más de 25 idiomas y cuenta con 84 pipelines de entrenamiento. Utiliza el aprendizaje multi-tarea con modelos preentrenados como BERT, lo que permite un rendimiento avanzado en tareas de procesamiento del lenguaje natural. Sus componentes incluyen herramientas para el reconocimiento de entidades nombradas, etiquetado de partes del discurso, análisis de dependencias, segmentación de oraciones, clasificación de texto, lematización, análisis morfológico, vinculación de entidades y más.
+
+\begin{lstlisting}[style=SpyderStyle, caption={Ejemplo de tokenización usando spaCy}, captionpos=b, label={lst:python},breaklines = true]
+	import spaCy
+	
+	# Load English tokenizer, tagger, parser and NER
+	nlp = spacy.load("en_core_web_sm")
+	
+	# Process whole documents
+	text = ("Reminiscence Therapy involves the discussion of past activities using prompts like photos.")
+	doc = nlp(text)
+	
+	# Analyze syntax
+	print("Noun phrases:", [chunk.text for chunk in doc.noun_chunks])
+	print("Verbs:", [token.lemma_ for token in doc if token.pos_ == "VERB"])
+\end{lstlisting}
+
+Este código carga el modelo preentrenado $"en\_core\_web\_sm"$ de spaCy, que incluye herramientas para tokenizar, etiquetar, analizar la sintaxis y reconocer entidades nombradas en textos en inglés. Luego, procesa el texto proporcionado y muestra las frases nominales identificadas utilizando la función $noun_chunks$ y los verbos lematizados utilizando la propiedad $lemma\_$. Este análisis gramatical permite identificar las partes clave del texto, como los sustantivos y las acciones descritas.
+
+\begin{lstlisting}[style=SpyderStyle, caption={Resultado de tokenización usando spaCy}, captionpos=b, label={lst:python},breaklines = true]
+	>>> Noun phrases: ['Reminiscence Therapy', 'the discussion', 'past activities', 'prompts', 'photos']
+	Verbs: ['involve', 'use']
+\end{lstlisting}
+
+Además, es fácilmente ampliable con componentes y atributos personalizados, y es compatible con modelos personalizados en PyTorch, TensorFlow y otros frameworks. Spacy ofrece visualizadores integrados para la sintaxis y el reconocimiento de entidades nombradas, y facilita el empaquetado, despliegue y gestión de flujos de trabajo de modelos. Con su precisión rigurosamente evaluada y su robustez, Spacy es una herramienta poderosa y versátil para el procesamiento del lenguaje natural.
+
+La biblioteca spaCy cuenta con diferentes componentes que interactúan entre sí esuchando la salida unos de otros para mejorar su procesamiento ($listener$). Además, existen una serie de reglas y dependencias entre los componentes. Por ejemplo, el módulo $atribute\_ruler$ indica proporciona reglas de etiquetado a $tagger$.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{Imagenes/spaCy}
+	\caption{Árbol sintáctico generado con nltk}
+	\label{fig:1}
+\end{figure}
+
+El gráfico representa la estructura de una tubería de procesamiento de lenguaje natural (NLP) en spaCy, mostrando la secuencia de componentes y sus interacciones.
+
+\begin{itemize}
+	\item tok2vec: Este componente convierte los tokens en vectores de palabras, que capturan el significado semántico de las palabras en el contexto de la oración.
+	\item tagger: El $tagger$ asigna etiquetas gramaticales a cada token en el texto, como partes del discurso (POS).
+	\item  parser: El analizador sintáctico analiza la estructura sintáctica del texto, identificando las relaciones de dependencia entre las palabras. 
+	\item $attribute\_ruler$: Este componente aplica reglas para agregar atributos adicionales a los tokens, como excepciones de lema y POS, y manejar espacios en blanco de manera coherente.
+	\item $lemmatizer$: El lematizador determina la forma base de cada palabra (su lema) en función de su contexto y su parte del discurso.
+	\item $ner/tok2vec$: El componente de reconocimiento de entidades (NER) identifica entidades nombradas en el texto, como nombres de personas, lugares o organizaciones. En algunos modelos, este componente comparte la representación de vectores de palabras (tok2vec) con otros componentes para mejorar la coherencia y la precisión de las predicciones.
+\end{itemize}
+En resumen, este gráfico muestra cómo los componentes de spaCy interactúan entre sí para realizar tareas de procesamiento de lenguaje natural, aprovechando la información compartida y las reglas definidas para mejorar la precisión y la coherencia del análisis lingüístico.
+
+
+%Hablar de las VPN y de la aplicación que se ha usado para eso mismo
+
+%Finalmente poner capturas de consultas a la api de gemini, la estructura de las respuestas, analizar los diferentes modelos, decir porque se ha elegido gemini pro
+
+
+%Decir ventajas poniendo capturas de preguntas y respuestas que da gemini 
+%También hablar de las limitaciones
+
+
+Con esto la interfaz se ve de la siguiente forma: 
+
+\section{APIs de procesamiento del lenguaje}
+
+Las APIs de procesamiento del lenguaje son conjuntos de herramientas y servicios que integran múltiples funcionalidades relacionadas con el PLN en sus aplicaciones y sistemas. Es decir, son herramientas que aúnan y ofrecen funcionalidades como el análisis de sentimientos, el reconocimiento de entidades o la tokenización. Frente a las bibliotecas y modelos presentados anteriormente presentan la ventaja de que se pueden usar sin necesidad de desarrollar desde cero algoritmos o modelos, lo que facilita su uso. Estas características hacen que este tipo de APIs sean comúnmente usadas en variedad de aplicaciones, desde chatbots hasta sistemas de recomendación. 
+
+\subsection{Bard}
+Bard es una API de procesamiento del lenguaje natural desarrollada por Google con el objetivo de ofrecer respuestas conversacionales coherentes y relevantes a través de interacciones de mensajes. Basada en LaMDA, un modelo de lenguaje experimental de Google, Bard compite directamente con ChatGPT en el campo del procesamiento del lenguaje natural, permitiendo realizar consultas y recibir respuestas sin necesidad de navegar por diferentes páginas web.
+
+Google ha priorizado la accesibilidad y la transparencia en el desarrollo de Bard, ofreciendo modelos y recursos de PLN de código abierto que pueden ser utilizados y modificados por la comunidad. Inicialmente lanzado con un modelo reducido de LaMDA, Bard busca ampliar su alcance y obtener comentarios para su mejora continua.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{Imagenes/EstudioTeorico/Bard}
+	\caption{Ejemplo de uso de BARD}
+	\label{fig:3}
+\end{figure}
+
+Cómo se puede ver en el ejemplo, Bard es capaz de analizar la información proporcionada y generar respuestas coherentes y formateadas según las especificaciones dadas. Gracias a su capacidad para comprender el contexto y generar texto de manera precisa, Bard es una herramienta valiosa para tareas que requieren PLN, como la generación de respuestas conversacionales. Todo ello lo convierte en una opción ideal para una amplia gama de aplicaciones, desde chatbots hasta sistemas de asistencia virtual. 
+
+Sin embargo, Bard ya no está disponible. En diciembre de 2023, Google fortaleció la capacidad de Bard al incorporar Gemini Pro en inglés, brindando habilidades más avanzadas de comprensión, razonamiento, resumen y codificación. Más adelante, en febrero de 2024, se anunció la expansión de Gemini Pro a más de 40 idiomas y se oficializó el cambio de nombre de Bard a Gemini, lo que implicó descartar el primer modelo del proyecto desarrollado en Bard debido a la indisponibilidad de Gemini en España en ese momento.
+
+\subsection{Gemma}
+
+Gemma es una API de PLN desarrollada por OpenAI. Utiliza modelos de lenguaje basados en la arquitectura GPT (Generative Pre-trained Transformer) para una variedad de tareas de PLN, como generación de texto, análisis de sentimientos, clasificación de texto, y más. Gemma se destaca por su capacidad para generar texto coherente y de alta calidad en una variedad de estilos y tonos, así como por su facilidad de uso y su API intuitiva.
+
+Una de las principales ventajas de Gemma es su rendimiento en tareas de generación de texto, donde ha establecido nuevos estándares de calidad y coherencia en muchos casos. Además, Gemma ofrece modelos pre-entrenados en varios dominios y lenguas, lo que facilita su integración en una variedad de aplicaciones de PLN. Sin embargo, debido a su enfoque en modelos de última generación, Gemma puede requerir recursos computacionales significativos y puede ser más difícil de entender y utilizar para usuarios principiantes en PLN.
+
+
+En primer lugar, estos modelos se trabajaron en Google Collaborate aumentando el número de GPUs. De esta forma gemma tiene un buen comportamiento y genera respuestas adecuadas y coherentes. En concreto, una respuesta generada por \textit{gemma-7b} sería la siguiente.
+\begin{center}
+	\includegraphics[width=0.75\textwidth]{Imagenes/gemma (1)}
+\end{center}
+Sin embargo, las limitaciones propias de Google Collaborate no permitían en la versión gratuita aumentar el número de GPUs de forma frecuente y en consecuencia tuve que estudiar el modelo en otro entorno. Para ejecutarlo de forma local y obtener un buen comportamiento es necesario instalar Linux y descargar el modelo de Hugging face. 
+
+Aunque \textit{gemma-2b} en la versión local instalada desde Hugging Face en Linux tiene un buen comportamiento, genera respuestas incoherentes que hacen de este modelo poco útil para nuestro proyecto. La versión \textit{gemma-7b} genera respuestas mucho mejores pero tiene la enorme desventaja de que ocupa una gran cantidad de espacio en memoria.
+
+\subsection{GPT API}
+
+GPT API es una API de PLN desarrollada por OpenAI. Utiliza modelos de lenguaje basados en la arquitectura GPT (Generative Pre-trained Transformer) para una variedad de tareas de PLN, como generación de texto, análisis de sentimientos, clasificación de texto, y más. GPT API se destaca por su capacidad para generar texto coherente y de alta calidad en una variedad de estilos y tonos, así como por su facilidad de uso y su API intuitiva.
+
+Una de las principales ventajas de GPT API es su rendimiento en tareas de generación de texto, donde ha establecido nuevos estándares de calidad y coherencia en muchos casos. Además, GPT API ofrece modelos pre-entrenados en varios dominios y lenguas, lo que facilita su integración en una variedad de aplicaciones de PLN. Sin embargo, debido a su enfoque en modelos de última generación, GPT API puede requerir recursos computacionales significativos y puede ser más difícil de entender y utilizar para usuarios principiantes en PLN.
+
+Sin embargo para obtener el comportamiento que se necesitaba en este trabajo debía ser entrenada, y debido a las limitaciones hardware esto suponía una cantidad de tiempo inviable. 
+
+\subsection{Rasa}
+Entre las opciones que se barajaron para seguir desarrollando el proyecto se encuentra Rasa. Rasa es una plataforma de código abierto diseñada para el desarrollo de chatbots y asistentes virtuales conversacionales. Utilizando técnicas de procesamiento de lenguaje natural (NLP) y aprendizaje automático, Rasa permite a los desarrolladores crear sistemas de diálogo inteligentes y personalizados. Una de las principales ventajas de Rasa es su flexibilidad y personalización, ya que los desarrolladores tienen control total sobre el comportamiento y la lógica de sus chatbots. Además, Rasa proporciona herramientas robustas para la gestión del diálogo, la comprensión del lenguaje natural y la integración con otros sistemas. Sin embargo, una posible desventaja de Rasa es su curva de aprendizaje, ya que requiere un conocimiento sólido de NLP y aprendizaje automático para aprovechar al máximo su potencial. Además, debido a su naturaleza de código abierto, puede requerir más tiempo y recursos para implementar y mantener en comparación con otras soluciones comerciales. Sin embargo, aunque rasa no es la api más potente en cuánto a generación de texto, tiene numerosas aplicaciones que resultan interesantes. Por ejemplo, gracias a la api de rasa es fácil volcar la interfaz de código en Python sobre la interfaz de Telegram. 
+
+\subsection{Gemini}
+
+%De aqui quiero sacar varias páginas, ver el tutorial y ir metiendo todo
+
+Gemini es una API de procesamiento del lenguaje natural (PLN) desarrollada por Google que permite a los usuarios interactuar con modelos de lenguaje avanzados para generar texto coherente y relevante en respuesta a consultas y solicitudes. Utiliza modelos de lenguaje de última generación entrenados por Google, que son capaces de comprender y generar texto en varios idiomas y contextos. Los usuarios pueden enviar texto de entrada a través de la API y recibir respuestas generadas por los modelos de Gemini. Ofrece varios modelos para satisfacer diferentes necesidades y casos de uso, entre los que se encuentran:
+\begin{itemize}[label=$\bullet$, leftmargin=*]
+	\item \textbf{gemini-pro}: Optimizado para entradas de texto.
+	\item \textbf{gemini-pro-vision}: Optimizado para entradas multimodales de texto e imágenes.
+\end{itemize}
+
+Gemini puede utilizarse para una variedad de aplicaciones, incluyendo generación de texto a partir de entradas bien sean de texto, o imágenes, conversaciones de varios turnos (chats) o para la obtención de embeddings para modelos del lenguaje. 
+
+
+
+\includegraphics[width=0.5\textwidth]{Imagenes/telegram1}
+
+%PRIMERA VERSIÓN EN BARD
+%PRIMERA VERSIÓN EN GEMMA
+%PRIMERA VERSIÓN GEMINI - GOOGLE COLLABORATE
+%REFACTORIZACIÓN PARA HACER VERSIÓN LOCAL
+%TELEGRAM
+%GENERAR LAS ETAPAS 
+%IMAGENES
+%WHISPER
+%GRÁFOS
+%GENERACIÓN DE HISTORIAS DE VIDA
+Para configurarlo, en primer lugar hay que ejecutar el programa mibot.py estando en telegram en la conversaa conversación de telegram el comando /start para comenzar la conversación y ya. 
+
+Sin embago, y pese a las grandes funcionalidades de todas estas alternativas nos hemos decantado por hacer una interfaz con telegram desarrollando nuestro propio chatbot usando rasa. 
+
+Para desarrollar el chatbot de telegram me he decantado por usar la interfaz de telegram para la cuál se necesita la API de Rasa. Las principales ventajas que ofrece esta herramienta es la facilidad del manejo de la interfaz pues telegram es una herramienta muy conocida con la que los terapeutas pueden estar más familiarizados. Además, esto nos permite también usar la versión del chatbotyayo para móvil. 
+
+Para crear está interfaz hay que: 
+1. Instalar rasa
+2. Instalar telegram 
+2. Obtener una api de rasa
+4. crear un nuevo chatbot desde telegram con @botFather
+5. Enviar a tu chatbot el comando /start
+
+Una vez seguidos todos estos pasos ya puedes comenzar a interactuar con la API de rasa. 
+
+
+\section{Respuestas de Gemini}
+
+El modelo más apropiado para el procesamiento de texto es $gemini-pro$. La estructura de las respuestas de este modelo es la siguiente. 
+
+\begin{lstlisting}[style=SpyderStyle, caption={Estructura de una respuesta de Gemini}, captionpos=b, label={lst:python},breaklines = true]
+	{
+		"candidates": [
+		{
+			"content": {
+				"parts": [
+				{
+					"text": string
+				}
+				]
+			},
+			"finishReason": enum (FinishReason),
+			"safetyRatings": [
+			{
+				"category": enum (HarmCategory),
+				"probability": enum (HarmProbability),
+				"blocked": boolean
+			}
+			],
+			"citationMetadata": {
+				"citations": [
+				{
+					"startIndex": integer,
+					"endIndex": integer,
+					"uri": string,
+					"title": string,
+					"license": string,
+					"publicationDate": {
+						"year": integer,
+						"month": integer,
+						"day": integer
+					}
+				}
+				]
+			}
+		}
+		],
+		"usageMetadata": {
+			"promptTokenCount": integer,
+			"candidatesTokenCount": integer,
+			"totalTokenCount": integer
+		}
+	}
+\end{lstlisting}
+
+\begin{itemize}
+	\item \textbf{text}	El texto generado.
+	\item \textbf{finishReason}	El motivo por el que el modelo dejó de generar tokens. Si está vacío, el modelo no dejó de generar los tokens. El motivo puede ser cualquiera de los siguientes:
+	\begin{enumerate}
+		\item $FINISH\_REASON\_UNSPECIFIED$: no se especifica el motivo de finalización.
+		\item $FINISH\_REASON\_STOP$: punto de detención natural del modelo o secuencia de detención proporcionada.
+		\item $FINISH\_REASON\_MAX\_TOKENS$: se alcanzó la cantidad máxima de tokens especificada en la solicitud.
+		\item $FINISH\_REASON\_SAFETY$: la generación del token se detuvo porque la respuesta se marcó por motivos de seguridad. Ten en cuenta que Candidate.content está vacío si los filtros de contenido bloquean el resultado.
+		\item $FINISH\_REASON\_RECITATION$: la generación del token se detuvo porque la respuesta se marcó para citas no autorizadas.
+		\item $FINISH\_REASON\_OTHER$: todos los demás motivos que detuvieron el token
+	\end{enumerate}
+	
+	\item \textbf{category}	La categoría de seguridad para la que se configura un umbral. Los valores aceptables son los siguientes:
+	Haz clic para expandir las categorías de seguridad
+	\begin{enumerate}
+		\item $HARM\_CATEGORY\_SEXUALLY\_EXPLICIT$
+		\item $HARM\_CATEGORY\_HATE\_SPEECH$
+		\item $HARM\_CATEGORY\_HARASSMENT$
+		\item $HARM\_CATEGORY\_DANGEROUS\_CONTENT$
+	\end{enumerate}
+	\item \textbf{probability}	Los niveles de probabilidad de daños en el contenido.
+	\begin{enumerate}
+		\item $HARM\_PROBABILITY\_UNSPECIFIED$
+		\item $NEGLIGIBLE$
+		\item $LOW$
+		\item $MEDIUM$
+		\item $HIGH$
+	\end{enumerate}
+	\item \textbf{blocked}	Una marca boolean asociada con un atributo de seguridad que indica si la entrada o salida del modelo se bloqueó. Si blocked es true, el campo errors en la respuesta contiene uno o más códigos de error. Si blocked es false, la respuesta no incluye el campo errors.
+	\item \textbf{startIndex}	Un número entero que especifica dónde comienza una cita en el contenido.
+	\item \textbf{endIndex}	Un número entero que especifica dónde termina una cita en content.
+	\item \textbf{url}	Es la URL de una fuente de cita. Los ejemplos de una fuente de URL pueden ser un sitio web de noticias o un repositorio de GitHub.
+	\item \textbf{title}	Es el título de una fuente de cita. Los ejemplos de títulos de origen pueden ser los de un artículo de noticias o un libro.
+	\item \textbf{license}	Es la licencia asociada con una cita.
+	\item \textbf{publicationDate}	La fecha en que se publicó una cita. Sus formatos válidos son YYYY, YYYY-MM y YYYY-MM-DD.
+	\item \textbf{promptTokenCount}	Cantidad de tokens en la solicitud.
+	\item \textbf{candidatesTokenCount}	Cantidad de tokens en las respuestas.
+	\item \textbf{totalTokenCount}	Cantidad de tokens en la solicitud y las respuestas.
+\end{itemize} 
+\section{Almacenamiento de la información}	
+\subsection{JSON}
+El uso de objetos JavaScript (JSON) es una poderosa herramienta de programación. Ya sea para almacenar datos o crear una API, convertir sus datos en JSON los hace reutilizables, independientemente de la tecnología que acceda a ellos. La diferencia entre un objeto JSON y un diccionario de Python es mínima, por lo tanto, es fácil almacenar un diccionario de Python como JSON utilizando la biblioteca del analizador json. Las ventajas de utilizar JSON para almacenar información radican en su legibilidad humana, ligereza en términos de uso de recursos y tamaño de almacenamiento, flexibilidad para representar una variedad de estructuras de datos, interoperabilidad entre diferentes sistemas y lenguajes de programación, y su fácil manejo en entornos como Python, donde se pueden mapear directamente a diccionarios, facilitando así el procesamiento y manipulación de datos en aplicaciones. Unificar toda esta información permite una comprensión clara y completa de las ventajas y usos de JSON en el almacenamiento de datos y la comunicación entre sistemas.
+
+\subsection{RDF}
+
+%Las tripletas RDF (Resource Description Framework) son una estructura de datos fundamental en la web semántica para representar información en forma de sujetos, predicados y objetos. Cada tripleta consiste en un sujeto que es una entidad, un predicado que describe la relación entre el sujeto y el objeto, y un objeto que puede ser una entidad o un valor. Por ejemplo, en la tripleta "Gato - es_un - Animal", "Gato" es el sujeto, "es_un" es el predicado y "Animal" es el objeto.
+
+Estas tripletas RDF se utilizan para almacenar información de manera estructurada y semántica, lo que permite una representación más rica y significativa de los datos en la web. A través de vocabularios y ontologías, como RDF Schema (RDFS) y Web Ontology Language (OWL), se establecen relaciones y significados precisos entre los términos utilizados en las tripletas RDF.
+
+Las tripletas RDF son ampliamente utilizadas en la web semántica para diversas aplicaciones, como la descripción de recursos y metadatos en la web, la integración de datos de diferentes fuentes, la creación de motores de búsqueda más inteligentes y la construcción de sistemas de recomendación personalizados. Además, RDF proporciona un marco estándar y flexible para representar conocimiento y facilita la interoperabilidad entre diferentes sistemas y aplicaciones en la web.
+
+\section{Bibliotecas para el desarrollo de interfaces}
+
+PyQt, wxPython y Kivy son opciones populares para la implementación de interfaces gráficas, cada una con sus propias ventajas y desventajas.
+
+PyQt es conocido por su completo conjunto de widgets, lo que te permite crear interfaces gráficas complejas y altamente personalizadas. Sin embargo, puede tener una curva de aprendizaje más pronunciada debido a su complejidad y sintaxis más verbosa.
+
+Por otro lado, wxPython ofrece una sintaxis más simple y fácil de entender, lo que puede ser beneficioso si estás empezando o prefieres un enfoque más directo. Aunque tiene menos widgets y funcionalidades avanzadas que PyQt, sigue siendo una opción sólida con una comunidad activa que proporciona soporte.
+
+Kivy destaca por su diseño adaptable, diseñado para crear aplicaciones con interfaces gráficas que funcionan en una amplia gama de dispositivos. Utiliza un lenguaje de marcado declarativo que permite definir la interfaz de usuario de manera intuitiva y separada del código Python. Sin embargo, puede tener menos documentación y recursos disponibles en comparación con PyQt y wxPython.
+
+\section{Programación orientada a objetos}
+La clase pregunta.
+
+
+
+ 
+
+
+
+
