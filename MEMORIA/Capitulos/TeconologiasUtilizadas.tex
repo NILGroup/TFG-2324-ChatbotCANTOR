@@ -124,13 +124,23 @@ Las APIs de procesamiento del lenguaje son conjuntos de herramientas y servicios
 Bard es una API de procesamiento del lenguaje natural desarrollada por Google con el objetivo de ofrecer respuestas conversacionales coherentes y relevantes a través de interacciones de mensajes. Basada en LaMDA, un modelo de lenguaje experimental de Google, Bard compite directamente con ChatGPT en el campo del procesamiento del lenguaje natural, permitiendo realizar consultas y recibir respuestas sin necesidad de navegar por diferentes páginas web.
 
 Google ha priorizado la accesibilidad y la transparencia en el desarrollo de Bard, ofreciendo modelos y recursos de PLN de código abierto que pueden ser utilizados y modificados por la comunidad. Inicialmente lanzado con un modelo reducido de LaMDA \ref{sec:LaMDA}, Bard busca ampliar su alcance y obtener comentarios para su mejora continua.
-
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1\textwidth]{Imagenes/EstudioTeorico/Bard}
-	\caption{Ejemplo de uso de BARD}
-	\label{fig:3}
+	\begin{verbatim}
+prompt = "A partir del texto a continuación, que contiene información
+ sobre una persona y damelo en una lista info donde
+ info[nombre]:valor_atributo."
+
+texto = "Hola mi nombre es Marta, tengo 22 años y soy de Zaragoza"
+>> **Info[nombre:Marta;edad:22;ciudad:Zaragoza]** 
+¿Hay algo más que pueda hacer por ti?
+	\end{verbatim}
+	\caption{ Ejemplo de uso de BARD.}
+	\label{fig:ejemploBARD}
 \end{figure}
+
+
+
 
 Cómo se puede ver en el ejemplo, Bard es capaz de analizar la información proporcionada y generar respuestas coherentes y formateadas según las especificaciones dadas. Gracias a su capacidad para comprender el contexto y generar texto de manera precisa, Bard es una herramienta valiosa para tareas que requieren PLN, como la generación de respuestas conversacionales. Todo ello lo convierte en una opción ideal para una amplia gama de aplicaciones, desde chatbots hasta sistemas de asistencia virtual. 
 
@@ -144,9 +154,19 @@ Una de las principales ventajas de Gemma es su rendimiento en tareas de generaci
 
 
 En primer lugar, estos modelos se trabajaron en Google Collaborate aumentando el número de GPUs. De esta forma gemma tiene un buen comportamiento y genera respuestas adecuadas y coherentes. En concreto, una respuesta generada por \textit{gemma-7b} sería la siguiente.
-\begin{center}
-	\includegraphics[width=0.75\textwidth]{Imagenes/gemma (1)}
-\end{center}
+\begin{figure}[h]
+	\centering
+	\begin{verbatim}
+prompt =gemma_lm.generate("What is the meaning of life?",
+ max_lenght = 64)
+ >>> The question is one of the most important questions in the world.
+  It's the question that has been asked by philosophers, theologians and
+  scientist for centuries. And it's the question that has been asked by
+  people who are looking for answer to their own lives. 
+	\end{verbatim}
+	\caption{ Ejemplo de uso de GEMMA.}
+	\label{fig:ejemploBARD}
+\end{figure}
 Sin embargo, las limitaciones propias de Google Collaborate no permitían en la versión gratuita aumentar el número de GPUs de forma frecuente y en consecuencia tuve que estudiar el modelo en otro entorno. Para ejecutarlo de forma local y obtener un buen comportamiento es necesario instalar Linux y descargar el modelo de Hugging face. 
 
 Aunque \textit{gemma-2b} en la versión local instalada desde Hugging Face en Linux tiene un buen comportamiento, genera respuestas incoherentes que hacen de este modelo poco útil para nuestro proyecto. La versión \textit{gemma-7b} genera respuestas mucho mejores pero tiene la enorme desventaja de que ocupa una gran cantidad de espacio en memoria.
@@ -280,7 +300,11 @@ El modelo más apropiado para el procesamiento de texto es $gemini-pro$. La estr
 \end{itemize} 
 \section{Almacenamiento de la información}	
 \subsection{JSON}
-El uso de objetos JavaScript (JSON) es una poderosa herramienta de programación. Ya sea para almacenar datos o crear una API, convertir sus datos en JSON los hace reutilizables, independientemente de la tecnología que acceda a ellos. La diferencia entre un objeto JSON y un diccionario de Python es mínima, por lo tanto, es fácil almacenar un diccionario de Python como JSON utilizando la biblioteca del analizador json. Las ventajas de utilizar JSON para almacenar información radican en su legibilidad humana, ligereza en términos de uso de recursos y tamaño de almacenamiento, flexibilidad para representar una variedad de estructuras de datos, interoperabilidad entre diferentes sistemas y lenguajes de programación, y su fácil manejo en entornos como Python, donde se pueden mapear directamente a diccionarios, facilitando así el procesamiento y manipulación de datos en aplicaciones. Unificar toda esta información permite una comprensión clara y completa de las ventajas y usos de JSON en el almacenamiento de datos y la comunicación entre sistemas.
+El JSON, acrónimo de JavaScript Object Notation, es un formato ligero para estructurar datos que se asemeja a los mapas en la programación. Está diseñado para representar datos de manera legible para las máquinas y fácilmente interpretable por los humanos. Se utiliza ampliamente en el intercambio de datos entre aplicaciones web y en el manejo de respuestas de API. El formato JSON consta de pares de clave-valor, donde las claves son únicas y los valores pueden ser cadenas, booleanos, números, objetos JSON o matrices JSON.
+
+En Python, el formato de datos más cercano a JSON es el diccionario. El módulo `json` de Python permite la conversión entre diccionarios, cadenas JSON y archivos JSON. Para leer un archivo JSON en Python, se utiliza la función \textit{json.load()} para cargar los datos del archivo en un diccionario. Para leer una cadena JSON en Python, se utiliza la función  \textit{json.loads()} para analizar la cadena y convertirla en un diccionario.
+
+Para escribir datos en un archivo JSON, se utiliza la función \textit{json.dump()} para escribir un diccionario en un archivo JSON. También se puede utilizar la función \textit{json.dumps()} para convertir un diccionario en una cadena JSON y luego escribir esa cadena en un archivo. Ambas funciones permiten especificar la indentación para formatear el archivo JSON de manera legible. El módulo \textit{json} proporciona una forma conveniente de manipular datos JSON en Python, facilitando el intercambio de datos entre aplicaciones y su almacenamiento en archivos.
 
 \subsection{RDF}
 
@@ -316,9 +340,9 @@ RDF define los recursos mediante descripciones de los mismos, como puede verse e
 \end{figure}
 
 
-RDF no define clases de datos específicas para las aplicaciones. En vez de esto, el estándar RDF dispone de RDF Schema. Estos documentos definen nuevas clases, y relaciones entre ellas (herencia, agregación) de una manera muy similar a aquella con la que se acostumbra en la programación orientada a objetos. En la Figura 2.7 podemos ver un ejemplo de un RDF Schema.
+RDF no define clases de datos específicas para las aplicaciones. En vez de esto, el estándar RDF dispone de RDF Schema. Estos documentos definen nuevas clases, y relaciones entre ellas (herencia, agregación) de una manera muy similar a aquella con la que se acostumbra en la programación orientada a objetos. En la Figura \ref{fig:ejemploRDF2} podemos ver un ejemplo de un RDF Schema.
 
-\begin{figure}[h]
+\begin{figure}[t]
 	\centering
 \begin{verbatim}
 	<?xml version="1.0"?>
@@ -341,29 +365,34 @@ RDF no define clases de datos específicas para las aplicaciones. En vez de esto
 	\label{fig:ejemploRDF2}
 \end{figure}
 
-
-
-\section{Bibliotecas para el desarrollo de interfaces}
+\section{Desarrollo de la interfaz}
 
 PyQt, wxPython y Kivy son opciones populares para la implementación de interfaces gráficas, cada una con sus propias ventajas y desventajas.
 
-PyQt es conocido por su completo conjunto de widgets, lo que te permite crear interfaces gráficas complejas y altamente personalizadas. Sin embargo, puede tener una curva de aprendizaje más pronunciada debido a su complejidad y sintaxis más verbosa.
+PyQt es conocido por su completo conjunto de widgets, lo que te permite crear interfaces gráficas complejas y altamente personalizadas. Sin embargo, puede tener una curva de aprendizaje más pronunciada debido a su complejidad y sintaxis más compleja.
 
 Por otro lado, wxPython ofrece una sintaxis más simple y fácil de entender, lo que puede ser beneficioso si estás empezando o prefieres un enfoque más directo. Aunque tiene menos widgets y funcionalidades avanzadas que PyQt, sigue siendo una opción sólida con una comunidad activa que proporciona soporte.
 
+
 Kivy destaca por su diseño adaptable, diseñado para crear aplicaciones con interfaces gráficas que funcionan en una amplia gama de dispositivos. Utiliza un lenguaje de marcado declarativo que permite definir la interfaz de usuario de manera intuitiva y separada del código Python. Sin embargo, puede tener menos documentación y recursos disponibles en comparación con PyQt y wxPython.
 
-%Hablar de las VPN y de la aplicación que se ha usado para eso mismo
-
-%Finalmente poner capturas de consultas a la api de gemini, la estructura de las respuestas, analizar los diferentes modelos, decir porque se ha elegido gemini pro
-
-
-%Decir ventajas poniendo capturas de preguntas y respuestas que da gemini 
-%También hablar de las limitaciones
-\includegraphics[width=0.5\textwidth]{Imagenes/telegram1}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\textwidth]{Imagenes/PyQT5_Interfaz}
+	\caption{Ejemplo de interfaz generada con PyQT5}
+	\label{fig:interfazPYQT5}
+\end{figure}
 
 \section{Programación orientada a objetos}
-La clase pregunta.
+La Programación Orientada a Objetos (POO) ha ganado una popularidad significativa en la comunidad de programación debido a su capacidad para desarrollar aplicaciones más robustas, flexibles y fáciles de mantener. Este paradigma se basa en la organización de programas como una colección de objetos interconectados, cada uno con su propio conjunto de datos y funcionalidades. En este artículo, exploraremos los conceptos clave de la POO, cómo implementarla en diversos lenguajes y cómo aprovechar sus ventajas para construir aplicaciones sólidas y flexibles.
+
+La POO es un paradigma de programación que se basa en la idea de clases y objetos. Se utiliza para estructurar programas de software en piezas simples y reutilizables de código, donde una clase actúa como una plantilla para crear múltiples instancias de objetos. Este enfoque invita a considerar las entidades dentro del contexto del problema a resolver, como libros, bibliotecarios y usuarios, y representarlas como objetos con propiedades y comportamientos.
+
+La POO se inspira en la forma en que percibimos y entendemos el mundo que nos rodea. Cada entidad se convierte en un objeto con sus propios atributos y métodos, y la interacción entre estos objetos es fundamental. La encapsulación, abstracción, herencia y polimorfismo son los principios fundamentales de la POO que permiten crear aplicaciones más organizadas, reutilizables y mantenibles.
+
+La POO permite la reutilización del código, evita la duplicación, protege la información a través de la encapsulación y facilita el trabajo en equipo al minimizar la posibilidad de duplicar funciones. Además, proporciona una estructura más clara y modular para el desarrollo de software, lo que facilita el mantenimiento y la escalabilidad a medida que los requisitos evolucionan.
+
+La Programación Orientada a Objetos es esencial en el diseño de aplicaciones y programas informáticos modernos. Ofrece numerosas ventajas, como la reutilización del código, la modularidad y la facilidad de mantenimiento, lo que la convierte en una opción ideal para resolver desafíos de programación complejos. Sin embargo, requiere una planificación cuidadosa y un análisis detallado de los requisitos para aprovechar al máximo sus beneficios.
 
 
 

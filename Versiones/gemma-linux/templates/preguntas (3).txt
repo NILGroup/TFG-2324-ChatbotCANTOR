@@ -1,7 +1,0 @@
-¿Cómo te llamas? {nombre:False}
-¿Cuántos años tienes? {edad:False}
-¿Cómo es tu familia? {Hijos: False, Hermanos: False, Mujer: False, Padres: False}
-¿Dónde vives? {Localizacion: False}
-¿Cuál es tu profesión? {Empleo: False}
-¿Cuál es tu pasatiempo favorito? {Aficion: False}
-¿Cuál es tu comida favorita? {Comida: False}
