@@ -7,6 +7,33 @@
 \subsection{Extracción de la información}
 \subsection{Generación de preguntas}
 \subsection{Interfaz e interacción con el usuario}
+La interfaz de Telegram es intuitiva y fácil de usar, lo que proporciona una experiencia de usuario más agradable y cómoda. Los usuarios pueden interactuar con el chatbot de manera similar a como lo harían con otros contactos o grupos en la aplicación, lo que reduce la curva de aprendizaje y aumenta la aceptación del usuario.
+
+Telegram también ofrece una variedad de funcionalidades integradas que pueden ser útiles para un chatbot de terapia de reminiscencia, como el envío de fotos, videos, archivos y ubicaciones. Esto permite una experiencia de usuario más rica y variada, lo que puede mejorar la efectividad del chatbot en la prestación de servicios de apoyo emocional.
+
+Finalmente, el uso de la plataforma de Telegram simplifica el desarrollo y el mantenimiento del chatbot. No es necesario crear una interfaz de usuario desde cero, ya que Telegram proporciona una interfaz lista para usar. Además, Telegram se encarga de la infraestructura y la gestión del servidor, lo que reduce la carga de trabajo para los desarrolladores y permite centrarse en el desarrollo de funcionalidades específicas para la terapia de reminiscencia.
+
+El siguiente código implementa un chatbot de ayuda a la terapia de reminiscencia utilizando la plataforma de mensajería Telegram. A continuación, se explican las principales funcionalidades del código:
+
+%\begin{itemize}
+%	\item Se importan los módulos necesarios, incluyendo el módulo `telebot` para interactuar con la API de Telegram, así como los módulos personalizados `tfg` e `imagenes` para la lógica del chatbot.
+	
+%	\item Se crea una instancia del bot de Telegram utilizando la API token proporcionada en el archivo `config.py`.
+	
+%	\item Se definen tres manejadores de mensajes:
+%	\begin{itemize}
+%		\item El manejador `cmd_start()` se activa cuando un usuario envía el comando `/start` al bot. Este manejador carga una serie de preguntas utilizando la función `cargar_preguntas()` del módulo `tfg` y envía un mensaje de bienvenida al usuario.
+		
+%		\item El manejador `bot_mensajes_text()` se activa cuando un usuario envía un mensaje de texto al bot. Si el mensaje comienza con %"/", se envía un mensaje de error indicando que el comando no está disponible. Si no, se llama a la función `siguientePregunta()` del módulo `tfg` para procesar la respuesta del usuario y generar una respuesta apropiada.
+		
+%		\item El manejador `photo()` se activa cuando un usuario envía una foto al bot. El bot descarga la foto, la guarda en el sistema de archivos y llama a la función `analizador_imagenes()` del módulo `imagenes` para analizar la imagen y generar una respuesta apropiada.
+%	\end{itemize}
+	
+%	\item Finalmente, se inicia el bucle de escucha del bot (`bot.infinity_polling()`) para que esté constantemente esperando y respondiendo a los mensajes de los usuarios.
+%\end{itemize}
+
+
+
 \subsection{Almacenamiento de la información}
 
 %IDEA AÑADIR SECCIÓN EVALUACIÓN
