@@ -169,14 +169,28 @@ A lo largo de los meses se estudiaron múltiples modelos y alternativas a BARD q
 %VERSIÓN LOCAL 
 
 
+\section{Selección de las preguntas predefinidas}
+Para la selección de las preguntas predefinidas he optado por emplear la plantilla ``Life History Templates'' \cite{DUK89b}. Estas preguntas desempeñan un papel crucial en el flujo de interacción del sistema, ya que son el esqueleto principal de la conversación con el usuario. 
+
+La plantilla \cite{DUK89b}, concebida con el propósito de estructurar la recopilación de información sobre la historia de vida de un individuo, ofrece una serie de campos predefinidos que abarcan una amplia gama de aspectos relevantes. Dichos campos han sido seleccionados, con el objetivo de garantizar una exploración exhaustiva y completa de la vida del paciente tratando de asegurar que se aborden aspectos clave de la vida del paciente, tales como eventos significativos, relaciones personales, intereses y preferencias, entre otros. Esto permite obtener una visión completa y detallada del individuo, lo cual es fundamental para proporcionar una atención personalizada y efectiva.
+
+Una vez que se han identificado los campos pertinentes, se procede a la creación de un documento denominado ``preguntas.txt'', el cual sirve como guía durante la interacción con el paciente. En este documento se registran las preguntas específicas que se deben realizar en cada campo, así como la información deseada que se espera obtener a través de las respuestas del paciente. Esto facilita el seguimiento y la organización de la información recopilada, asegurando que se cubran todos los aspectos relevantes de la historia de vida del individuo.
+
+Además, la plantilla ``Life History Templates'' incluye la recomendación de utilizar fotografías como herramienta para estimular la memoria y facilitar la obtención de información por parte del paciente. Esta estrategia, basada en la estimulación visual, ha demostrado ser efectiva para desencadenar recuerdos y promover la narración de experiencias pasadas.
+
+Como parte de la implementación de nuestro prototipo, planeamos integrar esta funcionalidad en la sección dedicada a las imágenes (sección \ref{sec:imagenes}). Esto permitirá enriquecer la interacción con el paciente y mejorar la calidad de la información recopilada, contribuyendo así a una evaluación más completa y precisa de su historia de vida. 
+
+\section{Clase Pregunta}
 \subsection{Análisis de las respuestas con Gemini}
+
+%Cuándo las preguntas son de si o no hay que hacer un tratamiento diferente puesto que si no la api se lia. 
 \subsection{Generación de preguntas con Gemini}
 \subsection{Almacenamiento de la información}
 \section{Integración de Gemini y RASA}
 %Para poder hacer la refactorización y guardar toda la información se crea la clase pregunta, que hace que se refactorice todo  demás 
-\subsection{Clase pregunta}
 
 \section{Extracción de información a partir de imagenes}
+\label{sec:imagenes}
 
 \section{Gemini almacenamiento de información}
 Como se puede ver en la figura \ref{fig:interfazPYQT5} estas bibliotecas permiten crear interfaces bastantes usables y simples. Sin embargo, aunque la interfaz es de buena calidad, se han explorado otras alternativas con el objetivo de obtener una interfaz 

@@ -1,1 +1,1 @@
-{'': False}{'aficiones': ['Jugar al tenis', 'Estar con amigas']}{'comida favorita': ['chocolate']}
+{'': False}{'nombre': ['marta']}{'marido/mujer/pareja': ['pareja']}{'hijos': ['No Encontrado']}{'hermanos': ['Inés']}{'mejores amigos': ['Nerea', 'Berta']}{'nombre del padre': 'No Encontrado', 'nombre de la madre': 'No Encontrado', 'oficio del padre': 'No Encontrado', 'oficio de la madre': 'No Encontrado'}

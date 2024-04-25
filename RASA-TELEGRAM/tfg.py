@@ -108,27 +108,29 @@ def analizar_extra(respuesta):
     return []
 
 def analizar_respuesta(pregunta):
-  data = generate_json(pregunta)
-  """
-  if data == "return":
-      return
-  extra = analizar_extra(pregunta)
-  if extra != []:
-      for clave,valor in extra.items():
-          pregunta.actualizar_campo(clave, valor)
-  """    
-  for clave,valor in data.items():
-      pregunta.actualizar_campo(clave, valor)
-      #Si ya había generado preguntas extra para ese campo paso
-      print(pregunta.extra.keys())
-      print(clave)
-      if "No Encontrado" in valor and not pregunta.extra[clave]:
-          pregunta.marcarGeneradasExtra(clave)
-          nuevasPregs = generate_question(clave)
-          pregunta.añadirPreguntasExtra(nuevasPregs)
-          return
-    
-  pregunta.pasarSiguiente()
+  try:
+    data = generate_json(pregunta)
+    """
+    if data == "return":
+        return
+    extra = analizar_extra(pregunta)
+    if extra != []:
+        for clave,valor in extra.items():
+            pregunta.actualizar_campo(clave, valor)
+    """    
+    for clave,valor in data.items():
+        pregunta.actualizar_campo(clave, valor)
+        #Si ya había generado preguntas extra para ese campo paso
+        if "No Encontrado" in valor:
+            if not pregunta.extra[clave]:
+                pregunta.marcarGeneradasExtra(clave)
+                nuevasPregs = generate_question(clave)
+                pregunta.añadirPreguntasExtra(nuevasPregs)
+                return
+    pregunta.pasarSiguiente()
+  except KeyError:
+      print(f"Ha habido un error al trabajar con la clave {clave} y la pregunta {pregunta.enunciado}")
+      pregunta.pasarSiguiente()
         
 preguntas = []
 
@@ -138,7 +140,7 @@ def siguientePregunta(respuesta):
     
     global index
     
-    if index == 0: #En el caso de que sea la primera vez aue llamo a esta función todavía no he hecho ninguna pregunta, será el saludo
+    if index == 0: #En el caso de que sea la primera vez que llamo a esta función todavía no he hecho ninguna pregunta, será el saludo
         index = index + 1
         return preguntas[1].enunciado 
     
@@ -152,7 +154,7 @@ def siguientePregunta(respuesta):
             with open("informacion.txt","w",encoding="utf-8") as archivo:
                 for p in preguntas:
                     archivo.write(str(p.campos))
-            return "Muchas gracias por la información"
+            return "Muchas gracias por la información."
     else:
         pregunta = preguntas[index].preguntasExtra[0]
         preguntas[index].eliminarPreguntasExtra()

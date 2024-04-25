@@ -33,7 +33,7 @@ i = 0
 @bot.message_handler(commands=["start"])
 def cmd_start(message):
     tfg.cargar_preguntas()
-    bot.reply_to(message, "Bienvenido al chatbot de ayuda a la terapia de reminiscencia. A continuación, le haré una serie de preguntas que me ayudarán a conocer más sobre usted para ayudarle a recordar y trabajar la mente. En primer lugar, ¿Cuál es su nombre?")
+    bot.reply_to(message, "Bienvenido al chatbot de ayuda a la terapia de reminiscencia. A continuación, le haré una serie de preguntas que me ayudarán a conocer más sobre usted para ayudarle a recordar y trabajar la mente.")
 
 
 @bot.message_handler(content_types=["text"])
