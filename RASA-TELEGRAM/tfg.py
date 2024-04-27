@@ -3,8 +3,6 @@
 #!pip install -q -U google-generativeai
 #pip install google
 
-"""A continuación, importamos los paquetes necesarios."""
-
 import pathlib
 import textwrap
 import google.generativeai as genai
@@ -69,7 +67,7 @@ def generate_json(p):
     
       json_obj = cargar_json(text)
       return json.loads(str(json_obj))
-  except AttributeError:
+  except:
       print(f"generate_json error: json_obj es {response.text}")
       return "return"
 
@@ -93,31 +91,26 @@ def analizar_respuestaAux(pregunta,respuesta,clave):
   return response.text
 
 
-def analizar_extra(respuesta):
-  prompt = f"A partir de este texto {respuesta}"
-  prompt = prompt + f"Dada esa información, quiero que devuelvas 'si' en caso de que en la respuesta aparezca información útil que me ayude a conocer a una persona"
-  response = model.generate_content(prompt)
-
-  if 'si' in response.text or 'Sí' in response.text or 'sí' in response.text or 'Si' in response.text:
-
-    prompt2 = f"Generame un json con el formato campo:información asociada a ese campo con la información que puedas obtener de esta respuesta {respuesta}"
+def analizar_extra(pregunta):
+   try:
+    prompt2 = f"Generame un json con el formato campo:información asociada a ese campo con la información que puedas obtener de esta respuesta {pregunta.respuesta}"
     response = model.generate_content(prompt2)
-    
     return json.loads(cargar_json(response.text))
-  else:
-    return []
+   except:
+       return []
 
 def analizar_respuesta(pregunta):
   try:
     data = generate_json(pregunta)
-    """
+    
     if data == "return":
         return
+    
     extra = analizar_extra(pregunta)
     if extra != []:
         for clave,valor in extra.items():
             pregunta.actualizar_campo(clave, valor)
-    """    
+       
     for clave,valor in data.items():
         pregunta.actualizar_campo(clave, valor)
         #Si ya había generado preguntas extra para ese campo paso
@@ -126,7 +119,7 @@ def analizar_respuesta(pregunta):
                 pregunta.marcarGeneradasExtra(clave)
                 nuevasPregs = generate_question(clave)
                 pregunta.añadirPreguntasExtra(nuevasPregs)
-                return
+            return
     pregunta.pasarSiguiente()
   except KeyError:
       print(f"Ha habido un error al trabajar con la clave {clave} y la pregunta {pregunta.enunciado}")
@@ -136,30 +129,64 @@ preguntas = []
 
 index = 0
 
+
+finish = False
+
 def siguientePregunta(respuesta):
-    
+    feedback = ""
     global index
+    global finish
     
+    if(finish):
+        answer = model.generate_content(f"Actualiza esta historia {LH} según estas restricciones {respuesta}")
+        return "Muchas gracias por tu amabilidad y participación. Espero que haya pasado un buen rato trabajando juntos. ¡Hasta la próxima!"
+        
     if index == 0: #En el caso de que sea la primera vez que llamo a esta función todavía no he hecho ninguna pregunta, será el saludo
         index = index + 1
         return preguntas[1].enunciado 
     
     preguntas[index].actualizar_respuesta(respuesta)
-    analizar_respuesta(preguntas[index])
+    if "No" in respuesta[:2] or "no" in respuesta[:2]:
+        for campo in preguntas[index].campos:
+            preguntas[index].actualizar_campo(campo,respuesta[:2])
+        preguntas[index].pasarSiguiente()
+    else:
+        try:
+            feedback = (model.generate_content(respuesta)).text
+        except ValueError:
+            print("no hay feedback")
+        analizar_respuesta(preguntas[index])
+    
     if preguntas[index].pasar or len(preguntas[index].preguntasExtra) == 0:
         if index != (len(preguntas)-1):
             index = index + 1
-            return preguntas[index].enunciado
+            return feedback + ' ' + preguntas[index].enunciado
         else:
             with open("informacion.txt","w",encoding="utf-8") as archivo:
                 for p in preguntas:
                     archivo.write(str(p.campos))
+                    finish = True
+                    lifeStory = generarHV()
+                    if lifeStory != [] and lifeStory != '':
+                        print(lifeStory)
+                        return "Muchas gracias por la información. ¿Qué cambiaría usted del siguiente texto para que fuera más fiel a su vida?" + lifeStory
             return "Muchas gracias por la información."
     else:
         pregunta = preguntas[index].preguntasExtra[0]
         preguntas[index].eliminarPreguntasExtra()
         return "¿"+pregunta+"?"
     
+def generarHV():
+    try:
+        LH = ""
+        info = [p.campos for p in preguntas]
+        print(info)
+        response = model.generate_content(f"Crea una historia sobre una persona con estos datos {info}")
+        while not response.candidates:
+            response = model.generate_content(f"Crea una historia sobre una persona con estos datos {info}")
+        return response.text
+    except:
+        return []
     
 
 def cargar_preguntas():

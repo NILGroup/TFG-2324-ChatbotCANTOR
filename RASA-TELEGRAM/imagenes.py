@@ -29,6 +29,9 @@ def to_markdown(text):
 model = genai.GenerativeModel('gemini-pro-vision')
 
 def analizador_imagenes(image):
-    img = PIL.Image.open(image)
-    response = model.generate_content(["Generame una descripción de esta imagen en español. Finalmente, genera una pregunta para obtener información sobre algo o alguien en la imagen. ", img])
-    return response.text
+    try: 
+        img = PIL.Image.open(image)
+        response = model.generate_content(["Generame una descripción de esta imagen en español. Finalmente, genera una pregunta para obtener información sobre algo o alguien en la imagen. ", img])
+        return response.text
+    except: 
+        return []

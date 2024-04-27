@@ -33,7 +33,7 @@ i = 0
 @bot.message_handler(commands=["start"])
 def cmd_start(message):
     tfg.cargar_preguntas()
-    bot.reply_to(message, "Bienvenido al chatbot de ayuda a la terapia de reminiscencia. A continuación, le haré una serie de preguntas que me ayudarán a conocer más sobre usted para ayudarle a recordar y trabajar la mente.")
+    bot.reply_to(message, "Bienvenido al chatbot de ayuda a la terapia de reminiscencia. A continuación, le haré una serie de preguntas que me ayudarán a conocer más sobre usted para ayudarle a recordar y trabajar la mente. En cualquier momento, puede adjuntar fotos que le ayuden a dar sus explicaciones o que le interese mostrarme.")
 
 
 @bot.message_handler(content_types=["text"])
@@ -56,7 +56,9 @@ def photo(message):
 
     with open(f"image{i}.jpg", 'wb') as new_file:
         new_file.write(downloaded_file)
-        answer = imagenes.analizador_imagenes(f"image{i}.jpg")
+        answer = imagene.s.analizador_imagenes(f"image{i}.jpg")
+        if(answer == []):
+            answer = "¡Qué foto más chula! ¿Qué puedes contarme sobre ella?"
         i = i + 1
         bot.send_message(message.chat.id, answer)
         
