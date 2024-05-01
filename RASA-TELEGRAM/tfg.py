@@ -180,7 +180,7 @@ def generarHV():
     try:
         LH = ""
         info = [p.campos for p in preguntas]
-        print(info)
+        
         response = model.generate_content(f"Crea una historia sobre una persona con estos datos {info}")
         while not response.candidates:
             response = model.generate_content(f"Crea una historia sobre una persona con estos datos {info}")

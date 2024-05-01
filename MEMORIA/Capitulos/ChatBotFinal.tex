@@ -1,0 +1,56 @@
+\chapter{Herramienta conversacional de ayuda a la terapia a la reminiscencia}
+\label{cap:ChatBot final}
+Este capítulo tiene como objetivo presentar la solución final desarrollada a partir de la problemática presentada en el capítulo \ref{sec:objetivos}. Para ello, se describirá en profundidad cada uno de los componentes básicos de la arquitectura del sistema, y se presentara esta en sí misma. Por otro lado, se explicará tanto el proceso de puesta en marcha como las herramientas necesarias para ese mismo objetivo. 
+
+Con el objetivo de permitir la opción de estudiar los componentes de forma práctica, es decir, usando el prototipo, este capítulo comenzará por la puesta en marcha. A continuación, se dará una idea global de la arquitectura del sistema y finalmente se irá explorando en cada sección, cada uno de los módulos que la componen. 
+\section{Herramientas y puesta en marcha}
+Para la puesta en marcha el primer paso es obtener la \textit{API Key} para lo que es necesario el uso de una VPN.
+\subsection{VPN}
+Debido a las restricciones geográficas actuales de la API de Gemini para poder usarla es necesario el uso de una VPN. En concreto y para el desarrollo de este proyecto la conexión a la VPN se ha realizado mediante la herramienta \textit{hide.me VPN}. Esta herramienta crea un túnel seguro utilizando poderosos protocolos VPN, oculta nuestra IP real con una suya y cifra todo el tráfico de internet que pasa por este túnel para que podamos navegar libremente. Además, \textit{hide.me} está certificada como una VPN cero registros. Esto significa que no se almacena información de ningún tipo. El uso de la VPN es necesario tanto para obtener la \textit{API Key} como para el uso de la misma. Los países en los que se encuentra disponible gemini se pueden consultar en la web \href{https://ai.google.dev/gemini-api/docs/available-regions?hl=es-419} de la api de gemini. 
+
+\subsection{Instalación de la API de Gemini}
+
+Para comenzar a utilizar la API de Gemini con Python, es necesario seguir estos pasos para instalar el SDK y configurar tu clave de API.
+
+En primer lugar, instalamos el SDK (Software Development Kit). La API de Gemini está contenida en el paquete \texttt{google-generativeai} en PyPI, por lo que el primer paso sera instalar esa dependencia.
+
+\begin{lstlisting}[language=Python]
+	!pip install -U google-generativeai
+\end{lstlisting}
+
+Para utilizar la API de Gemini, se necesita una clave de API obtenida del \href{https://aistudio.google.com/app/apikey} Google AI Studio. Una vez que tengas tu clave, puedes configurarla para que el SDK la utilice:
+
+\begin{lstlisting}[language=Python]
+	import google.generativeai as genai
+	from google.colab import userdata
+	
+	GOOGLE_API_KEY = userdata.get('GOOGLE_API_KEY')
+	genai.configure(api_key=GOOGLE_API_KEY)
+\end{lstlisting}
+
+\section{Arquitectura}
+
+\subsection{Interfaz e interacción con el usuario}
+
+
+%\begin{itemize}
+%	\item Se importan los módulos necesarios, incluyendo el módulo `telebot` para interactuar con la API de Telegram, así como los módulos personalizados `tfg` e `imagenes` para la lógica del chatbot.
+	
+%	\item Se crea una instancia del bot de Telegram utilizando la API token proporcionada en el archivo `config.py`.
+	
+%	\item Se definen tres manejadores de mensajes:
+%	\begin{itemize}
+%		\item El manejador `cmd_start()` se activa cuando un usuario envía el comando `/start` al bot. Este manejador carga una serie de preguntas utilizando la función `cargar_preguntas()` del módulo `tfg` y envía un mensaje de bienvenida al usuario.
+		
+%		\item El manejador `bot_mensajes_text()` se activa cuando un usuario envía un mensaje de texto al bot. Si el mensaje comienza con %"/", se envía un mensaje de error indicando que el comando no está disponible. Si no, se llama a la función `siguientePregunta()` del módulo `tfg` para procesar la respuesta del usuario y generar una respuesta apropiada.
+		
+%		\item El manejador `photo()` se activa cuando un usuario envía una foto al bot. El bot descarga la foto, la guarda en el sistema de archivos y llama a la función `analizador_imagenes()` del módulo `imagenes` para analizar la imagen y generar una respuesta apropiada.
+%	\end{itemize}
+	
+%	\item Finalmente, se inicia el bucle de escucha del bot (`bot.infinity_polling()`) para que esté constantemente esperando y respondiendo a los mensajes de los usuarios.
+%\end{itemize}
+
+\subsection{Almacenamiento y manejo de la información}
+
+%IDEA AÑADIR SECCIÓN EVALUACIÓN
+\subsection{Generación de historias de vida}

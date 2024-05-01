@@ -1,17 +1,6 @@
 \chapter{Desarrollo de prototipos}
 \label{cap:Desarrollo de prototipos}
 
-
-%PRIMERA VERSIÓN EN BARD
-%PRIMERA VERSIÓN EN GEMMA
-%PRIMERA VERSIÓN GEMINI - GOOGLE COLLABORATE
-%REFACTORIZACIÓN PARA HACER VERSIÓN LOCAL
-%TELEGRAM
-%GENERAR LAS ETAPAS 
-%IMAGENES
-%WHISPER
-%GRÁFOS
-%GENERACIÓN DE HISTORIAS DE VIDA
 El capítulo actual tiene como objetivo presentar en orden temporal los distintos prototipos que se han desarrollado hasta llegar a la versión final que se presenta en el capítulo \ref{cap:ChatBot final}. 
 
 La estructura del capítulo  muestra en orden lineal en el tiempo como se ha ido construyendo la arquitectura del sistema. De esta forma se puede ver como el modelo va pasando por distintos prototipos de forma incremental. 
@@ -26,11 +15,26 @@ El código asociado a los distintos prototipos se puede consultar en el reposito
 Cómo se comento en el capítulo \ref{cap:introduccion}, el objetivo de este proyecto es construir una herramienta que fácilite a los terapeutas la labor de realizar terapias de reminiscencia a personas con demencia. Para ello, se trata de obtener un chatbot capaz de realizar preguntas adecuadas, extraer información útil de ellas y generar nuevas preguntas para rellenar la información faltante. 
 
 Con este objetivo en mente, se plantea un diseño iterativo que parta de un chatbot capaz de realizar preguntas predefinidas y sobre él ir iterando hasta conseguir un prototipo completo.
-\section{Preguntas predefinidas y análisis de las respuestas usando BARD}
-\label{sec:prototipoBARD}
+
+\section{Preguntas predefinidas}
+\label{ssubsec:seleccionpreguntas}
 La primera versión del prototipo tuvo como único objetivo ser una herramienta capaz de realizar una serie de preguntas predefinidas, y almacenar la información obtenida.
 
-Para el almacenamiento de la información se decidió usar \textit{JSON} debido a su estructura legible y su amplia compatibilidad, suponen una elección tecnológica ideal para almacenar los datos de este sistema.Su capacidad para representar datos complejos de manera eficiente y su interoperabilidad garantizan una experiencia de desarrollo ágil y una gestión eficaz de la información de los usuarios. 
+Para la selección de las mismas se optó por emplear la plantilla ``Life History Templates'' \cite{dementia}. Estas preguntas desempeñan un papel crucial en el flujo de interacción del sistema, ya que son el esqueleto principal de la conversación con el usuario. 
+
+La plantilla \cite{dementia}, concebida con el propósito de estructurar la recopilación de información sobre la historia de vida de un individuo, ofrece una serie de campos predefinidos que abarcan una amplia gama de aspectos relevantes. Dichos campos han sido seleccionados, con el objetivo de garantizar una exploración exhaustiva y completa de la vida del paciente tratando de asegurar que se aborden aspectos clave de la vida del paciente, tales como eventos significativos, relaciones personales, intereses y preferencias, entre otros. Esto permite obtener una visión completa y detallada del individuo, lo cual es fundamental para proporcionar una atención personalizada y efectiva.
+
+Una vez que se han identificado los campos pertinentes, se procede a la creación de un documento denominado ``preguntas.txt'', el cual sirve como guía durante la interacción con el paciente. En este documento se registran las preguntas específicas que se deben realizar en cada campo, así como la información deseada que se espera obtener a través de las respuestas del paciente. Esto facilita el seguimiento y la organización de la información recopilada, asegurando que se cubran todos los aspectos relevantes de la historia de vida del individuo.
+
+Además, la plantilla ``Life History Templates'' incluye la recomendación de utilizar fotografías como herramienta para estimular la memoria y facilitar la obtención de información por parte del paciente. Esta estrategia, basada en la estimulación visual, ha demostrado ser efectiva para desencadenar recuerdos y promover la narración de experiencias pasadas.
+
+Como parte de la implementación de nuestro prototipo, planeamos integrar esta funcionalidad en la sección dedicada a las imágenes (sección \ref{sec:imagenes}). Esto permitirá enriquecer la interacción con el paciente y mejorar la calidad de la información recopilada, contribuyendo así a una evaluación más completa y precisa de su historia de vida. 
+
+\section{BARD}
+\label{sec:prototipoBARD}
+El segundo hito en el desarrollo del chatbot fue mejorar el primer chatbot haciendolo más inteligente y capaz de analizar las respuestas, identificar la información omitida y hacer preguntas especificas para obtener la información faltante. 
+
+Para el almacenamiento de la información se decidió usar \textit{JSON} debido a su estructura legible y su amplia compatibilidad, suponen una elección tecnológica ideal para almacenar los datos de este sistema. Su capacidad para representar datos complejos de manera eficiente y su interoperabilidad garantizan una experiencia de desarrollo ágil y una gestión eficaz de la información de los usuarios. 
 
 Por otro lado, se desarrollo una pequeña clase de forma provisional. Esta clase es la clase \textit{Paciente} que tenía como objetivo estructurar y reunificar la información.
 
@@ -134,6 +138,7 @@ Por otro lado, con Tkinter, se creó una interfaz gráfica de usuario (GUI) de e
 Este prototipo que supone un incremento respecto al anterior también tuvo que ser descartado sin llegar a desarrollar algunas funcionalidades y módulos hasta el final, como por ejemplo la interfaz o la generación de preguntas. Este parón se debió a un problema hardware. Al hacer instalarme Linux, no tenía apenas espacio en el disco duro por lo que la partición no fue demasiado grande. El gran tamaño de los modelos, en concreto del modelo $gemma-7b$ ocupó gran parte del espacio de la partición. Pocas semanas después del comienzo del desarrollo de este prototipo tuvo que descartarse debido a la necesidad de ejecutarlo en Linux, acompañada de las limitaciones de espacio en mi ordenador que hicieron que no pudiera seguir desarrollandolo en ese sistema operativo. 
 
 \section{Desarrollo de la interfaz con RASA}
+\label{sec:RASA}
 Paralelamente a todo el trabajo descrito anteriormente, y durante el estudio de las diferentes alternativas de interfaces, APIs y modelos se estudio la alternativa de la api de rasa de la que ya se ha hablado en la sección \ref{subsec:rasa}. 
 
 Esta opción fue inicialmente barajada como alternativa a BARD o Gemma, sin embargo, su capacidad de generación de texto no cumplía los requisitos requeridos para este proyecto por lo que se descarto para tal uso. 
@@ -162,37 +167,77 @@ Esta forma de generar la interfaz implica el desarrollo de manejadores que contr
 Se utiliza la API de Telegram a través del módulo ``telebot'' para interactuar con el servicio de mensajería y gestionar los mensajes entrantes y salientes. Además, se inicia un bucle de escucha para que el bot esté constantemente activo y pueda responder a los mensajes de los usuarios en tiempo real.
 
 \section{Gemini}
-A lo largo de los meses se estudiaron múltiples modelos y alternativas a BARD que no resultaban lo suficientemente eficaces. Por contrario, otras sí resultaron eficaces y pese a dar lugar a pequeños prototipos no pudieron seguir desarrollandose debido a los diversos problemas que se han contado a lo largo de este capítulo. Todo este estudio, implementación de modelos y desarrollo de prototipos fallidos conlleva horas de tiempo y esfuerzo. Todo esto deriva en meses centrados en análisis de alternativas en lugar del propio desarrollo del código en sí, por lo que finalmente hubo que decantarse por la API que resultaba más eficaz y fiable y que daba mejores resultados: la API de Gemin. Como se ha comentado antes, esta alternativa se descarto en un primer momento por no estar disponible en España. Sin embargo este problema se pudo solventar fácilmente mediante el uso de VPN.
-%API DE GEMINI
-%VPN 
-%VERSIÓN COLLABORATE
-%VERSIÓN LOCAL 
 
+A lo largo de los meses se estudiaron múltiples modelos y alternativas a BARD que no resultaban lo suficientemente eficaces. Por contrario, otras sí resultaron eficaces y pese a dar lugar a pequeños prototipos no pudieron seguir desarrollandose debido a los diversos problemas que se han contado a lo largo de este capítulo. Todo este estudio, implementación de modelos y desarrollo de prototipos fallidos conlleva horas de tiempo y esfuerzo. Todo esto deriva en meses centrados en análisis de alternativas en lugar del propio desarrollo del código en sí, por lo que finalmente hubo que decantarse por la API que resultaba más eficaz y fiable y que daba mejores resultados: la API de Gemin. Como se ha comentado antes, esta alternativa se descarto en un primer momento por no estar disponible en España. Sin embargo este problema se pudo solventar fácilmente mediante el uso de VPN. 
 
-\section{Selección de las preguntas predefinidas}
-Para la selección de las preguntas predefinidas he optado por emplear la plantilla ``Life History Templates'' \cite{dementia}. Estas preguntas desempeñan un papel crucial en el flujo de interacción del sistema, ya que son el esqueleto principal de la conversación con el usuario. 
+\section{Análisis de las respuestas}
+Como ya se ha mencionado anteriormente, el segundo hito a conseguir es la construcción de una herramienta que sea capaz de analizar las respuestas, identificar la información omitida y hacer preguntas específicas para obtener la información faltante. Estas tres tareas se llevan a cabo usando la API de gemini y en concreto, el modelo $gemini-pro$. 
 
-La plantilla \cite{dementia}, concebida con el propósito de estructurar la recopilación de información sobre la historia de vida de un individuo, ofrece una serie de campos predefinidos que abarcan una amplia gama de aspectos relevantes. Dichos campos han sido seleccionados, con el objetivo de garantizar una exploración exhaustiva y completa de la vida del paciente tratando de asegurar que se aborden aspectos clave de la vida del paciente, tales como eventos significativos, relaciones personales, intereses y preferencias, entre otros. Esto permite obtener una visión completa y detallada del individuo, lo cual es fundamental para proporcionar una atención personalizada y efectiva.
+\subsection{Análisis de las respuestas y identificación de la información omitida}
+El proceso de análisis de respuestas implica evaluar las respuestas recibidas a las preguntas planteadas durante la conversación. En nuestro caso se lleva a cabo mediante el uso del modelo y una serie de funciones que reciben como entrada la respuesta del usuario y devuelven un \textit{json} con la información asociada. Para ello, las preguntas predefinidas se almacenan en un fichero junto con una serie de campos que representan la información mínima que se quiere obtener de cada uno de ellos como se puede ver en la figura \ref{fig:ejemploPreguntaPredefinida}.
 
-Una vez que se han identificado los campos pertinentes, se procede a la creación de un documento denominado ``preguntas.txt'', el cual sirve como guía durante la interacción con el paciente. En este documento se registran las preguntas específicas que se deben realizar en cada campo, así como la información deseada que se espera obtener a través de las respuestas del paciente. Esto facilita el seguimiento y la organización de la información recopilada, asegurando que se cubran todos los aspectos relevantes de la historia de vida del individuo.
+\begin{figure}[h]
+	\centering
+	\begin{verbatim}
+		¿Tienes hijos? : [Nombre hijos,edad hijos,recuerdos con hijos]
+	\end{verbatim}
+	\label{fig:ejemploPreguntaPredefinida}
+\end{figure}
 
-Además, la plantilla ``Life History Templates'' incluye la recomendación de utilizar fotografías como herramienta para estimular la memoria y facilitar la obtención de información por parte del paciente. Esta estrategia, basada en la estimulación visual, ha demostrado ser efectiva para desencadenar recuerdos y promover la narración de experiencias pasadas.
+El modelo, gracias a un prompt y a una llamada adecuada, se encarga de extraer la información y asociarla a cada campo, así como de indicar si hay información faltante. Pese a que se pide que la salida se devuelva como un \textit{json} esta información ha de ser parseada manualmente debido a las alucinaciones y otros fenómenos que pueden dar lugar a errores. Otro suceso que ha de ser tenido en cuenta, es la posibilidad de no generación de respuesta por parte de gemini. Es por eso, que hay que tener presentes en todo momento los distintos campos explicados en la sección \ref{sec:gemini}, para tener un control de qué esta ocurriendo en todo momento. 
 
-Como parte de la implementación de nuestro prototipo, planeamos integrar esta funcionalidad en la sección dedicada a las imágenes (sección \ref{sec:imagenes}). Esto permitirá enriquecer la interacción con el paciente y mejorar la calidad de la información recopilada, contribuyendo así a una evaluación más completa y precisa de su historia de vida. 
+Es por esto, que se han desarrollado una serie de funciones que se encargan de transformar la respuesta en un objeto \textit{json} como se muestra en la figura \ref{fig:analisisRespuesta}. Este prototipo también añade información adicional que haya podido obtener de la respuesta y que no se pueda asociar a los campos predefinidos. Sin embargo, estos campos son útiles para llevar un control de qué información no ha podido ser obtenida y en tal caso, generar nuevas preguntas que nos permitan obtenerla. 
 
-\section{Clase Pregunta}
-\subsection{Análisis de las respuestas con Gemini}
+\begin{figure}[h]
+	\centering
+	\begin{verbatim}
+>>>	¿Tienes hijos?
+>>> Sí tengo hijos pero no estoy seguro de dónde están ahora.
+     Mi hija Lucía es médico y el mayor es Juan.
+>>> {'Nombre hijos': ['Lucía','Juan'], 'edad hijos': 'No
+    	 Encontrado', 'recuerdos con hijos' : 'No Encontrado'}
+	\end{verbatim}
+	\caption{Análisis de respuestas}
+	\label{fig:analisisRespuesta}
+\end{figure}
+ 
+\subsection{Generación de preguntas para obtener la información faltante}
+La generación automatizada de preguntas es un componente clave del sistema diseñado. Este proceso implica la creación de nuevas preguntas dirigidas a recopilar información que no ha podido ser obtenida en las preguntas predefinidas. El proceso de generación de preguntas comienza tras la identificación de un campo al que no se ha podido asociar ningún tipo de valor o sobre el que no se ha obtenido información. En ese momento y gracias a gemini se generan una serie de preguntas asociadas asociadas a los campos que no han sido rellenados tales como las que se muestran en la figura \ref{fig:generacionPreguntas}. Estas preguntas se van lanzando al usuario hasta rellenar los campos faltantes o hasta agotar el limite de preguntas asociadas a un mismo tema que se va a hacer al usuario. 
+\begin{figure}[h]
+	\centering
+	\begin{verbatim}
+		>>>	'¿Cuáles son sus edades?'
+		>>> '¿Cómo describe la dinámica de su familia?'
+		>>> '¿Qué recuerdos tiene con sus hijos?'
+	\end{verbatim}
+	\caption{Generación de preguntas}
+	\label{fig:generacionPreguntas}
+\end{figure}
+\section{Interfaz e interacción con el usuario}
+Como se puede ver en la figura \ref{fig:interfazPYQT5} estas bibliotecas permiten crear interfaces bastantes usables y simples. Sin embargo, durante el estudio previo realizado apareció la API de Rasa (\ref{sec:RASA}) y su integración con Telegram.
 
-%Cuándo las preguntas son de si o no hay que hacer un tratamiento diferente puesto que si no la api se lia. 
-\subsection{Generación de preguntas con Gemini}
-\subsection{Almacenamiento de la información}
-\section{Integración de Gemini y RASA}
+La interfaz de Telegram es intuitiva y fácil de usar, lo que proporciona una experiencia de usuario más agradable y cómoda. Los usuarios pueden interactuar con el chatbot de manera similar a como lo harían con otros contactos o grupos en la aplicación, lo que reduce la curva de aprendizaje y aumenta la aceptación del usuario.
+
+Telegram también ofrece una variedad de funcionalidades integradas que pueden ser útiles para un chatbot de terapia de reminiscencia, como el envío de fotos de forma sencilla. Esto permite que la experiencia del usuario sea más rica y variada, siendo mucho más fiel a la plantilla de generación de historias de vida mencionada en la sección \ref{ssubsec:seleccionpreguntas}. Esto puede mejorar la efectividad del chatbot en la prestación de servicios de apoyo emocional.
+
+\subsection{Integración de Gemini y RASA}
 %Para poder hacer la refactorización y guardar toda la información se crea la clase pregunta, que hace que se refactorice todo  demás 
+La decisión de desarrollar la interfaz del prototipo integrando RASA y GEMINI para tener una interfaz en Telegram tuvo como consecuencia la necesidad de llevar a cabo una refactorización.
+
+\subsubsection{Clase Pregunta}
+La clase ``Pregunta'' se crea para almacenar de manera integral toda la información asociada con una pregunta en un programa, especialmente en el contexto de la interacción con RASA mediante textos. En versiones anteriores del desarrollo, cada vez que se requería información adicional, se realizaban preguntas y el flujo no avanzaba hasta completar estas preguntas extra o obtener la información necesaria. Al integrar esta funcionalidad con RASA, se necesita devolver desde la función principal la información para que la interfaz pueda mostrar la pregunta, lo cual puede interrumpir el flujo original del código. Esta integración conlleva a una refactorización que dio lugar a la creación de la clase ``Pregunta''.
+
+La clase ``Pregunta'' encapsula una pregunta con su enunciado, respuesta, campos asociados y preguntas adicionales relacionadas. Su objetivo principal es proporcionar una estructura organizada para manejar la información de una pregunta específica y sus detalles. Permite actualizar la respuesta principal, indicar el estado de los campos (respondidos o no respondidos), agregar preguntas adicionales relacionadas y gestionar las respuestas a estas preguntas secundarias.
+
+Además, la clase ``Pregunta'' ofrece métodos para actualizar la respuesta, marcar campos como respondidos, agregar preguntas adicionales, gestionar las respuestas a estas preguntas secundarias y obtener una representación textual de la instancia de la clase.
 
 \section{Extracción de información a partir de imagenes}
 \label{sec:imagenes}
+La api de Gemini tiene muchas funcionalidades que permiten hacer del chatbot una herramienta completa. En concreto, gracias a la interfaz elegida y al modelo \textit{gemini-pro-vision} se ha implementado una funcionalidad extra respecto a las que estaban planteadas originalmente. Esta funcionalidad es la extracción de información a partir de imagenes. En cualquier momento, el usuario puede adjuntar una foto. El programa se encarga de analizar la fotografía y a partir de ella hacer pregutnas que permitan extraer más información que la obtenida únicamente con las preguntas.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{Imagenes/extracInfoImag}
+	\caption{Ejemplo de extracción de información a partir de imagenes}
+	\label{fig:interfazPrototipo1}
+\end{figure}
 
-\section{Gemini almacenamiento de información}
-Como se puede ver en la figura \ref{fig:interfazPYQT5} estas bibliotecas permiten crear interfaces bastantes usables y simples. Sin embargo, aunque la interfaz es de buena calidad, se han explorado otras alternativas con el objetivo de obtener una interfaz 
-
-\citep{AtazLopezEmacs}

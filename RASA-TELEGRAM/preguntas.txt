@@ -1,5 +1,3 @@
 ¿? : []
-¿Cómo se llamaba tu mejor amigo de la infancia? : [Nombre amigo]
-¿Tienes pareja? : [Nombre,Duración relación]
-¿Dónde vives actualmente? : [Nombre localidad]
+¿Tienes hijos? : [Nombre hijos,edad hijos,recuerdos con hijos]
 
