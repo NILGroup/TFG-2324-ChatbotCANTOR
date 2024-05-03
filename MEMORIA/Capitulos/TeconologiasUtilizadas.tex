@@ -184,7 +184,7 @@ Sin embargo para obtener el comportamiento que se necesitaba en este trabajo deb
 \label{subsec:rasa}
 Entre las opciones que se barajaron para seguir desarrollando el proyecto se encuentra Rasa. Rasa es una plataforma de código abierto diseñada para el desarrollo de chatbots y asistentes virtuales conversacionales. Utilizando técnicas de procesamiento de lenguaje natural y aprendizaje automático, Rasa permite a los desarrolladores crear sistemas de diálogo inteligentes y personalizados. Una de las principales ventajas de Rasa es su flexibilidad y personalización, ya que los desarrolladores tienen control total sobre el comportamiento y la lógica de sus chatbots. Además, Rasa proporciona herramientas robustas para la gestión del diálogo, la comprensión del lenguaje natural y la integración con otros sistemas. Sin embargo, una posible desventaja de Rasa es su curva de aprendizaje, ya que requiere un conocimiento sólido de PLN y aprendizaje automático para aprovechar al máximo su potencial. Además, debido a su naturaleza de código abierto, puede requerir más tiempo y recursos para implementar y mantener en comparación con otras soluciones comerciales. Sin embargo, aunque rasa no es la API más potente en cuánto a generación de texto, tiene numerosas aplicaciones que resultan interesantes. 
 
-\subsection{Gemini}
+\section{Gemini}
 \label{sec:gemini}
 %De aqui quiero sacar varias páginas, ver el tutorial y ir metiendo todo
 
@@ -202,7 +202,7 @@ Sin embargo, y pese a las grandes funcionalidades de todas estas alternativas no
 
 Para desarrollar el chatbot de telegram me he decantado por usar la interfaz de telegram para la cuál se necesita la API de Rasa. Las principales ventajas que ofrece esta herramienta es la facilidad del manejo de la interfaz pues telegram es una herramienta muy conocida con la que los terapeutas pueden estar más familiarizados. Además, esto nos permite también usar la versión del chatbotyayo para móvil. 
 
-\section{Respuestas de Gemini}
+\subsection{Procesamiento de texto}
 
 El modelo más apropiado para el procesamiento de texto es $gemini-pro$. La estructura de las respuestas de este modelo es la siguiente. 
 
@@ -291,8 +291,66 @@ El modelo más apropiado para el procesamiento de texto es $gemini-pro$. La estr
 	\item \textbf{totalTokenCount}	Cantidad de tokens en la solicitud y las respuestas.
 \end{itemize} 
 
-\subsection{Procesamiento de imágenes con Gemini}
+\subsection{Procesamiento de imágenes}
 %https://developers.google.com/solutions/content-driven/ai-images?continue=https%3A%2F%2Fdevelopers.google.com%2Flearn%2Fpathways%2Fsolution-ai-gemini-images&hl=es-419#article-https://developers.google.com/solutions/content-driven/ai-images&hl=es-419
+
+Los mensajes multimodales son instrucciones que utilizan modelos avanzados de lenguaje y admiten diferentes tipos de entradas, como texto e imágenes. Al combinar múltiples formatos de entrada, estos mensajes permiten una amplia gama de aplicaciones, como la clasificación de imágenes, el reconocimiento de escritura a mano, la traducción y otras tareas creativas.
+
+En esta sección, exploraremos los tipos de instrucciones que pueden generarse al ingresar tanto imágenes como texto en el modelo Gemini. A través de ejemplos interesantes, veremos cómo este modelo puede procesar esta información multimodal y producir respuestas en forma de texto.
+
+En la actualidad, Gemini \footnote{\href{https://developers.google.com/solutions/content-driven/ai-images}{Página oficial de Google con más ejemplos}} tiene la capacidad de procesar solicitudes que combinan texto e imagen como entrada, y luego generar respuestas basadas únicamente en texto. El texto puede utilizarse para contextualizar la imagen o para solicitar al modelo que opere y genere una respuesta relacionada con la imagen.
+
+Un ejemplo muy simple que destaca la capacidad del LLM de reconocer la existencia de algo en una imagen o no y de responder al desarrollador de manera booleana, es el que muestra la figura \ref{fig:gemini-1}. Este enfoque puede ser útil en la detección de contenido específico.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{Imagenes/ImagenesGemini/gemini-2}
+	\caption{Imagen de entrada a Gemini en el primer ejemplo}
+	\label{fig:gemini-1}
+\end{figure}
+ 
+\begin{verbatim}
+	>>> ¿En esta imagen aparece un gato?
+	Respuesta de Gemini:  True
+\end{verbatim}
+
+Otro ejemplo es el asociado a la figura, \ref{fig:gemini-9}. Aquí vemos el poder de Gemini para narrar historias y formas más creativas de usar la IA generativa. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\textwidth]{Imagenes/ImagenesGemini/gemini-9}
+	\caption{Imagen de entrada a Gemini en el segundo ejemplo}
+	\label{fig:gemini-9}
+\end{figure}
+
+\begin{verbatim}
+	>>> Escribe un haiku sobre esta foto
+	Respuesta de Gemini: 
+	 
+	Un banco junto al lago,
+	
+	Una vista de las montañas más allá,
+	
+	Un momento de paz.
+\end{verbatim}
+Finalmente, un ejemplo en el que se combinan varias habilidades de Gemini es el que se muestra en la figura \ref{fig:gemini-10}. No solo reconoce las formas, sino que también entiende que, si bien las formas son levemente dibujadas, están destinadas a ser formas distintas vinculadas matemáticamente con atributos específicos (p.ej., 3 lados, 4 lados, 5 lados).
+
+Además, la presencia del signo de interrogación no confunde a Gémini en su interpretación de la progresión lógica de las formas geométricas. En cambio, Gemini identifica que esta es una progresión matemática de 3, 4 a 5 y que, por lo tanto, la última forma tendría 6 lados y propone un hexágono.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{Imagenes/ImagenesGemini/gemini-10}
+	\caption{Imagen de entrada a Gemini en el ejemplo}
+	\label{fig:gemini-10}
+\end{figure}
+\begin{verbatim}
+	>>> ¿Qué sigue? Explica tu razonamiento
+	Respuesta de Gemini: El triángulo tiene 3 lados, el cuadrado tiene 4 lados
+	 y el pentágono tiene 5 lados. El número de lados aumenta en 1 para cada
+	  forma. Por lo tanto, la siguiente forma debería tener 6 lados, que es un
+	   hexágono.
+\end{verbatim}
+
 \section{Almacenamiento de la información}	
 \subsection{JSON}
 El JSON, acrónimo de JavaScript Object Notation, es un formato ligero para estructurar datos que se asemeja a los mapas en la programación. Está diseñado para representar datos de manera legible para las máquinas y fácilmente interpretable por los humanos. Se utiliza ampliamente en el intercambio de datos entre aplicaciones web y en el manejo de respuestas de API. El formato JSON consta de pares de clave-valor, donde las claves son únicas y los valores pueden ser cadenas, booleanos, números, objetos JSON o matrices JSON.

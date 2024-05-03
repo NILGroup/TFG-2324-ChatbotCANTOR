@@ -7,14 +7,47 @@ En este capítulo, no solo se pretende hablar de las conclusiones acerca de la h
 Por otro lado, se decribiran los posibles trabajos futuros que pueden considerarse como fruto de la investigación.
 
 \section{Estado actual del procesamiento del lenguaje}
-En los últimos años, el procesamiento del lenguaje avanza a pasos agigantados. Esto tiene numerosas ventajas, aunque también implica algunos riesgos a la hora de desarrollar software.  Estos riesgos tienen como consecuencia el desarrollo de nuevas leyes en los diferentes países que regulen el uso de las IAs. 
+En los últimos años, el avance del procesamiento del lenguaje ha sido notable, con numerosas ventajas, aunque también con riesgos asociados al desarrollo de software.
 
-Por un lado, los modelos e inteligencias artificiales se desarrollan a un ritmo tal, que aparece el término de ``última versión estable''. Cuando se habla de "última versión estable" en el contexto de los modelos de procesamiento del lenguaje, especialmente en el ámbito del desarrollo de software o modelos de inteligencia artificial (IA) como los modelos de lenguaje, se refiere a la versión más reciente del modelo que ha sido probada y validada para su uso generalizado con una buena calidad y fiabilidad.
+Por un lado, los modelos de inteligencia artificial evolucionan rápidamente, generando frecuentes actualizaciones etiquetadas como "última versión estable". Esta denominación se refiere a la versión más reciente del modelo que ha sido probada y validada para su uso generalizado, ofreciendo calidad y fiabilidad \cite{generative-ai-terms}.
 
-Por otro lado, la legislación en los países europeos la frena de alguna manera. Todo esto hace que sea muy inestable. Por ejemplo, mientras el primer cuatri se usaba BARd, luego gemini en otros paises y el 22 de mayo cambiara. 
+Por otro lado, la IAs se enfrentan al problema de la regulación. La presidenta de la Comisión Europea, Ursula von der Leyen, ha subrayado que la IA está transformando nuestras vidas y ha enfatizado la importancia de un enfoque sensato y generalizado para beneficiar a la economía y la sociedad \cite{ComisionEuropea-ComunicadoPrensa-LeyIA}. La recién aprobada Ley de IA de la UE, considerada como el primer marco global en esta materia, busca promover la innovación responsable al regular los riesgos identificados y garantizar la seguridad y los derechos fundamentales de las personas y las empresas.
 
-\section{Herramienta conversacional de ayuda a la terapia de reminiscencia}
+Este enfoque se basa en evaluar el riesgo de los sistemas de IA: aquellos de bajo riesgo, como los sistemas de recomendación, tendrán libertad y ninguna obligación, mientras que los de alto riesgo, como infraestructuras críticas, sistemas de salud y aplicaciones policiales, deberán cumplir requisitos estrictos de mitigación, calidad de datos y supervisión humana. Además, se prohibirán los sistemas de IA que representen una amenaza clara para los derechos fundamentales, como la manipulación del comportamiento humano. Se introducirán normas específicas para garantizar la transparencia en los modelos de IA de uso general, junto con multas para las empresas que no cumplan con las regulaciones.
 
-\section{Trabajo Futuro}
+En diciembre de 2023, se elaboró un borrador sobre la regulación de la IA por parte del Consejo de la Unión Europea y el Parlamento Europeo. Finalmente, el 2 de febrero de 2024, se aprobó la primera ley del mundo sobre inteligencia artificial: la Ley de IA. Después de una reunión en Bruselas, los embajadores de los 27 Estados miembros dieron su visto bueno político a esta normativa, tras la presentación en enero de la versión final del texto y la creación de la Oficina Europea de Inteligencia Artificial. Aunque algunos países mostraron oposición hasta el último momento, el camino continuó su curso y se prevé que entre 2024 y 2030 todos los países adopten la Ley de IA \cite{ElDerecho-LeyIA}.
 
-Aunque la aplicación esta pensada para ser usada por terapeutas junto con los pacientes, la simpleza de la interfaz hace que este en la mano de cualquiera y que pueda ser una herramienta que usen familiares o incluso pacientes. 
+Los constantes cambios en los modelos y las modificaciones en las legislaciones nacionales suponen un desafío para los desarrolladores de software. Durante el desarrollo de este proyecto, nos enfrentamos a diversas situaciones derivadas de estos sucesos. Por un lado, tuvimos que buscar una alternativa a la API de Bard, que se transformó en Gemini entre diciembre de 2023 y febrero de 2024, y por otro lado, hacer frente a las limitaciones impuestas por las diferentes leyes, que se solvento mediante el uso de VPN.
+
+De hecho, la situación cambia tan rápidamente, que en la recta final del proyecto hemos observado varios cambios en los términos y condiciones de uso de la API de Gemini a nivel mundial. De hecho, la próxima actualización de los términos de uso será el 22 de mayo de 2024.
+
+En conclusión, en el campo del desarrollo del lenguaje y la extracción de información a partir de imágenes, la IA está experimentando numerosos avances en los últimos años. Sin embargo, es fundamental tener en cuenta que el uso de los distintos modelos está sujeto a cambios tanto en las versiones y sus características, como en las leyes y términos y condiciones de uso.
+\section{Desarrollo del proyecto}
+Para comenzar a desarrollar este trabajo, el primer paso es tener claros cuales son los objetivos y requisitos del mismo. Analizar la problemática en relación con otros trabajos ya existentes para desarrollar una herramienta útil. 
+
+Después de establecer los objetivos y requisitos de nuestro proyecto de forma general, el siguiente paso es plantearlos de manera más técnica y detallada Para ello, diseñamos una arquitectura basada en las diversas tareas que el sistema debía llevar a cabo. Sin embargo, antes de implementar el sistema, surgieron algunas cuestiones relacionadas con ciertos componentes de la arquitectura.
+
+Principalmente, debíamos resolver la selección adecuada del modelo de lenguaje a utilizar, dada la amplia variedad de modelos disponibles. Asimismo, necesitábamos asegurar el acceso a un conjunto de datos adecuado y relevante para los objetivos de transformación de datos biográficos, que permitiera ajustar el modelo de manera efectiva.
+Para el desarrollo del núcleo principal del sistema, el módulo encargado del procesamiento de la información entrante, se desarrollaron numerosos prototipos de los cuáles los más importantes se explican en el capítulo \ref{cap:Desarrollo de prototipos}. 
+
+El principal reto de este proyecto ha sido sin duda enfrentarse a todos esos cambios de versiones, actualizaciones y cambios en las legislaciones que alteraban el funcionamiento del modelo. Gran parte del tiempo dedicado a este trabajo ha estado enfocado en la investigación de las diferentes herramientas del procesamiento del lenguaje.
+
+Una ves seleccionado el modelo definitivo, Gemini, y llevado a cabo todo lo necesario para su puesta en marcha comienza la etapa central del desarrollo siguiendo el plan de diseño incremental explicado \ref{sec:objetivos}. 
+
+Finalmente, se procedió a la aplicación del modelo para obtener resultados y analizar su comportamiento. 
+
+
+\section{Resultado final}
+Como resultado del desarrollo de este proyecto, se ha creado una herramienta conversacional para apoyar la terapia de reminiscencia. La principal función de este bot es buscar y almacenar información relevante para generar historias de vida utilizando otras herramientas. La interfaz de usuario intuitiva y fácil de usar hace que esta herramienta sea accesible no solo para terapeutas, sino también para familiares y pacientes que estén familiarizados con dispositivos móviles y computadoras.
+
+Aunque inicialmente diseñada como una herramienta terapéutica para recopilar información sobre la vida del paciente, esta herramienta tiene múltiples usos. Por ejemplo, las versiones portátiles, como la aplicación móvil o para tabletas, permiten su uso como entretenimiento durante viajes largos que pueden resultar desafiantes para los pacientes. Además, la facilidad de uso también permite que los pacientes la utilicen en momentos de soledad, manteniendo conversaciones interesantes sobre su vida que estimulan la mente y les proporcionan compañía virtual.
+
+\section{Trabajo futuro}
+
+Como punto final de este trabajo se exponen aquellas posibles líneas abiertas de desarrollo e investigación, que han surgido tras el análisis del proyecto, y que podrían ser estudiados con la finalidad de mejorar el proyecto. 
+
+En primer lugar, aunque este trabajo genere una pequeña historia de vida como resultado final de la conversación sería interesante conectar este trabajo con el proyecto explicado en la sección \ref{sec:trabajocristina} ``Generación de historias de vida usando técnias de Deep Learning''. Para ello sería interesante transformar toda la información que se obtiene mediante la conversación con este chatbot en un conjunto de entrada con el formato adecuado para la aplicación desarrollada en ese trabajo. De esta forma, se generarían historias de vida más fieles a la vida real de la persona, y se completaría el ciclo completo de trabajo previo a la terapia de reminiscencia. 
+
+Por otro lado, otra modificación que podría resultar interesante sería la adaptación del modelo a múltiples lenguajes de forma que se amplié el público objetivo de la aplicación. La API de Gemini esta disponible en diferentes lenguajes, pero el manejo de todas las preguntas predefinidas tendría que ser traducido para la interacción con el usuario. 
+
+El desarrollo de la API de Gemini, y el acceso de nuevas versiones traerá consigo nuevas posibilidades. Entre ellas, destaca la integración de vídeos para enviar al chatbot y que se analicen con el objetivo de obtener más información bibliográfica. También puede ser interesante considerar la alternativa del reconocimiento de voz de forma que además de la interfaz de Telegram, se pudiera desarrollar una interfaz de voz donde el paciente pudiera hablar y escuchar como si se tratará de una llamada telefónica.

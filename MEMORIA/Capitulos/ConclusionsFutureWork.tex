@@ -1,7 +1,55 @@
 \chapter*{Conclusions and Future Work}
 \label{cap:conclusions}
 \addcontentsline{toc}{chapter}{Conclusions and Future Work}
+This chapter describes the conclusions reached after months of work on a project to build a conversational tool to help reminiscence therapy. Despite the exponential development that AI is undergoing in the field of language processing, the provisional nature of the models and the constant changes in the legislation of the territories have led to various problems and consequently to a much broader study of the current situation and the different alternatives.
 
-Conclusions and future lines of work. This chapter contains the translation of Chapter \ref{cap:conclusiones}.
+In this chapter, we do not only intend to talk about the conclusions about the developed tool, but also about all the conclusions associated with the previous theoretical study.
+
+On the other hand, possible future works that can be considered as a result of the research will be described.
+
+\section{Actual state of PLN}
+In recent years, the progress in language processing has been notable, with numerous advantages, but also with risks associated with software development.
+
+On the one hand, artificial intelligence models evolve rapidly, generating frequent updates labeled as "latest stable version." This designation refers to the most recent version of the model that has been tested and validated for widespread use, offering quality and reliability \cite{generative-ai-terms}.
+
+On the other hand, AIs face the problem of regulation. The President of the European Commission, Ursula von der Leyen, has underlined that AI is transforming our lives and has emphasized the importance of a sensible and widespread approach to benefit the economy and society \cite{ComisionEuropea-ComunicadoPrensa-LeyIA}. The recently approved EU AI Law, considered the first global framework on this matter, seeks to promote responsible innovation by regulating identified risks and guaranteeing the safety and fundamental rights of people and companies.
+
+This approach is based on assessing the risk of AI systems: those with low risk, such as recommendation systems, will have freedom and no obligation, while those with high risk, such as critical infrastructures, health systems and police applications, will have to meet strict mitigation, data quality, and human oversight requirements. In addition, AI systems that pose a clear threat to fundamental rights, such as the manipulation of human behavior, will be banned. Specific rules will be introduced to ensure transparency in general-purpose AI models, along with fines for companies that do not comply with regulations.
 
 
+In December 2023, a draft on the regulation of AI by the Council of the European Union and the European Parliament was prepared. Finally, on February 2, 2024, first law on artificial intelligence was passed, the AI Act. After a meeting in Brussels, the ambassadors of the 27 Member States gave their political approval to this regulation, following the presentation in January of the final version of the text and the creation of the European Artificial Intelligence Office. Although some countries showed opposition until the last moment, the path continued its course and it is expected that between 2024 and 2030 all countries will adopt the law \cite{ElDerecho-LeyIA}.
+
+Constant changes in models and modifications in national legislation pose a challenge for software developers. During the development of this project, we faced various situations derived from these events. On the one hand, we had to look for an alternative to the Bard API, which was transformed into Gemini between December 2023 and February 2024, and on the other hand, face the limitations imposed by the different laws, which were solved through the VPN use.
+
+In fact, the situation is changing so quickly that in the final stretch of the project we have observed several changes in the terms and conditions of use of the Gemini API worldwide. In fact, the next update of the terms of use will be May 22, 2024.
+
+In conclusion, in the field of language development and information extraction from images, AI is experiencing numerous advances in recent years. However, it is essential to keep in mind that the use of the different models is subject to changes both in the versions and their characteristics, as well as in the laws and terms and conditions of use.
+\section{Project development}
+To begin developing this work, the first step is to be clear about its objectives and requirements. Analyze the problem in relation to other existing work to develop a useful tool.
+
+After establishing the objectives and requirements of our project in a general way, the next step is to present them in a more technical and detailed way. To do this, we designed an architecture based on the various tasks that the system had to carry out. However, before implementing the system, some issues related to certain components of the architecture arose.
+
+Mainly, we had to resolve the appropriate selection of the language model to use, given the wide variety of models available. Additionally, we needed to ensure access to an adequate data set relevant to the biodata transformation objectives, allowing the model to be adjusted effectively.
+For the development of the main core of the system, the module responsible for processing incoming information, numerous prototypes were developed, the most important of which are explained in the chapter \ref{cap:Desarrollo de prototipos}.
+
+The main challenge of this project has undoubtedly been facing all those version changes, updates and changes in legislation that altered the operation of the model. Much of the time dedicated to this work has been focused on research into different language processing tools.
+
+Once the final model, Gemini, has been selected and everything necessary for its implementation has been carried out, the central stage of development begins following the explained incremental design plan \ref{sec:objectivos}.
+
+Finally, the model was applied to obtain results and analyze its behavior.
+
+
+\section{Final result}
+As a result of the development of this project, a conversational tool has been created to support reminiscence therapy. The main function of this bot is to search and store relevant information to generate life stories using other tools. The intuitive and easy-to-use user interface makes this tool accessible not only to therapists, but also to family members and patients who are familiar with mobile devices and computers.
+
+Although initially designed as a therapeutic tool to gather information about the patient's life, this tool has multiple uses. For example, portable versions, such as the mobile or tablet app, allow for use as entertainment during long trips that can be challenging for patients. In addition, the ease of use also allows patients to use it in moments of solitude, having interesting conversations about their life that stimulate the mind and provide them with virtual companionship.
+
+\section{Future work}
+
+As a final point of this work, those possible open lines of development and research are exposed, which have emerged after the analysis of the project, and which could be studied with the aim of improving the project.
+
+Firstly, although this work generates a small life story as the final result of the conversation, it would be interesting to connect this work with the project explained in the section \ref{sec:trabajocristina} ``Generation of life stories using Deep Learning techniques ''. To do this, it would be interesting to transform all the information obtained through the conversation with this chatbot into an input set with the appropriate format for the application developed in that work. In this way, life stories that are more faithful to the person's real life would be generated, and the full cycle of work prior to reminiscence therapy would be completed.
+
+On the other hand, another modification that could be interesting would be the adaptation of the model to multiples lenguages, in order to expand the public target. The Gemini API is available in different languages, but the handling of all predefined questions would have to be translated for user interaction.
+
+The development of the Gemini API, and the access of new versions will bring new possibilities. Among them, the integration of videos to send to the chatbot stands out, which are analyzed with the aim of obtaining more bibliographic information. It may also be interesting to consider the alternative of voice recognition so that in addition to the Telegram interface, a voice interface could be developed where the patient could speak and listen as if it were a phone call.
