@@ -174,7 +174,7 @@ La estructura de GPT-2 se asemeja mucho a la del modelo Transformer. Originalmen
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{Imagenes/gpt2_architecture}
-	\caption{Arquitectura de decodificadores usada por GPT-2 \cite{cristinaalameda}}
+	\caption{Arquitectura de decodificadores usada por GPT-2} \cite{cristinaalameda}
 	\label{fig:gpt2_architecture}
 \end{figure}
 
@@ -215,6 +215,28 @@ Las habilidades conversacionales de LaMDA tardaron años en desarrollarse. Como 
 Pero a diferencia de la mayoría de los otros modelos de lenguaje, LaMDA fue entrenado en diálogo. Durante su formación, captó varios de los matices que distinguen la conversación abierta de otras formas de lenguaje. Uno de esos matices es la sensatez. 
 
 El modelo de Transformer que utiliza LaMDA es de solo decodificador y está pre-entrenado en un corpus de texto que incluye documentos y diálogos. Se entrenó con datos de ajuste fino y se probó en diferentes modelos con diferentes hiperparámetros, demostrando superar las respuestas humanas en áreas específicas.
+
+\section{Alucinaciones}
+En el campo de la inteligencia artificial (IA), se utiliza el término ``alucinación'' o ``alucinación artificiaL'' para describir respuestas de IA que no parecen estar justificadas por los datos de entrenamiento \cite{edwards2023chatgpt}. Este fenómeno, también conocido como confabulación o delirio, se refiere a la generación de respuestas o creencias que carecen de base sólida \cite{ji2022survey}. Por ejemplo, un chatbot alucinado podría ofrecer información falsa, como afirmar que los ingresos de Tesla fueron de 13.600 millones de dólares, un número aparentemente inventado \cite{lin2022trick}. Otros ejemplos de alucinaciones serían la generación respuestas inventadas como se puede ver en la imagen \ref{img:alucinacion}, donde ChatGPT genera un resumen de un artículo que no existe, o la adición de elementos en el estudio de imágenes, como se ve en la figura\ref{img:alucinacion2}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1]{Imagenes/ejemploAlucinacionGPT}
+	\caption{Ejemplo de alucinación de ChatGPT \cite{wikialucinacion}}
+	\label{img:alucinacion}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{Imagenes/alucinacionImagenes}
+	\caption{Ejemplo de alucinación en una imagen \cite{rohrbach2023object}}
+	\label{img:alucinacion2}
+\end{figure}
+Es importante destacar que, aunque se usa el término ``alucinación'' por analogía con la psicología humana, la diferencia fundamental radica en que las alucinaciones de IA se relacionan con respuestas injustificadas más que con percepciones falsas. Algunos investigadores señalan que este término antropomorfiza de manera poco razonable a los ordenadores.
+
+El problema de las alucinaciones de IA se volvió prominente alrededor de 2022 con la introducción de modelos grandes de lenguaje como ChatGPT \cite{zhuo2023exploring}. Los usuarios expresaron preocupación por la capacidad de estos bots para insertar falsedades aparentemente plausibles en sus respuestas. En 2023, los analistas reconocieron las alucinaciones frecuentes como un desafío significativo en la tecnología de modelos de lenguaje \cite{leswing2023microsoft}.
+
+Se cuestiona la confiabilidad del contenido generado por inteligencia artificial en el ámbito científico \cite{machinmastromatteo2023implicaciones}. Según Spinak (2023), los modelos de lenguaje de IA pueden percibir patrones que son imperceptibles para los humanos, lo que resulta en resultados inesperados o incorrectos, fenómeno conocido como ``alucinación'' \cite{spinak2023alucinaciones}. Estas alucinaciones pueden llevar a la producción de contenido falso, especialmente fuera de sus dominios específicos o al tratar con temas complejos o ambiguos, lo cual puede ser lingüísticamente plausible pero no científicamente preciso \cite{sage2023chatgpt}.
 
 \section{Otros trabajos relacionados}
 \subsection{Proyecto Cantor}

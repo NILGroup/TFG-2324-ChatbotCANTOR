@@ -130,16 +130,10 @@ preguntas = []
 index = 0
 
 
-finish = False
-
 def siguientePregunta(respuesta):
     feedback = ""
     global index
-    global finish
     
-    if(finish):
-        answer = model.generate_content(f"Actualiza esta historia {LH} según estas restricciones {respuesta}")
-        return "Muchas gracias por tu amabilidad y participación. Espero que haya pasado un buen rato trabajando juntos. ¡Hasta la próxima!"
         
     if index == 0: #En el caso de que sea la primera vez que llamo a esta función todavía no he hecho ninguna pregunta, será el saludo
         index = index + 1
@@ -167,16 +161,14 @@ def siguientePregunta(respuesta):
                     archivo.write(str(p.campos))
                     finish = True
                     lifeStory = generarHV()
-                    if lifeStory != [] and lifeStory != '':
-                        print(lifeStory)
-                        return "Muchas gracias por la información. ¿Qué cambiaría usted del siguiente texto para que fuera más fiel a su vida?" + lifeStory
-            return "Muchas gracias por la información."
+                    return lifeStory
     else:
         pregunta = preguntas[index].preguntasExtra[0]
         preguntas[index].eliminarPreguntasExtra()
         return "¿"+pregunta+"?"
     
 def generarHV():
+    despedida = "Muchas gracias por toda la información. He disfrutado el tiempo charlando. ¡Hasta la próxima!"
     try:
         LH = ""
         info = [p.campos for p in preguntas]
@@ -184,9 +176,9 @@ def generarHV():
         response = model.generate_content(f"Crea una historia sobre una persona con estos datos {info}")
         while not response.candidates:
             response = model.generate_content(f"Crea una historia sobre una persona con estos datos {info}")
-        return response.text
+        return response.text  + despedida
     except:
-        return []
+        return despedida
     
 
 def cargar_preguntas():

@@ -182,7 +182,7 @@ Sin embargo para obtener el comportamiento que se necesitaba en este trabajo deb
 
 \subsection{Rasa}
 \label{subsec:rasa}
-Entre las opciones que se barajaron para seguir desarrollando el proyecto se encuentra Rasa. Rasa es una plataforma de código abierto diseñada para el desarrollo de chatbots y asistentes virtuales conversacionales. Utilizando técnicas de procesamiento de lenguaje natural y aprendizaje automático, Rasa permite a los desarrolladores crear sistemas de diálogo inteligentes y personalizados. Una de las principales ventajas de Rasa es su flexibilidad y personalización, ya que los desarrolladores tienen control total sobre el comportamiento y la lógica de sus chatbots. Además, Rasa proporciona herramientas robustas para la gestión del diálogo, la comprensión del lenguaje natural y la integración con otros sistemas. Sin embargo, una posible desventaja de Rasa es su curva de aprendizaje, ya que requiere un conocimiento sólido de PLN y aprendizaje automático para aprovechar al máximo su potencial. Además, debido a su naturaleza de código abierto, puede requerir más tiempo y recursos para implementar y mantener en comparación con otras soluciones comerciales. Sin embargo, aunque rasa no es la API más potente en cuánto a generación de texto, tiene numerosas aplicaciones que resultan interesantes. Por ejemplo, gracias a la api de rasa es fácil volcar la interfaz de código en Python sobre la interfaz de Telegram. 
+Entre las opciones que se barajaron para seguir desarrollando el proyecto se encuentra Rasa. Rasa es una plataforma de código abierto diseñada para el desarrollo de chatbots y asistentes virtuales conversacionales. Utilizando técnicas de procesamiento de lenguaje natural y aprendizaje automático, Rasa permite a los desarrolladores crear sistemas de diálogo inteligentes y personalizados. Una de las principales ventajas de Rasa es su flexibilidad y personalización, ya que los desarrolladores tienen control total sobre el comportamiento y la lógica de sus chatbots. Además, Rasa proporciona herramientas robustas para la gestión del diálogo, la comprensión del lenguaje natural y la integración con otros sistemas. Sin embargo, una posible desventaja de Rasa es su curva de aprendizaje, ya que requiere un conocimiento sólido de PLN y aprendizaje automático para aprovechar al máximo su potencial. Además, debido a su naturaleza de código abierto, puede requerir más tiempo y recursos para implementar y mantener en comparación con otras soluciones comerciales. Sin embargo, aunque rasa no es la API más potente en cuánto a generación de texto, tiene numerosas aplicaciones que resultan interesantes. 
 
 \subsection{Gemini}
 \label{sec:gemini}
@@ -198,19 +198,9 @@ Gemini puede utilizarse para una variedad de aplicaciones, incluyendo generació
 
 Para configurarlo, en primer lugar hay que ejecutar el programa mibot.py estando en telegram en la conversaa conversación de telegram el comando /start para comenzar la conversación y ya. 
 
-Sin embago, y pese a las grandes funcionalidades de todas estas alternativas nos hemos decantado por hacer una interfaz con telegram desarrollando nuestro propio chatbot usando rasa. 
+Sin embargo, y pese a las grandes funcionalidades de todas estas alternativas nos hemos decantado por hacer una interfaz con telegram desarrollando nuestro propio chatbot usando rasa. 
 
 Para desarrollar el chatbot de telegram me he decantado por usar la interfaz de telegram para la cuál se necesita la API de Rasa. Las principales ventajas que ofrece esta herramienta es la facilidad del manejo de la interfaz pues telegram es una herramienta muy conocida con la que los terapeutas pueden estar más familiarizados. Además, esto nos permite también usar la versión del chatbotyayo para móvil. 
-
-Para crear está interfaz hay que: 
-1. Instalar rasa
-2. Instalar telegram 
-2. Obtener una api de rasa
-4. crear un nuevo chatbot desde telegram con @botFather
-5. Enviar a tu chatbot el comando /start
-
-Una vez seguidos todos estos pasos ya puedes comenzar a interactuar con la API de rasa. 
-
 
 \section{Respuestas de Gemini}
 
@@ -300,6 +290,9 @@ El modelo más apropiado para el procesamiento de texto es $gemini-pro$. La estr
 	\item \textbf{candidatesTokenCount}	Cantidad de tokens en las respuestas.
 	\item \textbf{totalTokenCount}	Cantidad de tokens en la solicitud y las respuestas.
 \end{itemize} 
+
+\subsection{Procesamiento de imágenes con Gemini}
+%https://developers.google.com/solutions/content-driven/ai-images?continue=https%3A%2F%2Fdevelopers.google.com%2Flearn%2Fpathways%2Fsolution-ai-gemini-images&hl=es-419#article-https://developers.google.com/solutions/content-driven/ai-images&hl=es-419
 \section{Almacenamiento de la información}	
 \subsection{JSON}
 El JSON, acrónimo de JavaScript Object Notation, es un formato ligero para estructurar datos que se asemeja a los mapas en la programación. Está diseñado para representar datos de manera legible para las máquinas y fácilmente interpretable por los humanos. Se utiliza ampliamente en el intercambio de datos entre aplicaciones web y en el manejo de respuestas de API. El formato JSON consta de pares de clave-valor, donde las claves son únicas y los valores pueden ser cadenas, booleanos, números, objetos JSON o matrices JSON.
@@ -368,7 +361,7 @@ RDF no define clases de datos específicas para las aplicaciones. En vez de esto
 \end{figure}
 
 \section{Desarrollo de la interfaz}
-
+\label{sec:estudiointerfaz}
 PyQt, wxPython y Kivy son opciones populares para la implementación de interfaces gráficas, cada una con sus propias ventajas y desventajas.
 
 PyQt es conocido por su completo conjunto de widgets, lo que te permite crear interfaces gráficas complejas y altamente personalizadas. Sin embargo, puede tener una curva de aprendizaje más pronunciada debido a su complejidad y sintaxis más compleja.

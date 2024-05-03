@@ -137,11 +137,11 @@ Por otro lado, con Tkinter, se creó una interfaz gráfica de usuario (GUI) de e
 
 Este prototipo que supone un incremento respecto al anterior también tuvo que ser descartado sin llegar a desarrollar algunas funcionalidades y módulos hasta el final, como por ejemplo la interfaz o la generación de preguntas. Este parón se debió a un problema hardware. Al hacer instalarme Linux, no tenía apenas espacio en el disco duro por lo que la partición no fue demasiado grande. El gran tamaño de los modelos, en concreto del modelo $gemma-7b$ ocupó gran parte del espacio de la partición. Pocas semanas después del comienzo del desarrollo de este prototipo tuvo que descartarse debido a la necesidad de ejecutarlo en Linux, acompañada de las limitaciones de espacio en mi ordenador que hicieron que no pudiera seguir desarrollandolo en ese sistema operativo. 
 
-\section{Desarrollo de la interfaz con RASA}
+\section{Desarrollo de la interfaz con Telegram}
 \label{sec:RASA}
-Paralelamente a todo el trabajo descrito anteriormente, y durante el estudio de las diferentes alternativas de interfaces, APIs y modelos se estudio la alternativa de la api de rasa de la que ya se ha hablado en la sección \ref{subsec:rasa}. 
+Paralelamente a todo el trabajo descrito anteriormente, y durante el estudio de las diferentes alternativas de interfaces, APIs y modelos se estudio la alternativa de desarrollar la interfaz con Telegram. 
 
-Esta opción fue inicialmente barajada como alternativa a BARD o Gemma, sin embargo, su capacidad de generación de texto no cumplía los requisitos requeridos para este proyecto por lo que se descarto para tal uso. 
+Esta opción fue encontrada al buscar alternativaa a BARD o Gemma, y enocntrarse diversos chatbots implementados con RASA y que adaptaban facilmente su interfaz a Telegram. Aunque la capacidad de RASA de generación de texto no cumplía los requisitos requeridos para ser considerada en este proyecto. 
 
 Sin embargo, se encontró especialmente interesante debido a su fácil integración con Telegram para desarrollar chatbots. Como se puede ver en la figura \ref{fig:ejemploRASATELEGRAM} la interfaz generada de esta forma presenta númerosas ventajas. 
 
@@ -214,26 +214,53 @@ La generación automatizada de preguntas es un componente clave del sistema dise
 	\label{fig:generacionPreguntas}
 \end{figure}
 \section{Interfaz e interacción con el usuario}
-Como se puede ver en la figura \ref{fig:interfazPYQT5} estas bibliotecas permiten crear interfaces bastantes usables y simples. Sin embargo, durante el estudio previo realizado apareció la API de Rasa (\ref{sec:RASA}) y su integración con Telegram.
+El siguiente hito en el desarrollo del chatbot es desarrollar la interfaz que permita al usuario interactuar de una forma que resulte sencilla y práctica. 
 
-La interfaz de Telegram es intuitiva y fácil de usar, lo que proporciona una experiencia de usuario más agradable y cómoda. Los usuarios pueden interactuar con el chatbot de manera similar a como lo harían con otros contactos o grupos en la aplicación, lo que reduce la curva de aprendizaje y aumenta la aceptación del usuario.
+Como se estudió en la sección \label{sec:estudiointerfaz} existen numerosas alternativas utilizando diferentes bibliotecas. Estos módulos permiten crear interfaces usables y simples. Sin embargo, durante el estudio previo realizado apareció en escena la API de Rasa (\ref{sec:RASA}) y su integración con Telegram. 
+
+Esta opción ofrecene una interfaz intuitiva y fácil de usar, lo que proporciona una experiencia de usuario más agradable y cómoda. Los usuarios pueden interactuar con el chatbot de manera similar a como lo harían con otros contactos o grupos en la aplicación, lo que reduce la curva de aprendizaje y aumenta la aceptación del usuario.
 
 Telegram también ofrece una variedad de funcionalidades integradas que pueden ser útiles para un chatbot de terapia de reminiscencia, como el envío de fotos de forma sencilla. Esto permite que la experiencia del usuario sea más rica y variada, siendo mucho más fiel a la plantilla de generación de historias de vida mencionada en la sección \ref{ssubsec:seleccionpreguntas}. Esto puede mejorar la efectividad del chatbot en la prestación de servicios de apoyo emocional.
 
-\subsection{Integración de Gemini y RASA}
+\subsection{Integración de Gemini y Telegram}
 %Para poder hacer la refactorización y guardar toda la información se crea la clase pregunta, que hace que se refactorice todo  demás 
-La decisión de desarrollar la interfaz del prototipo integrando RASA y GEMINI para tener una interfaz en Telegram tuvo como consecuencia la necesidad de llevar a cabo una refactorización.
+La decisión de desarrollar la interfaz del prototipo integrando Telegram y GEMINI para tener una interfaz en Telegram tuvo como consecuencia la necesidad de llevar a cabo una refactorización.
 
 \subsubsection{Clase Pregunta}
-La clase ``Pregunta'' se crea para almacenar de manera integral toda la información asociada con una pregunta en un programa, especialmente en el contexto de la interacción con RASA mediante textos. En versiones anteriores del desarrollo, cada vez que se requería información adicional, se realizaban preguntas y el flujo no avanzaba hasta completar estas preguntas extra o obtener la información necesaria. Al integrar esta funcionalidad con RASA, se necesita devolver desde la función principal la información para que la interfaz pueda mostrar la pregunta, lo cual puede interrumpir el flujo original del código. Esta integración conlleva a una refactorización que dio lugar a la creación de la clase ``Pregunta''.
+La clase ``Pregunta'' se crea para almacenar de manera integral toda la información asociada con una pregunta en un programa, especialmente en el contexto de la interacción con Telegram mediante textos. En versiones anteriores del desarrollo, cada vez que se requería información adicional, se realizaban preguntas y el flujo no avanzaba hasta completar estas preguntas extra o obtener la información necesaria. Al integrar esta funcionalidad con Telegram, se necesita devolver desde la función principal la información para que la interfaz pueda mostrar la pregunta, lo cual puede interrumpir el flujo original del código. Esta integración conlleva a una refactorización que dio lugar a la creación de la clase ``Pregunta''.
 
 La clase ``Pregunta'' encapsula una pregunta con su enunciado, respuesta, campos asociados y preguntas adicionales relacionadas. Su objetivo principal es proporcionar una estructura organizada para manejar la información de una pregunta específica y sus detalles. Permite actualizar la respuesta principal, indicar el estado de los campos (respondidos o no respondidos), agregar preguntas adicionales relacionadas y gestionar las respuestas a estas preguntas secundarias.
 
 Además, la clase ``Pregunta'' ofrece métodos para actualizar la respuesta, marcar campos como respondidos, agregar preguntas adicionales, gestionar las respuestas a estas preguntas secundarias y obtener una representación textual de la instancia de la clase.
 
+\subsection{Telegram}
+\label{sec:Telegram}
+Una vez llevada a cabo la refactorización del código se llevo a cabo la integración del prototipo con \textit{Telegram}. Para ello es necesario importar la biblioteca $telebot$ que es la que permite interactuar con Telegram. 
+
+Para conectar Telegram con el chatbot desarrollado a través de la API de Gemini, fue necesario obtener un token de Telegram. Es importante mencionar que este paso forma parte de la configuración inicial y no requiere intervención por parte del usuario final durante la puesta en marcha.
+
+Este token se obtuvo a través del usuario de telegram $\makeatletter @ BotFather$ y con el comando $\backslash newbot$ y $\backslash token$. Una vez con el token se creo el \textit{chatbotyayo} con nombre de usuario $\makeatletter @ mavice07\_bot$. Para comenzar a interactuar con \textit{chatbotyayo} basta con buscar ese usuario en Telegram y enviar el comando $\backslash start$. 
+
+Una vez obtenido el token y finalizadas todas las configuraciones se implementa la lógica del sistema. Se definen tres manejadores de mensajes:
+	\begin{itemize}
+		\item El manejador $cmd\_start()$ se activa únicamente cuando un usuario envía el comando $\backslash start$ al bot. Este manejador inicia la lógica del bot al cargar las preguntas utilizando la función $cargar\_preguntas()$ del módulo $tfg$ y envía un mensaje de bienvenida al usuario.
+		
+		\item El manejador $bot\_mensajes\_text()$ se activa cuando un usuario envía un mensaje de texto al bot. Si el mensaje comienza con "$\backslash$", se envía un mensaje de error indicando que el comando no está disponible. Si es un mensaje de texto estándar, se llama a la función $siguientePregunta()$ del módulo $tfg$ y se analiza el mensaje como respuesta al último mensaje enviado por el bot. De esta forma se procesa la respuesta del usuario y se genera una respuesta apropiada.
+		
+		\item El manejador $photo()$ se activa cuando un usuario envía una foto al bot. El bot descarga la foto, la guarda en el sistema de archivos y llama a la función $analizador\_imagenes()$ del módulo $imagenes$ para analizar la imagen y generar una respuesta apropiada.
+	\end{itemize}
+	
+Finalmente, se inicia el bucle de escucha del bot $bot.infinity\_polling()$ para que esté constantemente esperando y respondiendo a los mensajes de los usuarios.
+
+
 \section{Extracción de información a partir de imagenes}
 \label{sec:imagenes}
 La api de Gemini tiene muchas funcionalidades que permiten hacer del chatbot una herramienta completa. En concreto, gracias a la interfaz elegida y al modelo \textit{gemini-pro-vision} se ha implementado una funcionalidad extra respecto a las que estaban planteadas originalmente. Esta funcionalidad es la extracción de información a partir de imagenes. En cualquier momento, el usuario puede adjuntar una foto. El programa se encarga de analizar la fotografía y a partir de ella hacer pregutnas que permitan extraer más información que la obtenida únicamente con las preguntas.
+
+Mediante el reconocimiento y clasificación de objetos, personas y lugares en imágenes, la IA puede identificar elementos significativos que pueden evocar recuerdos en los pacientes. Además, la capacidad de la IA para detectar emociones a través de expresiones faciales puede ser útil para comprender el estado emocional de los pacientes durante las sesiones terapéuticas.
+
+El análisis de imágenes también puede proporcionar contexto y significado a las experiencias pasadas. Al examinar el contenido visual de las fotografías, la IA puede ayudar a contextualizar recuerdos específicos, facilitando así la conversación y la narración de historias durante las sesiones de terapia. La selección cuidadosa de imágenes personalizadas para cada paciente puede estimular recuerdos y promover interacciones significativas. 
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.9\textwidth]{Imagenes/extracInfoImag}
