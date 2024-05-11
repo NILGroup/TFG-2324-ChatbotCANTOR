@@ -61,26 +61,37 @@ Un terapeuta suele encargarse de recopilar y estructurar los eventos importantes
 
 La participación de familiares o conocidos puede facilitar la evocación de recuerdos y enriquecer la Historia de Vida. Además, fortalece la comunicación entre el paciente y sus seres queridos, facilitando el proceso terapéutico.
 
-\section{Objetivos}
+\section{Objetivos y metodología de trabajo}
 \label{sec:objetivos}
-Este trabajo  busca desarrollar un chatbot que permita a los terapeutas aplicar terapia de reminiscencia a sus pacientes. En concreto, se centra en la primera etapa de búsqueda de la información con el objetivo de, más adelante generar las historias de vida y aplicar la terapia. 
 
-Para cumplir este objetivo general, se abordan los siguientes objetivos específicos:
+El objetivo de este trabajo es obtener un chatbot que sirva de apoyo para la realización de terapia de reminiscencia. En concreto, se pretende que el chatbot satisfaga los siguiente requisitos: 
+
+\begin{itemize}
+	\item  Ser capaz de mantener una conversación, guiando el flujo de la misma a través de los temas predefinidos sobre los que se quiera conocer datos del paciente. 
+	\item A partir de las respuestas y la información que vaya dando el paciente, ser capaz de extraer la información buscada, identificar información adicional y faltante. 
+	\item Generar preguntas asociadas a las respuestas, de forma que se pueda obtener la información que en un primer momento había faltado. 
+	\item Tener una interfaz usable y sencilla, que haga de este chatbot una herramienta útil.
+\end{itemize}
+
+Para cumplir con estos objetivos se seguirá la siguiente metodología: 
 
  \begin{itemize}
- 	
-\item Desarrollar un primer chatbot básico capaz de realizar preguntas predefinidas y almacenar las respuestas de forma eficiente.
  
- \item Estudiar las técnicas modernas de procesamiento del lenguaje como los LLMs, bibliotecas como NLTK y spaCy. Además, de las diferentes APIs de para el desarrollo de chatbots. 
+\item Estudiar la enfermedad del alzheimer y la terapia de reminiscencia para conocer qué características ha de cumplir una bot conversacional para servir de ayuda en este ámbito. 
+
+\item Estudiar en profundidad las diferentes herramientas de procesamiento del lenguaje, desde bibliotecas como NLTK y spaCy, hasta las diferentes APIs y modelos LLM. Esto nos permitirá elegir las herramientas más apropiadas para llevar a cabo el desarrollo posterior.  
+
+\item Una vez comenzada la fase de desarrollo, el primer paso será implementar un chatbot básico capaz de realizar preguntas predefinidas y almacenar las respuestas de forma eficiente.
  
-\item Mejorar el primer chatbot haciendolo más inteligente y capaz de analizar las respuestas, identificar la información omitida y hacer preguntas específicas para obtener la información faltante.
+\item Mejorar la herramienta haciéndola más inteligente y capaz de analizar las respuestas, identificar la información omitida y hacer preguntas específicas para obtener la información faltante.
  
-\item Hacer una versión final del chatbot que sea capaz de analizar las repuestas y sepa tirar del hilo. También que sea capaz de generar preguntas adecuadas. 
+\item Hacer una versión final capaz de analizar las repuestas y tirar del hilo, además de las utilidades que ya tenían los prototipos anteriores.
 
-\item Generar una interfaz sencilla de usar para que haga del chatbot una herramienta útil para el próposito para el que ha sido desarrollada.
+\item Gestionar el almacenamiento de la información extraída.  
 
-\item Ordenar la información obtenida para que sea fácil de analizar, entender y procesar, con la intención de generar historias de vida a partir de ella. 
+\item Generar una interfaz sencilla y usable que haga del chatbot una herramienta útil para el próposito para el que ha sido desarrollada.
 
+\item Permitir que el usuario pueda acompañar sus respuestas con imágenes. Por un lado, para ayudarle a dar respuestas más completas y por otro para obtener información adicional a través del procesamiento de las mismas.  
 \end{itemize}
 
 Para llevar el control de versiones utilizaremos el repositorio de github:\\
