@@ -19,12 +19,12 @@ A pesar de los avances en la investigación médica, todavía no se ha encontrad
 
 Esta terapia se centra en estimular los recuerdos del pasado del paciente, lo que puede tener beneficios significativos en su bienestar social, mental y emocional. Ayuda a las personas a recordar y compartir experiencias pasadas, lo que puede ser reconfortante y estimulante, especialmente para aquellos que enfrentan el desafío de la pérdida de memoria asociada con el Alzheimer.
 
-Durante el período académico 2023-2024, se desarrolló la aplicación \textit{chatbot yayo} con el objetivo de facilitar a los terapeutas la realización de terapias basadas en reminiscencia, simplificando y agilizando el proceso. Este desarrollo parte desde cero y busca crear un chatbot funcional y útil, capaz de mantener una conversación útil con el paciente para extraer la información necesaria.
+Durante el período académico 2023-2024, se desarrolló un \textit{chatbot} con el objetivo de facilitar a los terapeutas la realización de terapias basadas en reminiscencia, simplificando y agilizando el proceso. Este desarrollo parte desde cero y busca crear un chatbot funcional y útil, capaz de mantener una conversación útil con el paciente para extraer la información necesaria.
 
 Este Trabajo de Fin de Grado tiene como propósito asistir a terapeutas, familiares o amigos de pacientes con demencia en la obtención del material necesario para llevar a cabo terapias de reminiscencia. Se busca mejorar la eficacia de estas terapias y, en consecuencia, la calidad de vida tanto de los pacientes como de sus familiares. 
 
 \subsection{Enfermedad de Alzheimer}
-La enfermedad de Alzheimer (EA) es la principal causa de demencia en adultos mayores. La EA es una enfermedad compleja que viene determinada por múltiples factores. A veces es hereditaria y está caracterizada por la pérdida de neuronas y sinapsis, junto con la presencia de placas seniles y degeneración neurofibrilar. Clínicamente, se manifiesta como una demencia progresiva, comenzando con fallas en la memoria reciente y avanzando hasta la dependencia total del paciente.
+La enfermedad de Alzheimer (EA) es la principal causa de demencia en adultos mayores. La EA es una enfermedad compleja que viene determinada por múltiples factores. En ocasiones es hereditaria. Está caracterizada por la pérdida de neuronas y sinapsis, junto con la presencia de placas amiloides y degeneración neurofibrilar. Clínicamente, se manifiesta como una demencia progresiva, comenzando con fallas en la memoria reciente y avanzando hasta la dependencia total del paciente.
 
 Según \cite{Donoso2003} La incidencia de la EA aumenta con la edad, siendo rara antes de los 50 años y afectando a un 1-2$\%$ de los sujetos a los 60 años, 3-5$\%$ a los 70, 15-20$\%$ a los 80 y hasta la mitad de los mayores de 85 años. Es más frecuente en mujeres, posiblemente debido a la mayor longevidad.
 
@@ -48,12 +48,11 @@ Además de estimular los cinco sentidos para provocar el recuerdo, también se u
 
 Es recomendable construir relatos basados en las historias de vida del paciente para estos ejercicios de memoria. Las terapias de reminiscencia se consideran como parte de un proceso más amplio en el que el individuo intenta recuperar y vincular recuerdos que abarcan gran parte de su vida.
 
-Una revisión sobre los posibles efectos de la terapia de reminiscencia en personas con demencia y sus cuidadores concluyó que disminuía las alteraciones de conducta y los síntomas depresivos, y que mejoraba la cognición (\cite{huang2015reminiscence}). En otra revisión se observaron mejorías en el estado de ánimo, la habilidad cognitiva, la conducta social y el bienestar general (\cite{cotelli2012reminiscence}), y recientemente se encontró que la terapia de reminiscencia mejoraba la salud física y que
-aumentaba la participación de los pacientes (\cite{irazoki2027eficacia}).
+Una revisión sobre los posibles efectos de la terapia de reminiscencia en personas con demencia y sus cuidadores concluyó que disminuía las alteraciones de conducta y los síntomas depresivos, y que mejoraba la cognición (\cite{huang2015reminiscence}). En otra revisión se observaron mejorías en el estado de ánimo, la habilidad cognitiva, la conducta social y el bienestar general (\cite{cotelli2012reminiscence}), y recientemente se encontró que la terapia de reminiscencia mejoraba la salud física y que aumentaba la participación de los pacientes (\cite{irazoki2027eficacia}).
 \subsection{Historia de vida}
 Las Historias de Vida son registros detallados de los aspectos más relevantes de la vida de un paciente, o de personas significativas para él. Son especialmente importantes en las primeras fases del Alzheimer, cuando la memoria aún es relativamente intacta. Estas historias proporcionan dignidad al paciente y permiten a quienes lo rodean conocer mejor su identidad, a medida que las pérdidas de memoria comienzan a ser significativas.
 
-La creación de estas historias es vital para preservar la identidad del paciente. Pueden incluir detalles sobre la familia, la carrera profesional, los viajes y otros aspectos importantes de la vida del individuo. La elaboración puede realizarse de diversas formas, como escribir un libro, crear collages de fotos, producir una película o usar una ``caja de memoria''.
+La creación de estas historias es vital para preservar la identidad del paciente. Pueden incluir detalles sobre la familia, la carrera profesional, aficiones, viajes y otros aspectos importantes de la vida del individuo. La elaboración puede realizarse de diversas formas, como escribir un libro, crear collages de fotos, producir una película o usar una ``caja de memoria''.
 
 Es fundamental que estas historias reflejen la perspectiva personal del paciente, incluyendo emociones, sentimientos e interpretaciones. No se trata simplemente de relatar hechos cronológicos, sino de capturar la esencia única de la persona.
 
@@ -68,8 +67,8 @@ El objetivo de este trabajo es obtener un chatbot que sirva de apoyo para la rea
 
 \begin{itemize}
 	\item  Ser capaz de mantener una conversación, guiando el flujo de la misma a través de los temas predefinidos sobre los que se quiera conocer datos del paciente. 
-	\item A partir de las respuestas y la información que vaya dando el paciente, ser capaz de extraer la información buscada, identificar información adicional y faltante. 
-	\item Generar preguntas asociadas a las respuestas, de forma que se pueda obtener la información que en un primer momento había faltado. 
+	\item A partir de las respuestas y la información que vaya dando el paciente, ser capaz de extraer la información buscada, identificar información adicional y ausente.
+	\item Generar preguntas asociadas a las respuestas, de forma que se pueda obtener la información que en un primer momento hubiera faltado. 
 	\item Tener una interfaz usable y sencilla, que haga de este chatbot una herramienta útil.
 \end{itemize}
 
@@ -98,7 +97,7 @@ Para llevar el control de versiones utilizaremos el repositorio de github:\\
  https://github.com/NILGroup/TFG-2324-ChatbotCANTOR. 
 
 \section{Estructura de la memoria}
-El presente documento esta formado por 5  capítulos, incluyendo el presente capítulo. Estos se organizan como sigue. 
+El presente documento esta formado por 6  capítulos, incluyendo el actual. Estos se organizan como sigue. 
 \begin{itemize}
 	\item \textbf{Capítulo 1: Introducción}. El capítulo presente, se presenta el proyecto, motivación, objetivos y estructura del mismo. 
 	\item \textbf{Capítulo 2: Estado de la cuestión}. Es segundo capítulo, nos muestra una aproximación a las historias de vida, la enfermedad del Alzhéimer y la terapia de remiscencia. También muestra otros trabajos relacionados, contexto y precedentes del proyecto. 
@@ -108,7 +107,7 @@ El presente documento esta formado por 5  capítulos, incluyendo el presente cap
 	\item \textbf{Capítulo 5: Diseño de un chatbot de ayuda a la terapia de reminiscencia}
 	En el capítulo 5, se presenta la herramienta final con todas sus funcionalidades. El software y las herramientas utilizados, la guía para la instalación y puesta en marcha, la arquitectura del sistema final etc. 
 	\item \textbf{Capítulo 6: Conclusiones y trabajo futuro}
-	En el capítulo 5, se presenta la interfaz final con todas sus funcionalidades. El software y las herramientas utilizados, la guía para la instalación y puesta en marcha, la arquitectura del sistema final etc. 
+	El capítulo 6 trata acerca de las conclusiones a las que se ha llegado durante el desarrollo del proyecto, así como del trabajo que podría realizarse en el futuro para ampliarlo.
 	%\item \textbf{Anexos} Adicionalmente, en el anexo se muestra una conversación con un paciente real para ver el funcionamiento del chatbot. 
 	
 \end{itemize}
