@@ -36,44 +36,78 @@ Como parte de la implementación de nuestro prototipo, planeamos integrar esta f
 
 \section{Prototipo utilizando Google BARD}
 \label{sec:prototipoBARD}
-El segundo hito en el desarrollo del chatbot fue mejorar el primer chatbot haciendolo más inteligente y capaz de analizar las respuestas, identificar la información omitida y hacer preguntas especificas para obtener la información faltante. 
+El segundo hito en el desarrollo del chatbot fue mejorar el primer modelo haciendolo más inteligente y capaz de analizar las respuestas, identificar la información omitida y hacer preguntas especificas para obtener la información faltante. 
 
-Para el almacenamiento de la información se decidió usar \textit{JSON} debido a su estructura legible y su amplia compatibilidad, suponen una elección tecnológica ideal para almacenar los datos de este sistema. Su capacidad para representar datos complejos de manera eficiente y su interoperabilidad garantizan una experiencia de desarrollo ágil y una gestión eficaz de la información de los usuarios. 
+Tras el estudio realizado en la sección \ref{sec:apis} se tomó la decisión de utilizar la API de BARD. La principal característica que llevó a tomar esta decisión es que se trata de una API ya entrenada capaz de crear texto de alta calidad similar al humano. Está hecha a medida para desarrolladores, permitiendo la automatización de la generación de contenidos para diversas necesidades, como en este caso la generación de texto para la implementación de un chatbot. Todo esto, supone una gran ventaja frente a otras herramientas como las distintas bibliotecas, cuyo uso implica desarrollar y generar nuestros propios algoritmos de generación del lenguaje, ó otras APIs que requieren un entrenamiento que da lugar a horas y horas de cómputo para obtener resultados, a lo sumo, tan buenos como los que ofrecía el uso de BARD sin necesidad de entrenamiento. 
 
-Por otro lado, se desarrolló una pequeña clase de forma provisional. Esta clase es la clase \textit{Paciente} que tenía como objetivo estructurar y reunificar la información.
-
-A continuación, se busco poder hacer un análisis de las respuestas exhaustivo que permitiera extraer información útil de las respuestas dadas por el usuario.
-
-Tras el estudio realizado en la sección \ref{sec:apis} se tomó la decisión de utilizar la API de BARD. La principal característica que llevó a tomar esta decisión es que se trata de una API ya entrenada capaz de crear texto de alta calidad similar al humano. Está hecha a medida para desarrolladores, permitiendo la automatización de la generación de contenidos para diversas necesidades, como en este caso la generación de un chatbot. Todo esto, supone una gran ventaja frente a otras herramientas como las distintas bibliotecas, cuyo uso implica desarrollar y generar nuestros propios algoritmos de generación del lenguaje, ó otras APIs que requieren un entrenamiento que da lugar a horas y horas de cómputo para obtener resultados, a lo sumo, tan buenos como los que ofrecía el uso de BARD sin necesidad de entrenamiento. 
-
-Para instalar BARD se utilizo el entorno de \textit{Google Collaborate}. En primer lugar fue necesario instalar los paquetes \textit{bardapi} y \textit{pyTelegramBotApi}. Una vez instaladas las bibliotecas y para usar la API es necesario registrarse y obtener un token que nos sirve como identificador de la API. 
-
-Una vez con todo instalado, se utilizó la API Bard para extraer información a partir de respuestas a preguntas específicas. 
-
+Para instalar BARD se utilizo el entorno de \textit{Google Collaborate}. En primer lugar fue necesario instalar el paquete \textit{bardapi} que se encarga de la interacción con Bard. Por otro lado, para poder utilizar la API de Bard hay que crear una variable de entorno, y utilizar una clave de autenticación. Una vez hechas las configuraciones pertinentes se puede usar la API como en el ejemplo que se muestra a continuación. 
 
 \begin{verbatim}
-	prompt = "A partir del texto a continuación, que contiene información
-	sobre una persona y damelo en una lista info donde
-	info[nombre]:valor_atributo.  Limitate a dar la información pedida. "
+	from bardapi import Bard
 	
-	texto = "Hola mi nombre es Marta, tengo 22 años y soy de Zaragoza."
-	>> **Info[nombre:Marta;edad:22;ciudad:Zaragoza]** 
-	¿Hay algo más que pueda hacer por ti?
+	respuesta = Bard().get_answer("¿Cuáles son las mascotas más típicas
+	 en España?")
+	
+	print(respuesta['content'])
+	
+	>>> * Perros\n* Gatos\n* Peces\n* Pájaros (especialmente canarios y
+	 periquitos)\n* Conejos\n* Roedores (como hámsteres y cobayas)\n*
+	  Reptiles (como tortugas y serpientes)\n* Anfibios (como ranas y
+	   tritones)'
 \end{verbatim}
 
-Como se puede ver en el código anterior, BARD supone una herramienta útil para la extracción de información a partir de respuestas y la estructuración de la misma. Sin embargo, aunque indiques que se limite a darte la información pedida, en una amplio número de casos añade texto adicional como en este caso \textit{``¿Hay algo más que pueda hacer por ti.''}. Para corregir esto se desarrolló una serie de funciones que parsearan el texto de forma manual, a partir de la respuesta dada por BARD. En concreto, la función $extraer\_info$ que extrae información de un texto en un formato específico, que es el pedido a BARD, y la devuelve como un diccionario de atributo-valor. Por otro lado, la función $parsear\_info$ procesa la información proporcionada por el usuario y actualiza el objeto paciente. 
+\begin{figure}[b]
+	\centering
+	\includegraphics[width=0.9\textwidth]{Imagenes/arquitecturabard}
+	\caption{Arquitectura del prototipo con Bard}
+	\label{fig:arquitecturabard}
+\end{figure}
 
-La interacción chatbot usuario de este prototipo se llevaba a cabo mediante una pequeña interfaz desarrollada con widgets de IPyhton. 
-Esta versión del chatbot solicita al usuario información como nombre, edad, ciudad, etc., y al final muestra un mensaje de despedida con los datos recopilados.
+En la figura \ref{fig:arquitecturabard} se muestra un pequeño gráfico que pretende reflejar la arquitectura de este prototipo con el objetivo que sea más fácil de entender su estructura y funcionamiento.
+
+Cabe recordar, que esta versión es un prototipo inicial muy lejos del objetivo final. Debido a los problemas que se explicaran más adelante nunca se llego a utilizar para las siguientes etapas, y en consecuencia nunca se llego a desarrollar una interfaz completa. 
+
+En la figura \ref{fig:arquitecturabard} vemos en el centro el módulo chatbot que es el que se encarga de gestionar el flujo de la conversación, interactuar con el usuario, llamar a Bard para analizar las respuestas y finalmente parsear y analizar la información. 
+
+Como se puede ver en la imagen el usuario se comunica con el chatbot mediante una interacción pregunta predefinida-respuesta. Para poder gestionar esta interacción con el usuario, se implementó una pequeña interfaz provisional desarrollada con widgets de IPyhton. 
+
+Estos widgets aparecen como cajas que solicitan información. Una vez rellanadas se envía la información al modelo para su análisis pulsando en el botón ``Siguiente'' que despliega un nuevo cuadro con la siguiente información solicitada. 
+
+Por ejemplo, en la imagen \ref{fig:interfazPrototipo1} podemos ver como el prototipo de chatbot solicita al usuario información como nombre, edad, ciudad, etc., y al final muestra un mensaje de despedida con los datos recopilados. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{Imagenes/Iwidget}
 	\caption{Muestra de la interacción  con el usuario en el primer prototipo}
 	\label{fig:interfazPrototipo1}
 \end{figure}
-Cómo se puede ver en la figura \ref{fig:interfazPrototipo1}, la interacción con el usuario se hace mediante cajas en las que se escribe la información solicitada. Una vez rellanado se envía la información al modelo para su análisis pulsando en el botón ``Siguiente'' que despliega un nuevo cuadro con la siguiente información solicitada. 
 
-Todo este desarrollo se llevó a cabo durante los meses previos a diciembre de 2023. Fue ese mes cuando Google fortaleció la capacidad de BARD brindando habilidades más avanzadas de comprensión, razonamiento, resumen y codificación. De esta forma, paso a ser Gemini. Este cambio se oficializó en Febrero de 2024 y supuso la imposibilidad de usar BARD debido a las restricciones de uso según la localización de Gemini. Esta restricción limita el uso de la API de Gemini a una serie de regiones entre las que no se encuentra España ni ningún país de la Unión Europea.
+Para el almacenamiento de la información se decidió usar \textit{JSON} debido a su estructura legible y su amplia compatibilidad, suponen una elección tecnológica ideal para almacenar los datos de este sistema. Su capacidad para representar datos complejos de manera eficiente y su interoperabilidad garantizan una experiencia de desarrollo ágil y una gestión eficaz de la información de los usuarios. La API de Bard se usa para transformar las respuestas en un formato fácilmente convertible a un diccionario o un \textit{JSON}. Para ello se usa el prompt que se muestra a continuación.
+
+\begin{verbatim}
+prompt= 	"A partir del texto con información sobre una persona que
+te voy a introducir a continuación, quiero que me devuelvas un texto
+exactamente con el formato
+Info[nombre_atributo:valor_atributo;nombre_atributo2:valor2]
+Quiero que el texto este limpio, ningún tipo de formato especial
+como negrita, ni cursiva. El texto es : "
+\end{verbatim} 
+
+Cabe destacar que BARD, pese a la solicitud de devolver el texto en exactamente ese formato, raramente satisface esa condición y usualmente añade mensajes de interacción con el usuario como \textit{He escrito el texto exactamente en el formato que has pedido.} o \textit{¿Qué puedo hacer por ti?}. Hay que tener en cuenta este aspecto a la hora de transformar el \textit{string} en un json. 
+
+Para corregir esto se desarrolló una serie de funciones que parsearan el texto de forma manual, a partir de la respuesta dada por BARD. En concreto, la función $extraer\_info$ que extrae información de un texto en un formato específico, que es el pedido a BARD, y la devuelve como un diccionario de atributo-valor. Por otro lado, la función $parsear\_info$ procesa la información proporcionada por el usuario y actualiza el objeto paciente.
+
+Un ejemplo concreto de uso de Bard para este propósito es el siguiente. 
+\begin{verbatim}
+	texto = "Hola mi nombre es Marta, tengo 22 años y soy de Zaragoza."
+	respuesta = Bard.get_answer(prompt + texto)
+	print(respuesta['content'])
+	>> **Info[nombre:Marta;edad:22;ciudad:Zaragoza]** 
+	¿Hay algo más que pueda hacer por ti?
+\end{verbatim}
+
+Como se puede ver en el código anterior, BARD supone una herramienta útil para la extracción de información a partir de respuestas y la estructuración de la misma. A partir de la respuestas del modelo, y con las funciones que parsean la información que se han mencionado anteriormente, se crean las estructuras json que se encargan de manejar la información. 
+
+Todo este desarrollo se llevó a cabo durante los meses previos a diciembre de 2023. Fue ese mes cuando Google fortaleció la capacidad de Bard brindando habilidades más avanzadas de comprensión, razonamiento, resumen y codificación. De esta forma, paso a ser Gemini. Este cambio se oficializó en Febrero de 2024 y supuso la imposibilidad de usar BARD debido a las restricciones de uso según la localización de Gemini. Esta restricción limita el uso de la API de Gemini a una serie de regiones entre las que no se encuentra España ni ningún país de la Unión Europea.
 
 En consecuencia, este prototipo pasó a un segundo plano y se centró el trabajo de los siguientes meses en encontrar qué API usar para el desarrollo del trabajo. Se barajaron distintas posibilidades. 
 
@@ -143,7 +177,53 @@ Este prototipo que supone un incremento respecto al anterior también tuvo que s
 
 A lo largo de los meses se estudiaron múltiples modelos y alternativas a BARD que no resultaban lo suficientemente eficaces. Por contrario, otras sí resultaron eficaces y pese a dar lugar a pequeños prototipos no pudieron seguir desarrollándose debido a los diversos problemas que se han contado a lo largo de este capítulo. Todo este estudio, implementación de modelos y desarrollo de prototipos fallidos conlleva horas de tiempo y esfuerzo. Todo esto deriva en meses centrados en análisis de alternativas en lugar del propio desarrollo del código en sí, por lo que finalmente hubo que decantarse por la API que resultaba más eficaz y fiable y que daba mejores resultados: la API de Gemini. Como se ha comentado antes, esta alternativa se descarto en un primer momento por no estar disponible en España. Sin embargo este problema se pudo solventar fácilmente mediante el uso de VPN. 
 
-Como ya se ha mencionado anteriormente, el segundo hito a conseguir es la construcción de una herramienta que sea capaz de analizar las respuestas, identificar la información omitida y hacer preguntas específicas para obtener la información faltante. Estas tres tareas se llevan a cabo usando la API de gemini y en concreto, el modelo $gemini-pro$. 
+Esta sección se centra en explicar como fue el desarrollo de este prototipo, y se deja para el capítulo \ref{cap:ChatBot final} un estudio más profundo del resultado final así como los aspectos más técnicos.
+
+Como ya se ha mencionado anteriormente, el segundo hito a conseguir es la construcción de una herramienta que sea capaz de analizar las respuestas, identificar la información omitida y hacer preguntas específicas para obtener la información faltante. Estas tres tareas se llevan a cabo usando la API de gemini y en concreto, el modelo $gemini-pro$, que es la versión de gemini encargada del procesamiento de texto. 
+
+En la sección \ref{sec:gemini} se ha estudiado la API de Gemini, la estructura de sus respuestas y las características técnicas profunidad. Ahora pasaremos a analizar exactamente el modelo que vamos a usar para nuestro trabajo, viendo el alcance de sus respuestas y sus limitaciones. 
+
+\begin{verbatim}
+	response = model.generate_content("¿Qué es la terapia de 
+	reminiscencia?")
+	>>>'**Definición:**\n\nLa terapia de reminiscencia es un tipo de
+	psicoterapia que utiliza recuerdos personales como herramienta para
+	mejorar el bienestar cognitivo, emocional y social.\n\n**Objetivo:
+	
+	*\n\nEl objetivo de la terapia de reminiscencia es ayudar a las
+	personas a recordar y dar sentido a sus experiencias pasadas, 
+	promoviendo así:\n\n* Mejora del estado de ánimo\n* Reducción de 
+	la ansiedad y la depresión\n* Apoyo a la autoestima y la identidad
+	\n* Conexión con el presente y el futuro\n\n**Proceso:**\n\nLa 
+	terapia de reminiscencia implica:\n\n* **Sesiones guiadas:** Un
+	terapeuta guía al cliente a través de actividades que estimulan
+	los recuerdos, como contar historias, mirar álbumes de fotos o
+	escuchar música.\n* **Creación de una línea de vida:** El
+	terapeuta ayuda al cliente a crear una línea de vida visual
+	o escrita de su vida, destacando eventos importantes y hitos.
+	\n* **Discusión y reflexión:** El terapeuta y el cliente
+	discuten los recuerdos y cómo se relacionan con el presente
+	y el futuro.\n* **Exploración de temas:** La terapia se 
+	centra en temas específicos, como la identidad, las 
+	relaciones, los logros y las pérdidas.\n\n**Beneficios:
+	**\n\n* **Mejora de la memoria:** Estimula la función 
+	cognitiva y mejora la memoria.\n* **Regulación emocional:**
+	Ayuda a las personas a procesar y regular sus emociones.\n*
+	**Reducción del aislamiento:** Fomenta la interacción social
+	y la sensación de pertenencia.\n* **Mejora de la autoestima:**
+	Ayuda a las personas a reconocer sus fortalezas y logros.\n*
+	**Prevención del deterioro cognitivo:** Puede retrasar o
+	prevenir el deterioro cognitivo en los adultos
+	mayores.\n\n**Aplicaciones:**\n\nLa terapia de reminiscencia
+	se utiliza comúnmente para:\n\n* Personas mayores con
+	demencia o deterioro cognitivo\n* Adultos que experimentan
+	soledad o aislamiento\n* Personas que luchan con la pérdida
+	o el trauma\n* Individuos con problemas de salud mental
+	como depresión o ansiedad'
+	
+\end{verbatim}
+
+Como se puede ver proporciona respuestas completas y bien redactadas.
 
 \subsection{Análisis de las respuestas e identificación de la información omitida}
 
@@ -152,22 +232,45 @@ El proceso de análisis de respuestas implica evaluar las respuestas recibidas a
 	¿Tienes hijos? : [Nombre hijos,edad hijos,recuerdos con hijos]
 \end{verbatim}
 
-
 El modelo, gracias a un prompt y a una llamada adecuada, se encarga de extraer la información y asociarla a cada campo, así como de indicar si hay información faltante. Pese a que se pide que la salida se devuelva como un \textit{json} esta información ha de ser parseada manualmente debido a las alucinaciones y otros fenómenos que pueden dar lugar a errores. Otro suceso que ha de ser tenido en cuenta es la posibilidad de no generación de respuesta por parte de gemini. Es por eso que hay que tener presentes en todo momento los distintos campos explicados en la sección \ref{sec:gemini}, para tener un control de qué esta ocurriendo en todo momento. 
+\begin{verbatim}
+pregunta = ¿Qué cosas te gusta hacer en tu tiempo libre?	
+respuesta = Tengo muchas aficiones. Por ejemplo me gusta mucho jugar
+ al tenis. También disfruto de jugar al béisbol.
+prompt = f"Generame un json con el formato campo:información 
+asociada a ese campo con la información que puedas obtener de 
+esta respuesta {pregunta.respuesta}"
+campos = [aficiones]
+>>>[{'text': '```json\n{\n  "Aficiones": [\n    "Tenis",\n   
+		 "Béisbol"\n  ]\n}\n```'}]
+\end{verbatim}
+Analizando el código anterior podemos estudiar cómo se comporta el modelo en la tarea de extracción de la información. A partir de la pregunta, la respuesta y el prompt dados, obtenemos una respuesta del modelo. Esta respuesta muestar como la de extracción de la información se ha realizado de forma correcta, sin embargo, el formato no es exactamente el pedido. Por otro lado, el comportamiento de \textit{gemini} no es determinante, es decir, no siempre da las mismas respuestas y en ocasiones (aunque no son las mayoritarias) ocurren sucesos como que no se generan respuestas, las respuestas no se adecuan a la situación o se producen alucinaciones (fenómeno explicado en la sección \ref{sec:Alucinaciones}. 
 
-Es por esto que se han desarrollado una serie de funciones que se encargan de transformar la respuesta en un objeto \textit{json} como se muestra a continuación. 
+Para solventar este problema, el código anterior se distribuye entre distintas funciones que se encargan de checkear el correcto funcionamiento del programa, y una vez obtenida una respuesta adecuada parsear la misma eliminado caracteres no deseados como espacios, comillas o saltos de línea. De esta forma, siguiendo el ejemplo anterior, la respuesta de gemini sería transformada hasta obtenerse como resultado un diccionario campos actualizado como el siguiente.  
+\begin{verbatim}
+campos = {'aficiones': ['Tenis', 'Béisbol']}
+\end{verbatim}
 
-	\begin{verbatim}
+Para identificar la información ausente se actualiza el prompt que se había usado anteriormente como sigue.  
+
+\begin{verbatim}
+prompt = f"Tras preguntar {pregunta} en relacion con {clave} me han respondido
+ {respuesta}. "
+prompt = prompt + f"Dada esa información, quiero que devuelvas cualquier
+ información válida sobre {clave} y en caso de que no se haya podido obtener
+  ninguna información válida, devolver No Encontrado"
+\end{verbatim}
+De esta forma, podemos saber qué información no ha sido encontrada en el texto para poder tirar del hilo y generar nuevas preguntas. A continuación se muestra un ejemplo.
+\begin{verbatim}
 >>>	¿Tienes hijos?
 >>> Sí tengo hijos pero no estoy seguro de dónde están ahora.
-     Mi hija Lucía es médico y el mayor es Juan.
+Mi hija Lucía es médico y el mayor es Juan.
 >>> {'Nombre hijos': ['Lucía','Juan'], 'edad hijos': 'No
-    	 Encontrado', 'recuerdos con hijos' : 'No Encontrado'}
-	\end{verbatim}
-	
-Este prototipo también añade información adicional que haya podido obtener de la respuesta y que no se pueda asociar a los campos predefinidos. Sin embargo, estos campos son útiles para llevar un control de qué información no ha podido ser obtenida y en tal caso, generar nuevas preguntas que nos permitan obtenerla. 
+		Encontrado', 'recuerdos con hijos' : 'No Encontrado'}
+\end{verbatim}
 
- 
+Este prototipo también añade información adicional que haya podido obtener de la respuesta y que no se pueda asociar a los campos predefinidos. Para ello, utiliza el prompt original que no pasaba las claves, y al que se pedía que extrajera la información posible. Si alguna de las claves del diccionario de información extra no aparece ya en el diccionario se añade. 
+
 \subsection{Generación de preguntas para obtener la información ausente}
 La generación automatizada de preguntas es un componente clave del sistema diseñado. Este proceso implica la creación de nuevas preguntas dirigidas a recopilar información que no ha podido ser obtenida en las preguntas predefinidas. El proceso de generación de preguntas comienza tras la identificación de un campo al que no se ha podido asociar ningún tipo de valor o sobre el que no se ha obtenido información. En ese momento y gracias a gemini se generan una serie de preguntas asociadas asociadas a los campos que no han sido rellenados tales como las que se muestran a continuación.  
 
@@ -176,9 +279,61 @@ La generación automatizada de preguntas es un componente clave del sistema dise
 	>>> '¿Cómo describe la dinámica de su familia?'
 	>>> '¿Qué recuerdos tiene con sus hijos?'
 \end{verbatim}
-	
+
 Estas preguntas se van lanzando al usuario hasta rellenar los campos faltantes o hasta agotar el limite de preguntas asociadas a un mismo tema que se va a hacer al usuario.
 
+Una vez el usuario responde a una pregunta, se extrae la información de la misma y se parsea hasta rellenar el diccionario con los campos, indicando los campos predefinidos para los que no se ha encontrado información. El siguiente paso en el flujo del programa es pasar toda esta información (pregunta, respuesta y información extraida) al módulo de generación de preguntas. Este módulo partirá de aquellos campos para los que no se ha encontrado información y generara una serie de preguntas que poder lanzar al usuario. La generación de preguntas se hace mediante la función $generate\_question()$. En concreto, se muestra el siguiente ejemplo. 
+
+\begin{verbatim}
+
+>>>['Cómo has definido el concepto de amistad a lo largo de tu vida',
+
+'Qué cualidades valoras más en los amigos',
+
+'Cuáles son algunos de los momentos más significativos que has 
+compartido con amigos',
+
+'Cómo han dado forma las amistades a la persona que eres hoy',
+
+'Cómo mantienes tus amistades',
+
+'Cómo equilibras el tiempo con amigos y otras responsabilidades',
+
+'Has tenido alguna dificultad o malentendido en tus amistades',
+
+'Cómo los has abordado',
+
+'Cómo ha evolucionado tu círculo de amigos a lo largo del tiempo',
+
+'Hay amistades que has perdido y otras que has ganado',
+
+'Crees que es importante tener amistades diversas y por qué',
+
+'Cómo han influido las redes sociales en tus amistades',
+
+'Crees que han mejorado o perjudicado las conexiones',
+
+'Tienes límites o pautas para las interacciones en las redes
+ sociales con tus amigos',
+ 
+'Alguna vez has perdido una amistad debido a una interacción 
+en las redes sociales',
+
+'Cuáles son tus expectativas y necesidades en tus amistades',
+
+'Te sientes apoyado y comprendido por tus amigos',
+
+'Hay alguna área en la que te gustaría ver más apoyo',
+
+'Alguna vez has tenido que poner fin a una amistad',
+
+'Cuáles fueron las razones',
+
+'Crees que las amistades son esenciales para una vida plena y feliz']
+
+\end{verbatim}
+
+La función se encarga de hacer al modelo la solicitud de generación de preguntas hasta que se obtenga una respuesta válida ( es decir, si no existen candidatos de respuesta se vuelve a llamar al modelo). Una vez generada la respuesta por parte del módulo se trasforma en una lista de preguntas con el formato correcto. Estas preguntas se lanzaran al usuario y pasaran por las funciones de extracción de la información explicadas en la sección anterior, y sólo se seguirán haciendo mientras el campo este incompleto. Por otro lado, se lleva un control de acerca de qué campos se han hecho ya preguntas adicionales para, en caso de que al llegar al final de la lista sin haber obtenido información, no se vuelva a generar otra lista. 
 \subsection{Interfaz e interacción con el usuario}
 El siguiente hito en el desarrollo del chatbot es desarrollar la interfaz que permita al usuario interactuar de una forma que resulte sencilla y práctica. Paralelamente a todo el trabajo descrito anteriormente, y durante el estudio de las diferentes alternativas de interfaces, APIs y modelos se estudio la alternativa de desarrollar la interfaz con Telegram. 
 
@@ -223,14 +378,14 @@ Para conectar Telegram con el chatbot desarrollado a través de la API de Gemini
 Este token se obtuvo a través del usuario de telegram $\makeatletter @ BotFather$ y con el comando $\backslash newbot$ y $\backslash token$. Una vez con el token se creo el \textit{chatbotyayo} con nombre de usuario $\makeatletter @ mavice07\_bot$. Para comenzar a interactuar con \textit{chatbotyayo} basta con buscar ese usuario en Telegram y enviar el comando $\backslash start$. 
 
 Una vez obtenido el token y finalizadas todas las configuraciones se implementa la lógica del sistema. Se definen tres manejadores de mensajes:
-	\begin{itemize}
-		\item El manejador $cmd\_start()$ se activa únicamente cuando un usuario envía el comando $\backslash start$ al bot. Este manejador inicia la lógica del bot al cargar las preguntas utilizando la función $cargar\_preguntas()$ del módulo $tfg$ y envía un mensaje de bienvenida al usuario.
-		
-		\item El manejador $bot\_mensajes\_text()$ se activa cuando un usuario envía un mensaje de texto al bot. Si el mensaje comienza con "$\backslash$", se envía un mensaje de error indicando que el comando no está disponible. Si es un mensaje de texto estándar, se llama a la función $siguientePregunta()$ del módulo $tfg$ y se analiza el mensaje como respuesta al último mensaje enviado por el bot. De esta forma se procesa la respuesta del usuario y se genera una respuesta apropiada.
-		
-		\item El manejador $photo()$ se activa cuando un usuario envía una foto al bot. El bot descarga la foto, la guarda en el sistema de archivos y llama a la función $analizador\_imagenes()$ del módulo $imagenes$ para analizar la imagen y generar una respuesta apropiada.
-	\end{itemize}
+\begin{itemize}
+	\item El manejador $cmd\_start()$ se activa únicamente cuando un usuario envía el comando $\backslash start$ al bot. Este manejador inicia la lógica del bot al cargar las preguntas utilizando la función $cargar\_preguntas()$ del módulo $tfg$ y envía un mensaje de bienvenida al usuario.
 	
+	\item El manejador $bot\_mensajes\_text()$ se activa cuando un usuario envía un mensaje de texto al bot. Si el mensaje comienza con "$\backslash$", se envía un mensaje de error indicando que el comando no está disponible. Si es un mensaje de texto estándar, se llama a la función $siguientePregunta()$ del módulo $tfg$ y se analiza el mensaje como respuesta al último mensaje enviado por el bot. De esta forma se procesa la respuesta del usuario y se genera una respuesta apropiada.
+	
+	\item El manejador $photo()$ se activa cuando un usuario envía una foto al bot. El bot descarga la foto, la guarda en el sistema de archivos y llama a la función $analizador\_imagenes()$ del módulo $imagenes$ para analizar la imagen y generar una respuesta apropiada.
+\end{itemize}
+
 Finalmente, se inicia el bucle de escucha del bot $bot.infinity\_polling()$ para que esté constantemente esperando y respondiendo a los mensajes de los usuarios.
 
 
@@ -247,4 +402,3 @@ El análisis de imágenes también puede proporcionar contexto y significado a l
 	\includegraphics[width=0.9\textwidth]{Imagenes/extracInfoImag}
 	\caption{Ejemplo de extracción de información a partir de imagenes}
 \end{figure}
-

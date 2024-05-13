@@ -56,7 +56,7 @@ def photo(message):
 
     with open(f"image{i}.jpg", 'wb') as new_file:
         new_file.write(downloaded_file)
-        answer = imagene.s.analizador_imagenes(f"image{i}.jpg")
+        answer = imagenes.analizador_imagenes(f"image{i}.jpg")
         if(answer == []):
             answer = "¡Qué foto más chula! ¿Qué puedes contarme sobre ella?"
         i = i + 1
