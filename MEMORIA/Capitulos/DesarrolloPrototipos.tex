@@ -174,7 +174,7 @@ Por otro lado, con Tkinter, se creó una interfaz gráfica de usuario (GUI) de e
 Este prototipo que supone un incremento respecto al anterior también tuvo que ser descartado sin llegar a desarrollar algunas funcionalidades y módulos hasta el final, como por ejemplo la interfaz o la generación de preguntas. Este parón se debió a un problema hardware. Al instalarme Linux, y debido a restricciones de espacio en el disco duro, tuve que utilizar una partición no demasiado grande. El gran tamaño de los modelos, en concreto del modelo $gemma-7b$ ocupó gran parte del espacio de la partición. Pocas semanas después del comienzo del desarrollo de este prototipo tuvo que descartarse debido a la necesidad de ejecutarlo en Linux, acompañada de las limitaciones de espacio en mi ordenador que hicieron que no pudiera seguir desarrollandolo en ese sistema operativo. 
 
 \section{Prototipo usando Gemini}
-
+\label{protogemini}
 A lo largo de los meses se estudiaron múltiples modelos y alternativas a BARD que no resultaban lo suficientemente eficaces. Por contrario, otras sí resultaron eficaces y pese a dar lugar a pequeños prototipos no pudieron seguir desarrollándose debido a los diversos problemas que se han contado a lo largo de este capítulo. Todo este estudio, implementación de modelos y desarrollo de prototipos fallidos conlleva horas de tiempo y esfuerzo. Todo esto deriva en meses centrados en análisis de alternativas en lugar del propio desarrollo del código en sí, por lo que finalmente hubo que decantarse por la API que resultaba más eficaz y fiable y que daba mejores resultados: la API de Gemini. Como se ha comentado antes, esta alternativa se descarto en un primer momento por no estar disponible en España. Sin embargo este problema se pudo solventar fácilmente mediante el uso de VPN. 
 
 Esta sección se centra en explicar como fue el desarrollo de este prototipo, y se deja para el capítulo \ref{cap:ChatBot final} un estudio más profundo del resultado final así como los aspectos más técnicos.
@@ -349,18 +349,27 @@ Como se puede ver en la figura \ref{fig:ejemploRASATELEGRAM} la interfaz generad
 \end{figure}
 
 Esta forma de generar la interfaz implica el desarrollo de manejadores que controlen el funcionamiento según el tipo de mensaje. 
-
-\begin{itemize}
-	\item Manejadores para comandos, por ejemplo, el comando start.
-	
-	\item Manejadores para mensajes de texto.
-	
-	\item Manejadores para imagenes. 
-\end{itemize}
-
 Se utiliza la API de Telegram a través del módulo ``telebot'' para interactuar con el servicio de mensajería y gestionar los mensajes entrantes y salientes. Además, se inicia un bucle de escucha para que el bot esté constantemente activo y pueda responder a los mensajes de los usuarios en tiempo real.
 
 Telegram también ofrece una variedad de funcionalidades integradas que pueden ser útiles para un chatbot de terapia de reminiscencia, como el envío de fotos de forma sencilla. Esto permite que la experiencia del usuario sea más rica y variada, siendo mucho más fiel a la plantilla de generación de historias de vida mencionada en la sección \ref{ssubsec:seleccionpreguntas}. Esto puede mejorar la efectividad del chatbot en la prestación de servicios de apoyo emocional.
+
+\subsection{Telegram}
+\label{sec:Telegram}
+
+Para conectar Telegram con el chatbot desarrollado a través de la API de Gemini, fue necesario obtener un token de Telegram. Es importante mencionar que este paso forma parte de la configuración inicial y no requiere intervención por parte del usuario final durante la puesta en marcha.
+
+Este token se obtuvo a través del usuario de telegram $\makeatletter @ BotFather$ y con el comando $\backslash newbot$ y $\backslash token$. Una vez con el token se creo el \textit{chatbotyayo} con nombre de usuario $\makeatletter @ mavice07\_bot$. Para comenzar a interactuar con \textit{chatbotyayo} basta con buscar ese usuario en Telegram y enviar el comando $\backslash start$. 
+
+Una vez obtenido el token y finalizadas todas las configuraciones se implementa la lógica del sistema. Se definen tres manejadores de mensajes.
+\begin{itemize}
+	\item El manejador $cmd\_start()$ para el comando start. 
+	
+	\item El manejador $bot\_mensajes\_text()$ se activa cuando un usuario envía un mensaje de texto al bot.
+	
+	\item El manejador $photo()$ se activa cuando un usuario envía una foto al bot. 
+\end{itemize}
+
+Finalmente, se inicia el bucle de escucha del bot $bot.infinity\_polling()$ para que esté constantemente esperando y respondiendo a los mensajes de los usuarios. El flujo de la información a través de los manejadores se explicará con más detalle en el capítulo \ref{cap:ChatBot final} que muestra la implementación final. 
 
 \subsection{Clase Pregunta}
 La decisión de desarrollar la interfaz del prototipo integrando Telegram y GEMINI para tener una interfaz en Telegram tuvo como consecuencia la necesidad de crear una clase Pregunta. Se crea para almacenar de manera integral toda la información asociada con una pregunta en un programa, especialmente en el contexto de la interacción con Telegram mediante textos. En versiones anteriores del desarrollo, cada vez que se requería información adicional, se realizaban preguntas y el flujo no avanzaba hasta completar estas preguntas extra o obtener la información necesaria. Al integrar esta funcionalidad con Telegram, se necesita devolver desde la función principal la información para que la interfaz pueda mostrar la pregunta, lo cual puede interrumpir el flujo original del código. Esta integración conlleva a una refactorización que dio lugar a la creación de la clase ``Pregunta''.
@@ -369,26 +378,51 @@ La clase ``Pregunta'' encapsula una pregunta con su enunciado, respuesta, campos
 
 Además, la clase ``Pregunta'' ofrece métodos para actualizar la respuesta, marcar campos como respondidos, agregar preguntas adicionales, gestionar las respuestas a estas preguntas secundarias y obtener una representación textual de la instancia de la clase.
 
-\subsection{Telegram}
-\label{sec:Telegram}
-La integración del prototipo con \textit{Telegram} requiere importar la biblioteca $telebot$ que es la que permite la comunicación entre el modelo y la interfaz. 
+La representación de una pregunta en un momento del flujo de una conversación sería la siguiente. 
+\begin{verbatim}
+Enunciado: ¿Qué rutinas diarias son importantes para ti? 
 
-Para conectar Telegram con el chatbot desarrollado a través de la API de Gemini, fue necesario obtener un token de Telegram. Es importante mencionar que este paso forma parte de la configuración inicial y no requiere intervención por parte del usuario final durante la puesta en marcha.
+Respuesta: Tengo muchas aficiones. Por ejemplo me gusta mucho jugar al
+tenis. También disfruto de jugar al béisbol.
 
-Este token se obtuvo a través del usuario de telegram $\makeatletter @ BotFather$ y con el comando $\backslash newbot$ y $\backslash token$. Una vez con el token se creo el \textit{chatbotyayo} con nombre de usuario $\makeatletter @ mavice07\_bot$. Para comenzar a interactuar con \textit{chatbotyayo} basta con buscar ese usuario en Telegram y enviar el comando $\backslash start$. 
+Campos: :
+{'Aseo personal': 'ducharse a diario' , 'Limpieza del hogar':
+'No Encontrado' , 'cuidado de la salud' : 'ir al médico rutinariamente'}
 
-Una vez obtenido el token y finalizadas todas las configuraciones se implementa la lógica del sistema. Se definen tres manejadores de mensajes:
-\begin{itemize}
-	\item El manejador $cmd\_start()$ se activa únicamente cuando un usuario envía el comando $\backslash start$ al bot. Este manejador inicia la lógica del bot al cargar las preguntas utilizando la función $cargar\_preguntas()$ del módulo $tfg$ y envía un mensaje de bienvenida al usuario.
-	
-	\item El manejador $bot\_mensajes\_text()$ se activa cuando un usuario envía un mensaje de texto al bot. Si el mensaje comienza con "$\backslash$", se envía un mensaje de error indicando que el comando no está disponible. Si es un mensaje de texto estándar, se llama a la función $siguientePregunta()$ del módulo $tfg$ y se analiza el mensaje como respuesta al último mensaje enviado por el bot. De esta forma se procesa la respuesta del usuario y se genera una respuesta apropiada.
-	
-	\item El manejador $photo()$ se activa cuando un usuario envía una foto al bot. El bot descarga la foto, la guarda en el sistema de archivos y llama a la función $analizador\_imagenes()$ del módulo $imagenes$ para analizar la imagen y generar una respuesta apropiada.
-\end{itemize}
+Preguntas Extra:
+['Con qué frecuencia se ducha',
+'Cuánto suele durar su ducha',
+'Qué productos utiliza para ducharse (champú, acondicionador, jabón)',
+'Tiene algún tipo de piel específico (grasa, seca, mixta)',
+'Qué productos utiliza para limpiar su piel',
+'Utiliza algún producto de hidratación o protección solar',
+'Qué tipo de cabello tiene (liso, rizado, teñido)',
+'Con qué frecuencia se lava el cabello',
+'Qué productos utiliza para lavarse y acondicionarse el cabello',
+'Con qué frecuencia se corta y lima las uñas',
+'Utiliza algún esmalte o producto para las uñas',
+'Ha notado algún problema con las uñas (por ejemplo, fragilidad,
+ decoloración)',
+'Cuántas veces al día se cepilla los dientes',
+'Utiliza hilo dental o enjuague bucal',
+'Ha notado algún problema dental (por ejemplo, caries, 
+enfermedad de las encías)',
+'Utiliza desodorante o antitranspirante',
+'Tiene alguna rutina de exfoliación o depilación',
+'Utiliza lociones corporales o perfumes',
+'Cuánto suele dormir',
+'Tiene alguna dificultad para dormir',
+'Cómo afecta su falta de sueño a su rutina de aseo personal']
 
-Finalmente, se inicia el bucle de escucha del bot $bot.infinity\_polling()$ para que esté constantemente esperando y respondiendo a los mensajes de los usuarios.
+Extra: {'Aseo personal': True , 'Limpieza del hogar': False , 
+	'cuidado de la salud' : False}
 
+Respuestas Extra: {}
+\end{verbatim}
 
+Un objeto pregunta por un lado, almacena la pregunta principal que es la que viene predefinida junto con la respuesta y los campos. Si una vez realizada esa pregunta y analizada la respuesta quedan campos sin responder, se generan preguntas extra asociadas a ese campo, que se almacenan en el atributo ``Preguntas Extra''. Las preguntas extra que se van haciendo se almacenan en Respuestas extra con el formato ${Pregunta:respuesta}$. Todas las respuestas dadas se analizan y si se encontrara un valor para los campos que faltan, se eliminarían el resto de preguntas extra y se pasaría a ver el siguiente campo. Llevar un control de acerca de qué campos se han generado ya preguntas extra nos permite no volver a indagar sobre un tema del que ya se ha conversado en profundidad. 
+
+Cuando se estudian los campos de un objeto pregunta para comprobar que se ha obtenido toda la información que se necesitaba y poder pasar a la siguiente, sí hay un campo para el que no se ha encontrado valor, pero para el que sí se han generado preguntas extra y preguntado sobre ellas, simplemente se da la información por no encontrable y se continua con el flujo de la conversación. Además, esto nos permite mantener un mejor flujo de la conversación, ya que todas las preguntas relacionadas con un mismo tema se harán en un orden lógico y no dando saltos entorno a los diferentes temas a lo largo de la conversación. 
 \subsection{Extracción de información a partir de imagenes}
 \label{sec:imagenes}
 La api de Gemini tiene muchas funcionalidades que permiten del chatbot una herramienta completa. En concreto, gracias a la interfaz elegida y al modelo \textit{gemini-pro-vision} se ha implementado una funcionalidad extra respecto a las que estaban planteadas originalmente. Esta funcionalidad es la extracción de información a partir de imagenes. En cualquier momento, el usuario puede adjuntar una foto. El programa se encarga de analizar la fotografía y a partir de ella hacer preguntas que permitan extraer más información que la obtenida únicamente con las preguntas.
@@ -399,6 +433,30 @@ El análisis de imágenes también puede proporcionar contexto y significado a l
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.9\textwidth]{Imagenes/extracInfoImag}
-	\caption{Ejemplo de extracción de información a partir de imagenes}
+	\includegraphics[width=0.9\textwidth]{Imagenes/familia}
+	\caption{Imagen de entrada para el análisis de la misma por \textit{gemini-pro-vision}}
+	\label{img:familia}
 \end{figure}
+
+A partir de la imagen \ref{img:familia} se puede ver cuál es la respuesta de gemini. La api es capaz de identificar el contexto y las personas en la imagen y generar preguntas especificas sobre ellas. Las imágenes se pueden adjuntar en cualquier momento junto con las respuestas. El prompt que se pasa al modelo en este caso indica que se describa la imagen y se genere una pregunta específica de forma qué, si el usuario no había sido capaz de responder a una pregunta, apoyándose de la foto sea capaz de proporcionar algo de información aunque sea más especifica. 
+
+Es importante mencionar, que el comportamiento de Gemini no es siempre el mismo de forma que para la misma entrada se pueden obtener diferentes salidas. De hecho para la imagen \ref{img:familia} en distintas ejecuciones se obtienen entre otras estas salidas. 
+
+\begin{verbatim}
+La imagen muestra a una familia de tres generaciones. Hay abuelos,
+padres y nietos. Todos estan sonrientes y pareen estar disfrutando de
+la compañía de los demás. Están sentados alrededor de una mesa en el
+jardín, y hay comida en la mesa. Parece que estan celebrando algo. 
+   
+¿Qué estan celebrando? 
+\end{verbatim}
+
+\begin{verbatim}
+La imagen muestra a una familia de 10 personas. Hay 4 generaciones
+presentes: los abuelos, los padres, los hijos y los nietos. Todos están
+sonrientes y parecen estar disfrutando de la comida al aire libre. 
+
+¿Cuál es el motivo de la reunión familiar?  
+\end{verbatim}
+
+La información obtenida a partir de las respuestas que diera el usuario a las preguntas que aparecen al final de la descripción son las que se almacenarían y analizarían siguiendo el mismo flujo que las respuestas asociadas a preguntas normales. 

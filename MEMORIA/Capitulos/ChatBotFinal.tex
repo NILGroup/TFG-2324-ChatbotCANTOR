@@ -47,14 +47,23 @@ Con todo lo implementado, el sistema se puede representar como se ve en la figur
 
 El módulo servidor se encarga de manejar el flujo de los mensajes del chatbot. Recibe los mensajes entrantes desde la plataforma de Telegram y coordina su procesamiento posterior. Este módulo actúa como el punto de entrada centralizado del sistema, y ha de mantenerse en ejecución durante todo el tiempo en el que se quiera usar el chatbot.
 
-La lógica del módulo para manejar los mensajes sigue lo explicado en la sección \ref{sec:Telegram}, utilizando distintos manejadores según el tipo de mensaje.  Esta capacidad de coordinación del módulo servidor asegura una distribución eficiente de los mensajes entrantes optimizando así la velocidad de respuesta y la efectividad de las interacciones con los usuarios. %Explicar como hace que sea eficiente
+La lógica del módulo para manejar los mensajes sigue lo explicado en la sección \ref{sec:Telegram}.  Esta capacidad de coordinación del módulo servidor asegura una distribución eficiente de los mensajes entrantes optimizando así la velocidad de respuesta y la efectividad de las interacciones con los usuarios. Este manejo eficiente se hace a través del uso de tres manejadores, cada uno encargado de gestionar los tres tipos de mensajes de entrada: comandos, imagenes y texto. 
 
-El módulo servidor sirve como el núcleo activo del chatbot, recibiendo mensajes desde Telegram y dirigiéndolos de manera inteligente hacia los componentes adecuados del sistema para su procesamiento y respuesta. Su función es fundamental para mantener el flujo de comunicación entre los usuarios y el chatbot, facilitando una experiencia de usuario fluida y receptiva. %Explicar como hace que sea inteligente la manera 
 
-\subsection{Procesamiento}
+\begin{itemize}
+	\item El manejador $cmd\_start()$ se activa únicamente cuando un usuario envía el comando $\backslash start$ al bot. Este manejador inicia la lógica del bot al cargar las preguntas utilizando la función $cargar\_preguntas()$ del módulo $tfg$ y envía un mensaje de bienvenida al usuario.
+	
+	\item El manejador $bot\_mensajes\_text()$ se activa cuando un usuario envía un mensaje de texto al bot. Si el mensaje comienza con "$\backslash$", se envía un mensaje de error indicando que el comando no está disponible. Si es un mensaje de texto estándar, se llama a la función $siguientePregunta()$ del módulo $tfg$ y se analiza el mensaje como respuesta al último mensaje enviado por el bot. De esta forma se procesa la respuesta del usuario y se genera una respuesta apropiada.
+	
+	\item El manejador $photo()$ se activa cuando un usuario envía una foto al bot. El manejador descarga la foto y la guarda en el sistema de archivos. A continuación, llama a la función $analizador\_imagenes()$ del módulo $imagenes$ para analizar la imagen y generar una respuesta apropiada. El modelo de \textit{gemini-pro-vision} carga la foto descargada y la analiza con el prompt que le indica que describa la imagen y genere una pregunta. 
+\end{itemize}
+
+El módulo servidor sirve como el núcleo activo del chatbot, recibiendo mensajes desde Telegram y dirigiéndolos hacia los componentes adecuados del sistema para su procesamiento y respuesta. Su función es fundamental para mantener el flujo de comunicación entre los usuarios y el chatbot, facilitando una experiencia de usuario fluida y receptiva. 
+
+\subsection{Procesamiento de texto}
 El módulo del procesamiento de la información es el que usa Gemini, y que por tanto requiere estar conectado a una VPN. En función del tipo de mensaje de entrada, imagen o texto, el servidor enviará la información al módulo de procesamiento del lenguaje o al módulo del procesamiento de imagenes.
-\subsubsection{Módulo de procesado de la información}
-Este módulo reune la mayoría de la funcionalidad del chatbot. En concreto se encarga de las siguientes tareas: 
+
+En el módulo de procesamiento de texto se agrupa la mayoría de la funcionalidad del chatbot. En concreto se encarga de las siguientes tareas: 
 \begin{itemize}
 	\item Análisis de las respuestas 
 	\item Identificación de la información faltante
@@ -62,11 +71,50 @@ Este módulo reune la mayoría de la funcionalidad del chatbot. En concreto se e
 	\item Generación de los json con la información
 	\item Generación de preguntas adicionales 
 	 \item Generación de la historia de vida final
+	 \item Generación de feedback a las respuestas del usuario.
 \end{itemize}
-Todas estas funcionalidades ya se han explicado con más detalle en el capítulo \ref{cap:Desarrollo de prototipos}. La funcionalidad adicional que aparece es generación de la historia de vida final. Esta funcionalidad no es un objetivo en sí del sistema, si no que se crea, a raíz de toda la información obtenida y utilizando el Gemini para dar un feedback final al usuario, a modo de recopilación de la información. %EXPLICAR COMO SE HACE 
-\subsubsection{Módulo de procesado de imágenes}
-%DETALLARLO MÁS
-Este módulo se encarga de cargar las imagenes que se han enviado a Telegram. Por las características del modelo y la arquitectura del sistema, cuando la imagen se envía a través de Telegram el manejador descarga la imagen y la almacena con un determinado nombre, que pasa como atributo al módulo de procesado de imágenes. Una vez hecha la llamada al procesado de imágenes el modelo carga la imagen, la analiza y genera una respuesta a partir de la propia imagen y de un prompt adecuado que en concreto, lo que le pide es que la describa de forma que haga al usuario alguna pregunta. De esta forma, se busca que las imagenes sirvan para obtener información adicional que con solo texto quizas el usuario no hubiera recordado. 
+
+Cuando se ha iniciado el chatbot y se han cargado las preguntas, el resto de mensajes de texto serán analizados por este módulo. La tarea principal del módulo es ir pasando una por una por todas las preguntas predefinidas rellenando la información y almacenando las respuestas. 
+
+Cuando el módulo hace una pregunta, almacena la respuesta y la manda a analizar con los prompts y funciones ya explicadas en la sección \ref{protogemini}. Estas funciones se encargan de coger la respuesta del usuario , extraer la información útil y asociarla a campos predefinidos (además de añadir nuevos campos si hay información extra).
+
+Una vez hecha la tarea de extracción de la información se pasa a comprobar si todos los campos han sido rellenados. En caso de encontrar un campo no rellenado, se generan preguntas adicionales que nos ayuden a saber más de ese campo. Las preguntas sólo se generaran si no se ha han generado antes para ese mismo campo. Una vez generadas, se van lanzando al usuario, almacenando y analizando como con cualquier otra pregunta predefinida. 
+
+En el momento en el que se consigue rellenar el campo, o si se acaban las preguntas extra, se eliminan el resto de preguntas adicionales (si las hay) y se pasa a comprobar el resto de campos. Cuando ya se ha comprobado que todos los campos de la pregunta predefinida han sido rellenados, o se ha intentado rellenarlos pero no ha sido posible, se pasa a la siguiente pregunta predefinida. 
+
+En cualquier momento, una respuesta puede venir acompañada de una imagen y en ese caso, se pasaría al módulo de procesamiento de imagenes.
+
+Además, para tener una sensación de conversación más real y que el chatbot no se limite sólo a hacer preguntas, se le pide al modelo que genere cierto feedback para las respuestas. Por ejemplo, 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{Imagenes/feedback}
+	\caption{Ejemplo de generación de feedback a las respuestas}
+	\label{fig:feedback}
+\end{figure}
+
+
+Recapitulando, el modelo \textit{gemini-pro} se utiliza para las siguientes tareas: 
+\begin{itemize}
+	\item Análisis de respuestas y transformación de la información extraída a cierto formato que se pueda parsear fácilmente.
+	\item Generación de preguntas.
+	\item Generación de feedback a las respuestas.
+\end{itemize}
+
+\subsubsection{Procesamiento de imagenes}
+\label{procesamientoimagenes}
+El módulo de procesamiento de imágenes se encarga de extraer información de las mismas para generar nuevas preguntas y tratar de obtener información adicional. Las imagenes pueden ayudar al paciente a recordar, o expresarse y las preguntas específicas acerca de la imagen son más fáciles de responder que una pregunta genérica sin ningún apoyo visual. 
+
+Una vez llega una imagen al manejador, este la envía apropiadamente a este módulo y a su vez, el módulo llama al modelo  \textit{gemini-pro-vision} para que describa la misma y genere una pregunta. La respuesta a esa pregunta se analizará por el módulo de procesamiento de texto como cualquier otra respuesta. 
+
+Por ejemplo, en la figura \ref{fig:imagenFamilia} vemos un ejemplo de como el chatbot genera información a partir de una imagen y genera una pregunta específica acerca de la imagen. De esta forma, la respuesta asociada a esa pregunta pasa a analizarse como cualquier otra respuesta. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{Imagenes/extracInfoImag}
+	\caption{Ejemplo de extracción de información a partir de imagenes}
+	\label{fig:imagenFamilia}
+\end{figure}
 
 \subsection{Almacenamiento y manejo de la información}
 
@@ -90,6 +138,9 @@ Para poner en marcha la versión por ordenador, es necesario la aplicación de T
 	\caption{Ejemplo de bienvenida y primeras interacciones con la versión en móvil}
 	\label{fig:bienvenidaMovil}
 \end{figure}
+
+
+
 
 
 

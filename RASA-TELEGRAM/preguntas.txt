@@ -20,7 +20,7 @@
 ¿Qué te gustaba hacer en tu tiempo libre cuando eras jóven? : [Actividades de ocio]
 ¿En qué trabajaste? : [Profesión]
 ¿Qué coches has tenido en tu vida? : [Marcas coche]
-¿Eres una persona religiosa? : [Si,no]
+¿Eres una persona religiosa? : [si,no]
 ¿Qué religión profesas? : [Nombre religión]
 ¿Qué rutinas diarias son importantes para ti? : [Aseo personal,Limpieza del hogar,cuidado de
 la salud]
