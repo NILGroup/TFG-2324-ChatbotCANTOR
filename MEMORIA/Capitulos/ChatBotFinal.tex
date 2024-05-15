@@ -1,24 +1,27 @@
 \chapter{Diseño de un chatbot de ayuda a la terapia de reminiscencia}
 \label{cap:ChatBot final}
-Este capítulo tiene como objetivo presentar la solución final desarrollada a partir de la problemática presentada en el capítulo \ref{sec:objetivos}. Para ello, se describirá en profundidad cada uno de los componentes básicos de la arquitectura del sistema, y se presentara esta en sí misma. Por otro lado, se explicará tanto el proceso de puesta en marcha como las herramientas necesarias para ese mismo objetivo. 
+Este capítulo tiene como objetivo presentar la versión final desarrollada teniendo en cuenta la problemática detallada en el capítulo \ref{sec:objetivos}. Para ello, se describirá en profundidad cada uno de los componentes básicos de la arquitectura del sistema, y se presentara esta en sí misma. Por otro lado, se explicará tanto el proceso de puesta en marcha como las herramientas necesarias para ese mismo objetivo. 
 
-Con el objetivo de permitir la opción de estudiar los componentes de forma práctica, es decir, usando el prototipo, este capítulo comenzará por la explicación de la puesta en marcha. A continuación, se dará una idea global de la arquitectura del sistema y finalmente se irá explorando en cada sección, cada uno de los módulos que la componen. 
+Con la finalidad de permitir el estudio de los componentes de forma práctica, es decir, usando el prototipo, este capítulo comenzará por la explicación de la puesta en marcha del mismo. A continuación, se dará una idea global de la arquitectura del sistema y finalmente se irá explorando en cada sección, cada uno de los módulos que la componen. 
+
 \section{Herramientas y puesta en marcha}
 Para la puesta en marcha el primer paso es obtener la \textit{API Key} para lo que es necesario el uso de una VPN.
 \subsection{VPN}
-Debido a las restricciones geográficas actuales de la API de Gemini para poder usarla es necesario el uso de una VPN. En concreto y para el desarrollo de este proyecto la conexión a la VPN se ha realizado mediante la herramienta \textit{hide.me VPN}. Esta herramienta crea un túnel seguro utilizando protocolos VPN, oculta nuestra IP real con una suya y cifra todo el tráfico de internet que pasa por este túnel para que podamos navegar libremente. Además, \textit{hide.me} está certificada como una VPN cero registros. Esto significa que no se almacena información de ningún tipo. El uso de la VPN es necesario tanto para obtener la \textit{API Key} como para el uso de la misma. Los países en los que se encuentra disponible gemini se pueden consultar en la web \href{https://ai.google.dev/gemini-api/docs/available-regions?hl=es-419} de la api de gemini. 
+Debido a las restricciones geográficas actuales de la API de Gemini para poder usarla es necesario el uso de una VPN. En concreto y para el desarrollo de este proyecto la conexión a la VPN se ha realizado mediante la herramienta \textit{hide.me VPN}. Esta herramienta crea un túnel seguro utilizando protocolos VPN, oculta nuestra IP real con una suya y cifra todo el tráfico de internet que pasa por este túnel para que podamos navegar libremente. Además, \textit{hide.me} está certificada como una VPN cero registros. Esto significa que no se almacena información de ningún tipo. El uso de la VPN es necesario tanto para obtener la \textit{API Key} como para el uso de la misma.
 
-\subsection{Instalación de la API de Gemini}
+Los países en los que se encuentra disponible \textit{gemini} se pueden consultar en la web \href{https://ai.google.dev/gemini-api/docs/available-regions?hl=es-419} de la api de \textit{gemini}. 
 
-Para comenzar a utilizar la API de Gemini con Python, es necesario seguir estos pasos para instalar el SDK y configurar tu clave de API.
+\subsection{Instalación de la API de \textit{gemini}}
 
-En primer lugar, instalamos el SDK \footnote{\url{https://ai.google/discover/generativeai/}} (Software Development Kit). La API de Gemini está contenida en el paquete \texttt{google-generativeai} \footnote{\url{https://ai.google.dev/gemini-api/docs/available-regions?hl=es-419}} en PyPI, por lo que el primer paso sera instalar esa dependencia.
+Para comenzar a utilizar la API de \textit{gemini} con Python, es necesario seguir estos pasos para instalar el SDK y configurar tu clave de API.
+
+En primer lugar, instalamos el SDK \footnote{\url{https://ai.google/discover/generativeai/}} (Software Development Kit). La API de \textit{gemini} está contenida en el paquete \texttt{google-generativeai} \footnote{\url{https://ai.google.dev/gemini-api/docs/available-regions?hl=es-419}} en PyPI, por lo que el primer paso sera instalar esa dependencia.
 
 \begin{lstlisting}[language=Python]
 	!pip install -U google-generativeai
 \end{lstlisting}
 
-Para utilizar la API de Gemini, se necesita una clave de API obtenida del \href{https://aistudio.google.com/app/apikey} Google AI Studio. Una vez que tengas tu clave, puedes configurarla para que el SDK la utilice:
+Para utilizar la API de \textit{gemini}, se necesita una clave de API obtenida del \href{https://aistudio.google.com/app/apikey} Google AI Studio. Una vez que se tenga la clave, puede configurarse para que el SDK la utilice:
 
 \begin{lstlisting}[language=Python]
 	import google.generativeai as genai
@@ -32,7 +35,7 @@ Para utilizar la API de Gemini, se necesita una clave de API obtenida del \href{
 Siguiendo con la arquitectura del sistema bastaría con modificar en el archivo \textit{config.py} el valor de la \textit{API KEY}.
 
 \subsection{Puesta en marcha} 
-Una vez hechas todas las configuraciones necesarias explicadas en las secciones anteriores, para poder usar el chatbot sería necesario poner en ejecución el módulo $mibot.py$ y enviar el comando $\backslash start$ al usuario $\makeatletter @ mavice07\_bot$. Es importante recordar, que para que el análisis de la información y el flujo de la conversación se desarrollen correctamente, hay que estar conectado a una VPN de una de las localizaciones en las que se encuentra disponible la API de gemini, y que como ya se ha comentado con anterioridad, se pueden consultar en \href{https://ai.google.dev/gemini-api/docs/available-regions?hl=es-419} la web de Gemini.
+Una vez hechas todas las configuraciones necesarias explicadas en las secciones anteriores, para poder usar el chatbot sería necesario poner en ejecución el módulo $mibot.py$ y enviar el comando $\backslash start$ al usuario $\makeatletter @ mavice07\_bot$. Es importante recordar, que para que el análisis de la información y el flujo de la conversación se desarrollen correctamente, hay que estar conectado a una VPN de una de las localizaciones en las que se encuentra disponible la API de \textit{gemini}, y que como ya se ha comentado con anterioridad, se pueden consultar en \href{https://ai.google.dev/gemini-api/docs/available-regions?hl=es-419} la web de \textit{gemini}.
 \section{Arquitectura del sistema}
 Con todo lo implementado, el sistema se puede representar como se ve en la figura \ref{fig:arquitectura}. 
 
@@ -47,7 +50,9 @@ Con todo lo implementado, el sistema se puede representar como se ve en la figur
 
 El módulo servidor se encarga de manejar el flujo de los mensajes del chatbot. Recibe los mensajes entrantes desde la plataforma de Telegram y coordina su procesamiento posterior. Este módulo actúa como el punto de entrada centralizado del sistema, y ha de mantenerse en ejecución durante todo el tiempo en el que se quiera usar el chatbot.
 
-La lógica del módulo para manejar los mensajes sigue lo explicado en la sección \ref{sec:Telegram}.  Esta capacidad de coordinación del módulo servidor asegura una distribución eficiente de los mensajes entrantes optimizando así la velocidad de respuesta y la efectividad de las interacciones con los usuarios. Este manejo eficiente se hace a través del uso de tres manejadores, cada uno encargado de gestionar los tres tipos de mensajes de entrada: comandos, imagenes y texto. 
+La lógica del módulo para manejar los mensajes sigue lo explicado en la sección \ref{sec:Telegram}.
+
+Esta capacidad de coordinación del módulo servidor asegura una distribución eficiente de los mensajes entrantes optimizando así la velocidad de respuesta y la efectividad de las interacciones con los usuarios. Este manejo eficiente se hace a través del uso de tres manejadores, cada uno encargado de gestionar los tres tipos de mensajes de entrada: comandos, imagenes y texto. 
 
 
 \begin{itemize}
@@ -61,7 +66,7 @@ La lógica del módulo para manejar los mensajes sigue lo explicado en la secci�
 El módulo servidor sirve como el núcleo activo del chatbot, recibiendo mensajes desde Telegram y dirigiéndolos hacia los componentes adecuados del sistema para su procesamiento y respuesta. Su función es fundamental para mantener el flujo de comunicación entre los usuarios y el chatbot, facilitando una experiencia de usuario fluida y receptiva. 
 
 \subsection{Módulo de procesamiento del lenguaje}
-El módulo del procesamiento de la información es el que usa Gemini, y que por tanto requiere estar conectado a una VPN. En función del tipo de mensaje de entrada, imagen o texto, el servidor enviará la información al módulo de procesamiento del lenguaje o al módulo del procesamiento de imagenes.
+El módulo del procesamiento de la información es el que usa \textit{gemini}, y que por tanto requiere estar conectado a una VPN. En función del tipo de mensaje de entrada, imagen o texto, el servidor enviará la información al módulo de procesamiento del lenguaje o al módulo del procesamiento de imagenes.
 
 Cuando se ha iniciado el chatbot y se han cargado las preguntas, el resto de mensajes de texto serán analizados por este módulo. La tarea principal del módulo es ir pasando una por una por todas las preguntas predefinidas rellenando la información y almacenando las respuestas. 
 
@@ -74,7 +79,9 @@ En el módulo de procesamiento de texto se agrupa la mayoría de la funcionalida
 \begin{itemize}
 	\item Control de la lógica del sistema y flujo de las preguntas.
 	
-	 Cuando empieza la conversación el módulo se encarga de cargar toda la información a partir del fichero \textit{preguntas.txt} y transformarla en objetos de la clase ``Pregunta''. A continuación, se encarga de manejar el flujo de la conversación a través de las preguntas predefinidas que acaba de cargar. Supongamos que nos encontramos en plena conversación y que se ha lanzado al usuario la pregunta ``¿Cuáles son tu comida y bebida favoritas?'' con campos asociados ['comida favorita', 'bebida favorita']. Hemos obtenido la respuesta ''Mi comida favorita son las lentejas pero detesto los garbanzos''.
+	 Cuando empieza la conversación el módulo se encarga de cargar toda la información a partir del fichero \textit{preguntas.txt} y transformarla en objetos de la clase ``Pregunta''. A continuación, se encarga de manejar el flujo de la conversación a través de las preguntas predefinidas que acaba de cargar.
+	 
+	 Supongamos que nos encontramos en plena conversación y que se ha lanzado al usuario la pregunta ``¿Cuáles son tu comida y bebida favoritas?'' con campos asociados ['comida favorita', 'bebida favorita']. Hemos obtenido la respuesta ''Mi comida favorita son las lentejas pero detesto los garbanzos''.
 	
 	\item Análisis de las respuestas.
 	
@@ -101,9 +108,11 @@ El siguiente paso es enviar este valor a diferentes funciones que se encargan en
 	
 	\item Generación de preguntas adicionales.
 	
-	 Como se puede ver, en nuestro caso no se ha obtenido información para el campo ``bebida favorita'' con lo que se generan preguntas para este campo como se explica en la sección \ref{generacionpreguntas}. Con esto se actualiza el atributo ``Preguntas extra'' del objeto ``Pregunta'' y se pasa a ir realizando estas preguntas una a una hasta que se rellene el campo ``bebida favorita'' o hasta que se acaben las preguntas extra generadas. En este segundo caso, no se generaran más preguntas si no que se pasará a continuar con el flujo normal de la conversación. 
+	 Como se puede ver, en nuestro caso no se ha obtenido información para el campo ``bebida favorita'' con lo que se generan preguntas para este campo como se explica en la sección \ref{generacionpreguntas}. Con esto se actualiza el atributo ``Preguntas extra'' del objeto ``Pregunta'' y se pasa a formular estas preguntas una a una hasta que se rellene el campo ``bebida favorita'' o hasta que se acaben las preguntas extra generadas. En este segundo caso, no se generaran más preguntas si no que se continuará con el flujo normal de la conversación. 
 	
-	Igual que ocurría con la extracción de información, la respuesta que da \textit{gemini} necesita ser parseada para obtener las respuestas con un formato ``limpio''. Un ejemplo de generación de preguntas para el campo ``bebida favorita''. Supongamos que en la lista de preguntas generadas se encuentra la siguiente, y que al hacérsela al usuario se obtiene la respuesta mostrada a continuación. 
+	Igual que ocurría con la extracción de información, la respuesta que da \textit{gemini} necesita ser parseada para obtener las respuestas con un formato ``limpio''.
+	
+	Un ejemplo de generación de preguntas para el campo ``bebida favorita''. Supongamos que en la lista de preguntas generadas se encuentra la siguiente, y que al hacérsela al usuario se obtiene la respuesta mostrada a continuación. 
 	
 \begin{verbatim}
 ¿Cuál es tu bebida favorita? 
@@ -144,7 +153,7 @@ Recapitulando, el modelo \textit{gemini-pro} se utiliza para las siguientes tare
 Adicionalmente, también se usará para la generación de historias de vida.
 
 \subsubsection{Generación de historias de vida}
-Finalmente, se añade la funcionalidad adicional de generar historias de vida. Lo ideal sería generar las historias de vida con otros modelos como el mencionado en \ref{sec:trabajocristina}. Sin embargo, a modo de feedback final de la conversación se propone una historia que podría ser un prototipo de historia de vida. Esta historia es generada por el modelo pasandole un prompt tan simple como el siguiente. 
+Finalmente, se añade la funcionalidad adicional de generar historias de vida. Lo idóneo sería generar las historias de vida con otros modelos como el mencionado en \ref{sec:trabajocristina}. Sin embargo, a modo de feedback final de la conversación se propone una historia que podría ser un prototipo de historia de vida. Esta historia es generada por el modelo pasandole un prompt tan simple como el siguiente. 
 
 \begin{verbatim}
 	prompt = f"Genera una historia sobre una persona con estos datos
@@ -299,7 +308,7 @@ El módulo de procesamiento de imágenes se encarga de extraer información de l
 
 Una vez llega una imagen al manejador, este la envía apropiadamente a este módulo y a su vez, el módulo llama al modelo  \textit{gemini-pro-vision} para que describa la misma y genere una pregunta. La respuesta a esa pregunta se analizará por el módulo de procesamiento de texto como cualquier otra respuesta. 
 
-Por ejemplo, en la figura \ref{fig:imagenFamilia} vemos un ejemplo de como el chatbot genera información a partir de una imagen y genera una pregunta específica acerca de la imagen. De esta forma, la respuesta asociada a esa pregunta pasa a analizarse como cualquier otra respuesta. 
+En el caso de la figura \ref{fig:imagenFamilia} vemos un ejemplo de como el chatbot genera información a partir de una imagen y formula una pregunta específica acerca de la misma. De esta forma, la respuesta asociada a esa pregunta pasa a analizarse como cualquier otra respuesta. 
 
 \begin{figure}[h]
 	\centering
@@ -309,9 +318,11 @@ Por ejemplo, en la figura \ref{fig:imagenFamilia} vemos un ejemplo de como el ch
 \end{figure}
 
 \section{Interfaz e interacción con el usuario}
-A pesar de que se podría usar a través de su versión por consola, el chatbot esta pensando para ser usado a través de Telegram. Gracias a esto se puede usar desde tantos dispositivos como se puede usar Telegram, entre los que destacaríamos los dispositivos móviles y los ordenadores.
+A pesar de que se podría utilizar en su versión por consola, el chatbot esta pensando para ser usado a través de Telegram. Gracias a esto puede estar disponible en todos aquellos dispositivos en los que es posible utilizar Telegram, entre los que destacaríamos los dispositivos móviles y los ordenadores.
 
-Para poner en marcha la versión por ordenador, es necesario la aplicación de Telegram, ya sea la versión web o la versión local. De igual forma la versión en móvil u tablet requiere la aplicación de Telegram. Una vez con la aplicación correctamente instalada y abierta, hay que buscar al usuario $\makeatletter @ mavice07\_bot$ y enviado el comando  $\backslash start$, recibiremos el mensaje de bienvenida y comenzará la conversación. Ejemplo de esto en la versión de ordenador y móvil se pueden ver respectivamente en las figuras \ref{fig:bienvenidaOrdenador} y \ref{fig:bienvenidaMovil}.
+Para poner en marcha la versión por ordenador, es necesario la aplicación de Telegram, ya sea la versión web o la versión local. De igual forma la versión en móvil o tablet requiere la aplicación de Telegram. Una vez con la aplicación correctamente instalada y abierta, hay que buscar al usuario $\makeatletter @ mavice07\_bot$ y enviado el comando  $\backslash start$, recibiremos el mensaje de bienvenida y comenzará la conversación.
+
+Ejemplos de esto en la versión de ordenador y móvil se pueden ver respectivamente en las figuras \ref{fig:bienvenidaOrdenador} y \ref{fig:bienvenidaMovil}.
 
 \begin{figure}[h]
 	\centering
