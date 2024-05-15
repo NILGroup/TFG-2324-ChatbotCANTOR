@@ -174,9 +174,8 @@ Rasa es una plataforma de código abierto diseñada para el desarrollo de chatbo
 
 Una de las principales ventajas de Rasa es su flexibilidad y personalización, ya que los desarrolladores tienen control total sobre el comportamiento y la lógica de sus chatbots. Además, Rasa proporciona herramientas robustas para la gestión del diálogo, la comprensión del lenguaje natural y la integración con otros sistemas. Sin embargo, una posible desventaja de Rasa es su curva de aprendizaje, ya que requiere un conocimiento sólido de PLN y aprendizaje automático para aprovechar al máximo su potencial. Además, debido a su naturaleza de código abierto, puede requerir más tiempo y recursos para implementar y mantener en comparación con otras soluciones comerciales. Hay que señalar que, aunque rasa no es la API más potente en cuánto a generación de texto, tiene numerosas aplicaciones que resultan interesantes. 
 
-\section{Gemini}
+\subsection{Gemini}
 \label{sec:gemini}
-%De aqui quiero sacar varias páginas, ver el tutorial y ir metiendo todo
 
 Gemini es una API de procesamiento del lenguaje natural (PLN) desarrollada por Google que permite a los usuarios interactuar con modelos de lenguaje avanzados para generar texto coherente y relevante en respuesta a consultas y solicitudes. Utiliza modelos de lenguaje de última generación entrenados por Google, que son capaces de comprender y generar texto en varios idiomas y contextos. Los usuarios pueden enviar texto de entrada a través de la API y recibir respuestas generadas por los modelos de Gemini. Ofrece varios modelos para satisfacer diferentes necesidades y casos de uso, entre los que se encuentran:
 \begin{itemize}[label=$\bullet$, leftmargin=*]
@@ -186,102 +185,57 @@ Gemini es una API de procesamiento del lenguaje natural (PLN) desarrollada por G
 
 Gemini puede utilizarse para una variedad de aplicaciones, incluyendo generación de texto a partir de entradas bien sean de texto, o imágenes, conversaciones de varios turnos (chats) o para la obtención de embeddings para modelos del lenguaje. 
 
-Para configurarlo, en primer lugar hay que ejecutar el programa mibot.py. A continuación, una vez estando en Telegram simplemente enviar el comando /start para comenzar la conversación y ya. 
 
-Sin embargo, y pese a las grandes funcionalidades de todas estas alternativas nos hemos decidido por hacer una interfaz con Telegram desarrollando nuestro propio chatbot usando Gemini. 
+\subsubsection{Procesamiento de texto}
+\label{estructurarespuesta}
 
-Para desarrollar el chatbot de telegram me he decantado por usar la interfaz de telegram para la cuál se necesita la API de Rasa. Las principales ventajas que ofrece esta herramienta es la facilidad del manejo de la interfaz pues telegram es una herramienta muy conocida con la que los terapeutas pueden estar más familiarizados. Además, esto nos permite también usar la versión del chatbotyayo para móvil. 
-
-\subsection{Procesamiento de texto}
-
-El modelo más apropiado para el procesamiento de texto es $gemini-pro$. La estructura de las respuestas de este modelo es la siguiente. 
-
-\begin{lstlisting}[style=SpyderStyle, caption={Estructura de una respuesta de Gemini}, captionpos=b, label={lst:python},breaklines = true]
-	{
-		"candidates": [
-		{
-			"content": {
-				"parts": [
-				{
-					"text": string
-				}
-				]
-			},
-			"finishReason": enum (FinishReason),
-			"safetyRatings": [
-			{
-				"category": enum (HarmCategory),
-				"probability": enum (HarmProbability),
-				"blocked": boolean
-			}
-			],
-			"citationMetadata": {
-				"citations": [
-				{
-					"startIndex": integer,
-					"endIndex": integer,
-					"uri": string,
-					"title": string,
-					"license": string,
-					"publicationDate": {
-						"year": integer,
-						"month": integer,
-						"day": integer
-					}
-				}
-				]
-			}
-		}
-		],
-		"usageMetadata": {
-			"promptTokenCount": integer,
-			"candidatesTokenCount": integer,
-			"totalTokenCount": integer
-		}
-	}
-\end{lstlisting}
-
-\begin{itemize}
-	\item \textbf{text}	El texto generado.
-	\item \textbf{finishReason}	El motivo por el que el modelo dejó de generar tokens. Si está vacío, el modelo no dejó de generar los tokens. El motivo puede ser cualquiera de los siguientes:
-	\begin{enumerate}
-		\item $FINISH\_REASON\_UNSPECIFIED$: no se especifica el motivo de finalización.
-		\item $FINISH\_REASON\_STOP$: punto de detención natural del modelo o secuencia de detención proporcionada.
-		\item $FINISH\_REASON\_MAX\_TOKENS$: se alcanzó la cantidad máxima de tokens especificada en la solicitud.
-		\item $FINISH\_REASON\_SAFETY$: la generación del token se detuvo porque la respuesta se marcó por motivos de seguridad. Hay que tener en cuenta que Candidate.content está vacío si los filtros de contenido bloquean el resultado.
-		\item $FINISH\_REASON\_RECITATION$: la generación del token se detuvo porque la respuesta se marcó para citas no autorizadas.
-		\item $FINISH\_REASON\_OTHER$: todos los demás motivos que detuvieron el token
-	\end{enumerate}
+El modelo más apropiado para el procesamiento de texto es $gemini-pro$. Es una herramienta avanzada diseñada para el procesamiento eficiente de texto, ofreciendo una amplia gama de funcionalidades que facilitan el análisis y manipulación de datos textuales. A continuación se muestran algunas de sus funcionalidades.
 	
-	\item \textbf{category}	La categoría de seguridad para la que se configura un umbral. Los valores aceptables son los siguientes:
-	Haz clic para expandir las categorías de seguridad
-	\begin{enumerate}
-		\item $HARM\_CATEGORY\_SEXUALLY\_EXPLICIT$
-		\item $HARM\_CATEGORY\_HATE\_SPEECH$
-		\item $HARM\_CATEGORY\_HARASSMENT$
-		\item $HARM\_CATEGORY\_DANGEROUS\_CONTENT$
-	\end{enumerate}
-	\item \textbf{probability}	Los niveles de probabilidad de daños en el contenido.
-	\begin{enumerate}
-		\item $HARM\_PROBABILITY\_UNSPECIFIED$
-		\item $NEGLIGIBLE$
-		\item $LOW$
-		\item $MEDIUM$
-		\item $HIGH$
-	\end{enumerate}
-	\item \textbf{blocked}	Una marca boolean asociada con un atributo de seguridad que indica si la entrada o salida del modelo se bloqueó. Si blocked es true, el campo errors en la respuesta contiene uno o más códigos de error. Si blocked es false, la respuesta no incluye el campo errors.
-	\item \textbf{startIndex}	Un número entero que especifica dónde comienza una cita en el contenido.
-	\item \textbf{endIndex}	Un número entero que especifica dónde termina una cita en content.
-	\item \textbf{url}	Es la URL de una fuente de cita. Los ejemplos de una fuente de URL pueden ser un sitio web de noticias o un repositorio de GitHub.
-	\item \textbf{title}	Es el título de una fuente de cita. Los ejemplos de títulos de origen pueden ser los de un artículo de noticias o un libro.
-	\item \textbf{license}	Es la licencia asociada con una cita.
-	\item \textbf{publicationDate}	La fecha en que se publicó una cita. Sus formatos válidos son YYYY, YYYY-MM y YYYY-MM-DD.
-	\item \textbf{promptTokenCount}	Cantidad de tokens en la solicitud.
-	\item \textbf{candidatesTokenCount}	Cantidad de tokens en las respuestas.
-	\item \textbf{totalTokenCount}	Cantidad de tokens en la solicitud y las respuestas.
-\end{itemize} 
+\begin{itemize}
 
-\subsection{Procesamiento de imágenes}
+\item Análisis de sentimientos y emociones:
+Ofrece capacidades para analizar sentimientos en el texto, identificando tonos positivos, negativos o neutros, útiles para el análisis de opiniones o comentarios.
+
+\begin{verbatim}
+prompt = "Identifica los sentimientos en el siguiente texto: "
+ + "Me encanta este producto, es increíble."
+>>> Sentimiento: Positivo
+\end{verbatim}
+
+\item Extracción de información:
+Puede extraer automáticamente información específica como nombres, fechas o lugares y además hacerlo en un formato específico. Esta funcionalidad será especialmente útil en este trabajo.
+
+\begin{verbatim}
+prompt = "Extrae información en formato json de la siguiente
+ frase: La reunión será el 15 de mayo en Barcelona."
+
+>>>{"fecha": "15 de mayo", "ubicación": "Barcelona"}
+\end{verbatim}
+
+\item Generación de resúmenes y extractos:
+Permite generar resúmenes automáticos o extractos de textos largos, facilitando la comprensión rápida del contenido principal. Esta funcionalidad también nos será de utilidad para la generación de historias de vida.
+
+\begin{verbatim}
+prompt = "Resume : Este artículo presenta un estudio exhaustivo 
+sobre inteligencia artificial ."
+
+>>>"El artículo aborda el tema de la inteligencia artificial en
+ detalle."
+\end{verbatim}
+
+\item Clasificación y categorización:
+La herramienta puede clasificar textos en categorías predefinidas o identificar temas principales utilizando algoritmos de aprendizaje automático.
+
+\begin{verbatim}
+prompt = "Clasifica el siguiente texto" + "El mercado de 
+criptomonedas experimenta un crecimiento significativo."
+
+>>>Categoría: Finanzas
+\end{verbatim}
+
+\end{itemize}
+	
+\subsubsection{Procesamiento de imágenes}
 %https://developers.google.com/solutions/content-driven/ai-images?continue=https%3A%2F%2Fdevelopers.google.com%2Flearn%2Fpathways%2Fsolution-ai-gemini-images&hl=es-419#article-https://developers.google.com/solutions/content-driven/ai-images&hl=es-419
 
 Los mensajes multimodales son instrucciones que utilizan modelos avanzados de lenguaje y admiten diferentes tipos de entradas, como texto e imágenes. Al combinar múltiples formatos de entrada, estos mensajes permiten una amplia gama de aplicaciones, como la clasificación de imágenes, el reconocimiento de escritura a mano, la traducción y otras tareas creativas.

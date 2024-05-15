@@ -181,11 +181,99 @@ Esta sección se centra en explicar como fue el desarrollo de este prototipo, y 
 
 Como ya se ha mencionado anteriormente, el segundo hito a conseguir es la construcción de una herramienta que sea capaz de analizar las respuestas, identificar la información omitida y hacer preguntas específicas para obtener la información faltante. Estas tres tareas se llevan a cabo usando la API de gemini y en concreto, el modelo $gemini-pro$, que es la versión de gemini encargada del procesamiento de texto. 
 
-En la sección \ref{sec:gemini} se ha estudiado la API de Gemini, la estructura de sus respuestas y las características técnicas profunidad. Ahora pasaremos a analizar exactamente el modelo que vamos a usar para nuestro trabajo, viendo el alcance de sus respuestas y sus limitaciones. 
+La estructura de las respuestas de este modelo es la siguiente. 
+
+\begin{lstlisting}[style=SpyderStyle, caption={Estructura de una respuesta de Gemini}, captionpos=b, label={lst:python},breaklines = true]
+	{
+		"candidates": [
+		{
+			"content": {
+				"parts": [
+				{
+					"text": string
+				}
+				]
+			},
+			"finishReason": enum (FinishReason),
+			"safetyRatings": [
+			{
+				"category": enum (HarmCategory),
+				"probability": enum (HarmProbability),
+				"blocked": boolean
+			}
+			],
+			"citationMetadata": {
+				"citations": [
+				{
+					"startIndex": integer,
+					"endIndex": integer,
+					"uri": string,
+					"title": string,
+					"license": string,
+					"publicationDate": {
+						"year": integer,
+						"month": integer,
+						"day": integer
+					}
+				}
+				]
+			}
+		}
+		],
+		"usageMetadata": {
+			"promptTokenCount": integer,
+			"candidatesTokenCount": integer,
+			"totalTokenCount": integer
+		}
+	}
+\end{lstlisting}
+
+\begin{itemize}
+	\item \textbf{text}	El texto generado.
+	\item \textbf{finishReason}	El motivo por el que el modelo dejó de generar tokens. Si está vacío, el modelo no dejó de generar los tokens. El motivo puede ser cualquiera de los siguientes:
+	\begin{enumerate}
+		\item $FINISH\_REASON\_UNSPECIFIED$: no se especifica el motivo de finalización.
+		\item $FINISH\_REASON\_STOP$: punto de detención natural del modelo o secuencia de detención proporcionada.
+		\item $FINISH\_REASON\_MAX\_TOKENS$: se alcanzó la cantidad máxima de tokens especificada en la solicitud.
+		\item $FINISH\_REASON\_SAFETY$: la generación del token se detuvo porque la respuesta se marcó por motivos de seguridad. Hay que tener en cuenta que Candidate.content está vacío si los filtros de contenido bloquean el resultado.
+		\item $FINISH\_REASON\_RECITATION$: la generación del token se detuvo porque la respuesta se marcó para citas no autorizadas.
+		\item $FINISH\_REASON\_OTHER$: todos los demás motivos que detuvieron el token
+	\end{enumerate}
+	
+	\item \textbf{category}	La categoría de seguridad para la que se configura un umbral. Los valores aceptables son los siguientes:
+	Haz clic para expandir las categorías de seguridad
+	\begin{enumerate}
+		\item $HARM\_CATEGORY\_SEXUALLY\_EXPLICIT$
+		\item $HARM\_CATEGORY\_HATE\_SPEECH$
+		\item $HARM\_CATEGORY\_HARASSMENT$
+		\item $HARM\_CATEGORY\_DANGEROUS\_CONTENT$
+	\end{enumerate}
+	\item \textbf{probability}	Los niveles de probabilidad de daños en el contenido.
+	\begin{enumerate}
+		\item $HARM\_PROBABILITY\_UNSPECIFIED$
+		\item $NEGLIGIBLE$
+		\item $LOW$
+		\item $MEDIUM$
+		\item $HIGH$
+	\end{enumerate}
+	\item \textbf{blocked}	Una marca boolean asociada con un atributo de seguridad que indica si la entrada o salida del modelo se bloqueó. Si blocked es true, el campo errors en la respuesta contiene uno o más códigos de error. Si blocked es false, la respuesta no incluye el campo errors.
+	\item \textbf{startIndex}	Un número entero que especifica dónde comienza una cita en el contenido.
+	\item \textbf{endIndex}	Un número entero que especifica dónde termina una cita en content.
+	\item \textbf{url}	Es la URL de una fuente de cita. Los ejemplos de una fuente de URL pueden ser un sitio web de noticias o un repositorio de GitHub.
+	\item \textbf{title}	Es el título de una fuente de cita. Los ejemplos de títulos de origen pueden ser los de un artículo de noticias o un libro.
+	\item \textbf{license}	Es la licencia asociada con una cita.
+	\item \textbf{publicationDate}	La fecha en que se publicó una cita. Sus formatos válidos son YYYY, YYYY-MM y YYYY-MM-DD.
+	\item \textbf{promptTokenCount}	Cantidad de tokens en la solicitud.
+	\item \textbf{candidatesTokenCount}	Cantidad de tokens en las respuestas.
+	\item \textbf{totalTokenCount}	Cantidad de tokens en la solicitud y las respuestas.
+\end{itemize} 
+
+Para el desarrollo del prototipo hay que tener en cuenta esta estructura. En concreto, resultan especialmente interesantes dos campos. Por un lado, el campo \textit{candidates} que nos permite saber si se han generado respuestas correctamente. En distintos puntos dónde se usa la API de \textit{gemini} hay que tener en cuenta que no necesariamente se obtiene siempre una respuesta para manejar la información de una forma u otra. Por otro lado, el campo \textit{text} qué es el qué contiene la respuesta en sí. 
 
 \begin{verbatim}
 	response = model.generate_content("¿Qué es la terapia de 
 	reminiscencia?")
+	print(response.text)
 	>>>'**Definición:**\n\nLa terapia de reminiscencia es un tipo de
 	psicoterapia que utiliza recuerdos personales como herramienta para
 	mejorar el bienestar cognitivo, emocional y social.\n\n**Objetivo:
@@ -226,6 +314,7 @@ En la sección \ref{sec:gemini} se ha estudiado la API de Gemini, la estructura 
 Como se puede ver proporciona respuestas completas y bien redactadas.
 
 \subsection{Análisis de las respuestas e identificación de la información omitida}
+\label{analisisres}
 
 El proceso de análisis de respuestas implica evaluar las respuestas recibidas a las preguntas planteadas durante la conversación. En nuestro caso se lleva a cabo mediante el uso del modelo y una serie de funciones que reciben como entrada la respuesta del usuario y devuelven un \textit{json} con la información asociada. Para ello, las preguntas predefinidas se almacenan en un fichero junto con una serie de campos que representan la información mínima que se quiere obtener de cada uno de ellos como se puede ver a continuación:
 \begin{verbatim}
@@ -272,7 +361,8 @@ Mi hija Lucía es médico y el mayor es Juan.
 Este prototipo también añade información adicional que haya podido obtener de la respuesta y que no se pueda asociar a los campos predefinidos. Para ello, utiliza el prompt original que no pasaba las claves, y al que se pedía que extrajera la información posible. Si alguna de las claves del diccionario de información extra no aparece ya en el diccionario se añade. 
 
 \subsection{Generación de preguntas para obtener la información ausente}
-La generación automatizada de preguntas es un componente clave del sistema diseñado. Este proceso implica la creación de nuevas preguntas dirigidas a recopilar información que no ha podido ser obtenida en las preguntas predefinidas. El proceso de generación de preguntas comienza tras la identificación de un campo al que no se ha podido asociar ningún tipo de valor o sobre el que no se ha obtenido información. En ese momento y gracias a \texit{gemini} se generan una serie de preguntas asociadas asociadas a los campos que no han sido rellenados tales como las que se muestran a continuación.  
+\label{generacionpreguntas}
+La generación automatizada de preguntas es un componente clave del sistema diseñado. Este proceso implica la creación de nuevas preguntas dirigidas a recopilar información que no ha podido ser obtenida en las preguntas predefinidas. El proceso de generación de preguntas comienza tras la identificación de un campo al que no se ha podido asociar ningún tipo de valor o sobre el que no se ha obtenido información. En ese momento y gracias a \textit{gemini} se generan una serie de preguntas asociadas asociadas a los campos que no han sido rellenados tales como las que se muestran a continuación.  
 
 \begin{verbatim}
 	>>>	'¿Cuáles son sus edades?'
