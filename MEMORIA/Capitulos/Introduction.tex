@@ -1,97 +1,101 @@
-\chapter*{Introduction} %Si quiero que no lo ponga como capitulo poner \chapter*{Introduction}
-\addcontentsline{toc}{chapter}{Introduction}
+\chapter*{Introduction}
 \label{chap:introduction}
-The steady increase in life expectancy worldwide has resulted in an increasingly aging population. This fact has brought with it an increase in diseases associated with aging, such as Alzheimer's disease and other types of dementia. Research efforts in these fields have focused on developing treatments that can slow the progression of this disease. Memory plays a fundamental role in the formation of our identity through our experiences and experiences. Its loss can be devastating, as it profoundly affects the quality of life of the person and those around them.
 
-Among the non-pharmacological strategies for the treatment of cognitive impairment and memory, reminiscence therapy stands out. This technique seeks to stimulate the patient's past memories, which can have significant benefits for their social, mental and emotional well-being.
+\chapterquote{There are incurable patients, but none uncareable}{Francesc Torralba}
 
-On the other hand, artificial intelligence is increasingly present in our daily lives. It has a wide variety of uses and applications ranging from virtual assistants in our smartphones to recommendation systems in streaming platforms and e-commerce. In addition, artificial intelligence is used in medicine for more accurate diagnoses, in industry to automate manufacturing processes and even in autonomous vehicle driving. This omnipresence of artificial intelligence is transforming the way we do business.
+The constant increase in life expectancy worldwide has led to an increasingly aging population. This has brought with it an increase in diseases associated with old age, such as Alzheimer's and other types of dementia. Research efforts in these fields have focused on developing treatments that can slow the progression of this disease. Memory plays a fundamental role in shaping our identity through our experiences. Its loss can be devastating as it profoundly affects the quality of life of the person and those around them.
 
+Among non-pharmacological strategies for treating cognitive decline and memory loss, reminiscence therapy stands out. This technique aims to stimulate the patient's past memories, which can have significant benefits for their social, mental, and emotional well-being.
 
-The present project tries to find a way to apply artificial intelligence, and specifically language processing to reminiscence therapy. Specifically, it seeks to develop a conversational tool to support the performance of this type of therapy. 
+On the other hand, artificial intelligence is increasingly present in our daily lives. It has a wide variety of uses and applications ranging from virtual assistants on our smartphones to recommendation systems on streaming platforms and e-commerce. Additionally, artificial intelligence is used in medicine for more accurate diagnoses, in industry to automate manufacturing processes, and even in autonomous vehicle driving. This omnipresence of artificial intelligence is profoundly transforming various sectors, driving efficiency, service personalization, and generating new technological development opportunities.
 
-This chapter has three main objectives. First, to explain the current motivation for this problem. Secondly, to make clear what are the objectives set as the starting point of the project. Finally, with the intention of giving a global vision of the project, in order to understand it and get an idea of what this report is like, there will be a final section in which the structure of this document will be explained, emphasizing what can be found in each chapter. 
+This project aims to find a way to apply artificial intelligence, specifically natural language processing, to reminiscence therapy. Specifically, it seeks to develop a conversational support tool for conducting this type of therapy.
+
+This chapter has three main objectives. First, to explain the current motivation behind this problem. Second, to clarify the goals set as the project's starting point. Finally, with the intention of providing an overview of the project, there will be a final section explaining the structure of this document, emphasizing what can be found in each chapter.
+
 \section{Motivation}
-Despite advances in medical research, a definitive cure for Alzheimer's disease has not yet been found. Most treatments focus on alleviating symptoms and slowing the progression of the disease. Among these treatments, reminiscence therapy has emerged as a prominent non-pharmacological option.
 
-This therapy focuses on stimulating the patient's memories of the past, which can have significant benefits on their social, mental and emotional well-being. It helps people remember and share past experiences, which can be comforting and stimulating, especially for those facing the challenge of memory loss associated with Alzheimer's.
+Despite advances in medical research, no definitive cure for Alzheimer's has yet been found. Most treatments focus on alleviating symptoms and slowing the progression of the disease. Among these treatments, reminiscence therapy has emerged as a prominent non-pharmacological option.
 
-During the 2023-2024 academic term, the \textit{chatbot yayo} application was developed with the goal of making it easier for therapists to conduct reminiscence-based therapies by simplifying and streamlining the process. This development starts from scratch and seeks to create a functional and useful chatbot, capable of maintaining a useful conversation with the patient to extract the necessary information.
+This therapy focuses on stimulating the patient's past memories, which can have significant benefits for their social, mental, and emotional well-being. It helps people recall and share past experiences, which can be comforting and stimulating, especially for those facing the challenge of memory loss associated with Alzheimer's.
 
-This Final Degree Project aims to assist therapists, relatives or friends of patients with dementia in obtaining the necessary material to carry out reminiscence therapies. It seeks to improve the effectiveness of these therapies and, consequently, the quality of life of both patients and their families. 
+During the 2023-2024 academic year, a chatbot was developed with the aim of facilitating therapists in conducting reminiscence-based therapies, simplifying and streamlining the process. This development starts from scratch and seeks to create a functional and useful chatbot capable of maintaining a useful conversation with the patient to extract the necessary information.
 
-\subsection{Alzheimer's disease}
+This Final Degree Project aims to assist therapists, family members, or friends of patients with dementia in obtaining the necessary material for conducting reminiscence therapies. It seeks to improve the effectiveness of these therapies and, consequently, the quality of life for both patients and their families.
 
-Alzheimer's disease (AD) is the leading cause of dementia in older adults. AD is a complex disease that is determined by multiple factors. It is sometimes hereditary and is characterized by the loss of neurons and synapses, along with the presence of senile plaques and neurofibrillary degeneration. Clinically, it manifests as progressive dementia, beginning with failure of recent memory and progressing to total dependence of the patient.
+\subsection{Alzheimer's Disease}
+Alzheimer's disease (AD) is the leading cause of dementia in older adults. AD is a complex disease determined by multiple factors. Sometimes it is hereditary. It is characterized by the loss of neurons and synapses, along with the presence of amyloid plaques and neurofibrillary degeneration. Clinically, it manifests as progressive dementia, starting with recent memory failures and advancing to total dependency.
 
-According to \cite{Donoso2003}, the incidence of AD increases with age, being rare before age 50 and affecting 1-2$\%$ of subjects at age 60, 3-5$\%$ at age 70, 15-20$\%$ at age 80 and up to half of those over age 85. It is more frequent in women, possibly due to greater longevity.
+According to \cite{Donoso2003}, the incidence of AD increases with age, being rare before the age of 50 and affecting 1-2$\%$ of individuals at age 60, 3-5$\%$ at age 70, 15-20$\%$ at age 80, and up to half of those over 85. It is more frequent in women, possibly due to their greater longevity.
 
-The disease develops in different stages. In the early stage, symptoms may go unnoticed or be attributed to simple carelessness. The affected person may experience difficulty remembering names, recent events or finding the right words in conversations. Despite these challenges, they usually retain the ability to perform everyday tasks with some independence. However, they may begin to lose interest in previously enjoyed activities.
+The disease develops in different stages. In the initial stage, symptoms may go unnoticed or be attributed to simple forgetfulness. The affected person may experience difficulties remembering names, recent events, or finding the right words in conversations. Despite these challenges, they generally retain the ability to perform daily tasks with some independence. However, they may begin to lose interest in previously enjoyed activities.
 
-As the disease progresses, the symptoms become more evident and troublesome. Memory loss becomes more pronounced, with difficulty recognizing family members and close friends. In addition, problems with orientation in time and space may arise, which can result in disorientation even in familiar surroundings. Communication skills are also affected, with difficulty following conversations or expressing thoughts coherently.
+As the disease progresses, the symptoms become more evident and problematic. Memory loss becomes more pronounced, with difficulties recognizing close family and friends. Additionally, problems with time and space orientation may arise, leading to disorientation even in familiar environments. Communication skills are also affected, with difficulties following conversations or expressing thoughts coherently.
 
-Finally, Alzheimer's reaches its most devastating point in the last stage. Memory loss is profound and complete, with an inability to recall even recent events or recognize familiar faces. The affected person may experience significant changes in personality and behavior, becoming agitated, anxious or even aggressive at times. The ability to perform basic activities of daily living, such as dressing or feeding oneself, is severely compromised, and constant supervision becomes essential.
+Finally, Alzheimer's reaches its most devastating stage. Memory loss is profound and complete, with an inability to recall even recent events or recognize familiar faces. The affected person may experience significant changes in personality and behavior, becoming agitated, anxious, or even aggressive at times. The ability to perform basic daily life activities, such as dressing or feeding, is severely compromised, and constant supervision becomes essential.
 
-Pharmacological treatment of Alzheimer's disease (AD) is based on the use of drugs to improve cognitive defects and correct behavioral disorders. The most valued drugs are acetylcholinesterase inhibitors, which attempt to compensate for the loss of cholinergic neurons in the cerebral cortex. Treatment also includes drugs to treat behavioral disorders, such as antidepressants, tranquilizers or sleep inducers (\cite{chung2000neurobehavioral}).
+The pharmacological treatment of Alzheimer's disease (AD) is based on the use of medications to improve cognitive defects and correct behavioral disorders. The most valued drugs are acetylcholinesterase inhibitors, which attempt to compensate for the loss of cholinergic neurons in the cerebral cortex. Treatment also includes drugs to treat behavioral disorders, such as antidepressants, tranquilizers, or sleep inducers (\cite{chung2000neurobehavioral}).
 
-In addition to pharmacological treatment, physical and mental activity is essential to stimulate brain activity and prevent memory loss. Family counseling is essential to help relatives manage behavioral disorders and increase the quality of life of AD patients. An example of nonpharmacological therapy that helps maintain mental activity is reminiscence therapy.
+In addition to pharmacological treatment, physical and mental activity is crucial for stimulating brain activity and preventing memory loss. Family guidance is essential to help family members manage behavioral disorders and increase the quality of life for AD patients. An example of a non-pharmacological therapy that helps maintain mental activity is reminiscence therapy.
+
 \subsection{Reminiscence Therapy}
-Reminiscence, as defined by CEAFA (Spanish Confederation of Associations of Relatives of People with Alzheimer's disease and other dementias), is a technique that seeks to evoke memories in people, especially those related to important events in their lives.
+Reminiscence, according to the definition by CEAFA (Spanish Confederation of Associations of Relatives of People with Alzheimer's and Other Dementias), is a technique that seeks to evoke memories in people, especially those related to significant events in their lives.
 
-In reminiscence therapies, various materials are used, such as photographs, videos, newspaper articles, audios and significant objects, with the aim of stimulating recall and activating memory through the emotions that these elements awaken in the patient.
+Reminiscence therapies use various materials such as photographs, videos, newspaper clippings, audios, and significant objects to stimulate memory and activate it through the emotions these elements evoke in the patient.
 
-In addition to stimulating the five senses to elicit recall, storytelling familiar to the patient is also used. Therefore, it is crucial to know the affected individual's past experiences in order to adapt the materials used in the therapies. Involving people close to the patient, such as family members and caregivers, in reminiscence exercises can significantly improve the patient's quality of life.
+In addition to stimulating the five senses to trigger memory, storytelling known to the patient is also used. Therefore, it is crucial to know the individual's past experiences to tailor the materials used in the therapies. The participation of people close to the patient, such as family members and caregivers, in reminiscence exercises can significantly improve their quality of life.
 
-It is advisable to construct narratives based on the patient's life stories for these memory exercises. Reminiscence therapies are seen as part of a broader process in which the individual attempts to retrieve and link memories spanning much of his or her life.
+It is recommended to build stories based on the patient's life experiences for these memory exercises. Reminiscence therapies are considered part of a broader process in which the individual attempts to recover and link memories spanning much of their life.
 
-A review of the possible effects of reminiscence therapy on people with dementia and their caregivers concluded that it decreased behavioral disturbances and depressive symptoms, and improved cognition (\cite{huang2015reminiscence}). Another review noted improvements in mood, cognitive ability, social behavior, and general well-being (\cite{cotelli2012reminiscence}), and reminiscence therapy was recently found to improve physical health and to
-increased patient engagement (\cite{irazoki2027eficacia}).
-\subsection{Life History}
-Life Histories are detailed records of the most relevant aspects of a patient's life, or of significant individuals to them. They are particularly important in the early stages of Alzheimer's disease, when memory is still relatively intact. These histories provide dignity to the patient and allow those around them to better understand their identity as memory losses begin to become significant.
+A review on the potential effects of reminiscence therapy on people with dementia and their caregivers concluded that it decreased behavioral disturbances and depressive symptoms, and improved cognition (\cite{huang2015reminiscence}). Another review observed improvements in mood, cognitive ability, social behavior, and general well-being (\cite{cotelli2012reminiscence}), and recently, it was found that reminiscence therapy improved physical health and increased patient participation (\cite{irazoki2027eficacia}).
 
-Creating these histories is vital for preserving the patient's identity. They may include details about family, career, travels, and other important aspects of the individual's life. The creation can take various forms, such as writing a book, creating photo collages, producing a film, or using a "memory box."
+\subsection{Life Stories}
+Life Stories are detailed records of the most relevant aspects of a patient's life or significant people in their life. They are especially important in the early stages of Alzheimer's when memory is still relatively intact. These stories provide dignity to the patient and allow those around them to better understand their identity as memory losses become significant.
 
-It is essential that these histories reflect the patient's personal perspective, including emotions, feelings, and interpretations. It is not simply about recounting chronological facts but capturing the unique essence of the person.
+Creating these stories is vital for preserving the patient's identity. They can include details about family, professional career, hobbies, travels, and other important aspects of the individual's life. They can be created in various forms, such as writing a book, creating photo collages, producing a movie, or using a "memory box."
 
-A therapist typically gathers and structures the important life events of the patient to create the Life History. The structure may vary based on the patient's needs and therapeutic goals.
+It is essential that these stories reflect the patient's personal perspective, including emotions, feelings, and interpretations. It is not simply about recounting chronological facts but capturing the unique essence of the person.
 
-Involvement of family members or acquaintances can facilitate memory recall and enrich the Life History. Additionally, it strengthens communication between the patient and their loved ones, facilitating the therapeutic process.
+A therapist usually undertakes the task of collecting and structuring the significant events of the patient's life to create the Life Story. The structure can vary depending on the patient's needs and therapeutic goals.
 
-\section{Objectives}
+The involvement of family members or acquaintances can facilitate memory recall and enrich the Life Story. Additionally, it strengthens communication between the patient and their loved ones, facilitating the therapeutic process.
+
+\section{Objectives and Work Methodology}
 \label{sec:objectives}
-This work aims to develop a chatbot that allows therapists to apply reminiscence therapy to their patients. Specifically, it focuses on the initial stage of information gathering to later generate life histories and apply therapy.
 
-To achieve this general objective, the following specific objectives are addressed:
+The objective of this work is to develop a chatbot that supports the conduction of reminiscence therapy. Specifically, the chatbot should meet the following requirements:
 
 \begin{itemize}
-	
-	\item Develop an initial basic chatbot capable of asking predefined questions and efficiently storing responses.
-	
-	\item Study modern natural language processing techniques such as Large Language Models (LLMs), libraries like NLTK and spaCy, and various APIs for chatbot development.
-	
-	\item Enhance the initial chatbot to be more intelligent, capable of analyzing responses, identifying omitted information, and asking specific questions to obtain missing information.
-	
-	\item Create a final version of the chatbot that can analyze responses and engage in conversation. Ensure it can generate appropriate questions.
-	
-	\item Design a user-friendly interface to make the chatbot a useful tool for its intended purpose.
-	
-	\item Organize the gathered information for easy analysis, understanding, and processing, with the intention of generating life histories from it.
-	
+	\item Be capable of maintaining a conversation, guiding the flow through predefined topics about which data from the patient is sought.
+	\item Extract the desired information from the patient's responses, identify additional and missing information.
+	\item Generate questions related to the responses, to obtain any initially missing information.
+	\item Have a user-friendly interface, making this chatbot a useful tool.
 \end{itemize}
 
-For version control, we will use the GitHub repository:\\
-https://github.com/NILGroup/TFG-2324-ChatbotCANTOR.
 
-\section{Document Structure}
-This document consists of 5 chapters, including this introductory chapter. They are organized as follows:
+To achieve these objectives, the following methodology will be followed:
 
 \begin{itemize}
-	\item \textbf{Chapter 1: Introduction}. This chapter introduces the project, motivation, objectives, and structure.
-	\item \textbf{Chapter 2: State of the Art}. The second chapter provides an overview of life histories, Alzheimer's disease, and reminiscence therapy. It also discusses related works, project context, and precedents.
-	\item \textbf{Chapter 3: Technologies Used}. This third chapter explains the in-depth study of language processing tools, interfaces, and data storage that was conducted to decide how to implement the chatbot. It details the different options and the reasons behind each choice.
-	\item \textbf{Chapter 4: Prototyping Development}. This chapter describes the project's development process, explaining each of the versions that were carried out. It discusses the encountered problems, added functionalities, etc.
-	\item \textbf{Chapter 5: Design of a Reminiscence Therapy Chatbot}. Chapter 5 presents the final tool with all its functionalities. It covers the software and tools used, installation and startup guide, final system architecture, etc.
-	\item \textbf{Chapter 6: Conclusions and Future Work}. This chapter summarizes the project's outcomes and outlines potential future directions.
-	%\item \textbf{Appendices}. Additionally, the appendix includes a conversation with a real patient to demonstrate the chatbot's functionality.
-	
+	\item Study Alzheimer's disease and reminiscence therapy to understand the characteristics a conversational bot must have to be helpful in this area.
+	\item Conduct an in-depth study of various natural language processing tools, from libraries like NLTK and spaCy to different APIs and LLM models. This will allow us to choose the most appropriate tools for subsequent development.
+	\item Once the development phase begins, the first step will be to implement a basic chatbot capable of asking predefined questions and efficiently storing responses.
+	\item Improve the tool, making it smarter and capable of analyzing responses, identifying omitted information, and asking specific questions to obtain the missing information.
+	\item Develop a final version capable of analyzing responses and probing further, in addition to the functionalities of previous prototypes.
+	\item Manage the storage of extracted information.
+	\item Create a simple and usable interface, making the chatbot a useful tool for its intended purpose.
+	\item Allow the user to accompany their responses with images, both to help them give more complete answers and to obtain additional information through processing them.
+\end{itemize}
+
+To manage version control, we will use the GitHub repository: \\
+https://github.com/NILGroup/TFG-2324-ChatbotCANTOR.
+
+\section{Structure of the Document}
+This document consists of 6 chapters, including the current one. They are organized as follows:
+\begin{itemize}
+	\item \textbf{Chapter 1: Introduction}. The current chapter presents the project, motivation, objectives, and structure.
+	\item \textbf{Chapter 2: State of the Art}. This chapter provides an overview of life stories, Alzheimer's disease, and reminiscence therapy. It also presents related works, context, and precedents of the project.
+	\item \textbf{Chapter 3: Technologies Used}. This third chapter explains the in-depth study of natural language processing tools, interfaces, and information storage conducted to decide how to implement the chatbot. It explains the different options and the reasons for choosing each.
+	\item \textbf{Chapter 4: Prototype Development}. This chapter explains how the project has been developed, describing each version carried out. It details the initial version, the problems encountered, additional functionalities added, etc.
+	\item \textbf{Chapter 5: Designing a Reminiscence Therapy Support Chatbot}. In Chapter 5, the final tool with all its functionalities is presented. The software and tools used, the guide for installation and setup, the architecture of the final system, etc.
+	\item \textbf{Chapter 6: Conclusions and Future Work}. Chapter 6 discusses the conclusions reached during the project development and the work that could be done in the future to expand it.
 \end{itemize}

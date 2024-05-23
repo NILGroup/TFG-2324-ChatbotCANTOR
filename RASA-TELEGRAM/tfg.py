@@ -114,7 +114,7 @@ def analizar_respuesta(pregunta):
     for clave,valor in data.items():
         pregunta.actualizar_campo(clave, valor)
         #Si ya había generado preguntas extra para ese campo paso
-        if "No Encontrado" in valor:
+        if "No Encontrado".lower() in valor.lower():
             if not pregunta.extra[clave]:
                 pregunta.marcarGeneradasExtra(clave)
                 nuevasPregs = generate_question(clave)
@@ -123,6 +123,8 @@ def analizar_respuesta(pregunta):
     pregunta.pasarSiguiente()
   except KeyError:
       print(f"Ha habido un error al trabajar con la clave {clave} y la pregunta {pregunta.enunciado}")
+      pregunta.pasarSiguiente()
+  except: 
       pregunta.pasarSiguiente()
         
 preguntas = []
@@ -148,7 +150,7 @@ def siguientePregunta(respuesta):
         try:
             feedback = (model.generate_content(respuesta)).text
         except ValueError:
-            print("no hay feedback")
+            print("No se ha podido generar feedback")
         analizar_respuesta(preguntas[index])
     
     if preguntas[index].pasar or len(preguntas[index].preguntasExtra) == 0:
