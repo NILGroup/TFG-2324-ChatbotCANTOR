@@ -16,8 +16,7 @@ import sys
 import re
 
 from config import *
-#Configuración: cargamos la API KEY y instalamos el modelo 
-#pip install google
+
 import pregunta
 
 genai.configure(api_key=GEMINI_TOKEN)
@@ -67,9 +66,10 @@ def generate_json(p):
     
       json_obj = cargar_json(text)
       return json.loads(str(json_obj))
-  except:
-      print(f"generate_json error: json_obj es {response.text}")
-      return "return"
+  except Exception as e:
+      print(e)
+      #print(f"generate_json error: json_obj es {response.text}")
+      #return "return"
 
 def generate_question(clave):
   try: 
@@ -148,7 +148,11 @@ def siguientePregunta(respuesta):
         preguntas[index].pasarSiguiente()
     else:
         try:
+            prompt  = f"¿Qué le responderias a una persona que te ha dicho {respuesta}? Usa como máximo 150 carácteres."
             feedback = (model.generate_content(respuesta)).text
+            regex = r"¿.*?\?|.*?\?"
+            # Reemplaza las preguntas con una cadena vacía
+            feedback = re.sub(regex, '', feedback)
         except ValueError:
             print("No se ha podido generar feedback")
         analizar_respuesta(preguntas[index])
@@ -195,5 +199,6 @@ def cargar_preguntas():
                 campos = partes[1].strip('[]').split(",")
                 p = pregunta.Pregunta(enunciado, campos)
                 preguntas.append(p)
+                
     return preguntas
 
