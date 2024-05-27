@@ -1,7 +1,0 @@
-¿? : []
-¿Cuál es tu comida favorita? : [Comida favorita]
-¿Cuál es tu bebida favorita? : [Bebida favorita]
-¿Cuál es tu color favorito? : [Color favorito]
-¿Qué complemento de ropa te gusta llevar? : [complementos]
-¿Tienes hijos? : [Nombre hijos,edad hijos,recuerdos con hijos]
-

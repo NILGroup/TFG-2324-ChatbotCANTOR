@@ -87,9 +87,9 @@ En el módulo de procesamiento de texto se agrupa la mayoría de la funcionalida
 	
 	 Una vez recibida la respuesta esta pasaría a ser analizada. Si llamamos al modelo usando los prompts indicados en \ref{analisisres} obtenemos la siguiente respuesta. 
 \begin{verbatim}
-'```json\n{\n  "comida favorita": [\n    "Lentejas"\n  ],\n  "bebida
-	 favorita": [\n    "No Encontrado"\n  ], \n "comida detestada":[\n
-	  garbanzos]\n}\n```'
+'```json\n{\n  "comida favorita": [\n    "Lentejas"\n  ],\n 
+	 "bebida favorita": [\n    "No Encontrado"\n  ], \n "comida 
+	 detestada":[\n garbanzos]\n}\n```'
 \end{verbatim}
 
 La información se extrae de forma adecuada, e incluso se añade información adicional que no se corresponde con ningún campo predefinido. Esto ocurre gracias a una llamada adicional al modelo en la que se pide que añada información extra en caso de haberla encontrado, como se explica en \ref{analisisres}
@@ -98,8 +98,8 @@ La información se extrae de forma adecuada, e incluso se añade información ad
 
 El siguiente paso es enviar este valor a diferentes funciones que se encargan en transformar ese \textit{string} en el suguiente \textit{json}, que se almacena en el atributo \textit{campos} del objeto ``Pregunta'' asociado. 
 \begin{verbatim}
-{'comida favorita': ['lentejas'], 'bebida favorita': ['No Encontrado'],
-	 'comida detestada': ['garbanzos']}
+{'comida favorita': ['lentejas'], 'bebida favorita': ['No 
+	Encontrado'], 'comida detestada': ['garbanzos']}
 \end{verbatim}
 
 	\item Identificación de la información ausente.
@@ -125,7 +125,8 @@ Esta pregunta y respuesta se almacenarían en el diccionario ``respuestasExtra''
 
 \begin{verbatim}
 {'comida favorita': ['lentejas'], 'bebida favorita': ['café'], 
-	'comida detestada': ['garbanzos'], 'bebida juventud' : ['cerveza'] }
+	'comida detestada': ['garbanzos'], 'bebida juventud' : 
+	['cerveza'] }
 
 \end{verbatim}
 	 \item Generación de feedback a las respuestas del usuario.
@@ -178,13 +179,15 @@ La entrada datos, en este caso es un \textit{json} que concatena por cada una de
 		"Siempre ha vivido en la misma localidad": "Sí",
 		"Hijos": "Antonio (60), Marta (58), recuerdo de cuando cocinábamos 
 		juntos los domingos.",
-		"Nietos": "Carlos (35), Laura (32), recuerdo de las tardes en el parque.",
+		"Nietos": "Carlos (35), Laura (32), recuerdo de las tardes en el 
+		parque.",
 		"Mascotas": "Rex, perro",
 		"Amigos": "Antonio, Rosa",
-		"Estudios": "EGB, Bachillerato, Secretariado, diversos cursos de idiomas",
+		"Estudios": "EGB, Bachillerato, Secretariado, diversos cursos de
+		 idiomas",
 		"Otra cosa que le hubiera gustado estudiar": "Historia del Arte",
-		"Anécdota de juventud": "Viajé en tren por toda Europa con mis amigos durante 
-		un verano inolvidable.",
+		"Anécdota de juventud": "Viajé en tren por toda Europa con mis
+		 amigos durante  un verano inolvidable.",
 		"Ocio en la juventud": "Bailar, tocar el piano",
 		"Profesión": "Secretaria",
 		"Coches en la vida": "Seat 600, Renault 5",
@@ -209,8 +212,10 @@ La entrada datos, en este caso es un \textit{json} que concatena por cada una de
 		"Relajación": "Estar con familia y escuchar música",
 		"Cosas que no soporta": "Ruido excesivo y olores fuertes",
 		"Mayor logro en la vida": "Mantener una familia unida",
-		"Actividad no realizada que deseaba": "Aprender a bailar flamenco",
-		"Actividad que haría de otra manera": "Habría viajado más cuando era joven",
+		"Actividad no realizada que deseaba": "Aprender a bailar
+		 flamenco",
+		"Actividad que haría de otra manera": "Habría viajado más
+		 cuando era joven",
 		"Deseo para el resto de su vida": "Seguir disfrutando
 		de los momentos con sus seres
 		queridos",
@@ -218,87 +223,81 @@ La entrada datos, en este caso es un \textit{json} que concatena por cada una de
 	}
 	
 	>>>** María: Una vida llena de recuerdos y amor**
-	
-	María, cariñosamente llamada "Marucha" por su familia, nació un
-	soleado 15 de febrero de 1930 en la vibrante ciudad de Barcelona,
-	España. Su infancia transcurrió en las calles de la ciudad, donde
-	creció rodeada del amor de sus padres, Joaquín y Carmen, y sus dos
-	hermanos, Pedro y Ana. 
-	
-	Un día, mientras jugaba en el parque, la pequeña María se alejó
-	demasiado y se perdió. Afortunadamente, un amable policía la
-	encontró y la ayudó a regresar con sus padres, quienes la abrazaron
-	con alivio y alegría. Este evento quedó grabado en su memoria como
-	un recordatorio de la importancia de la familia y la amabilidad
-	de los extraños.
-	
-	Su mejor amigo de la infancia fue Manuel, con quien compartía horas
-	de juegos y aventuras. Juntos exploraban la ciudad, descubrían nuevos
-	lugares y forjaban una amistad que duraría toda la vida.
-	
-	En su juventud, María conoció a Luis, el hombre que se convertiría en
-	su compañero de vida. Se enamoraron perdidamente y se casaron,
-	iniciando un viaje juntos que duraría 60 años llenos de amor, risas
-	y complicidad. Formaron una hermosa familia, con dos hijos,
-	Antonio y Marta, quienes llenaron su hogar de alegría y bullicio.
-	
-	
-	María siempre había vivido en Barcelona, una ciudad que amaba con
-	todo su corazón. Disfrutaba de pasear por sus calles, admirar su
-	arquitectura y empaparse de su vibrante cultura. Barcelona era su
-	hogar, el lugar donde había vivido toda su vida y donde había
-	construido sus más preciados recuerdos.
-	
-	
-	Su vida profesional estuvo marcada por su trabajo como secretaria,
-	una profesión que desempeñó con dedicación y responsabilidad. Además
-	de su trabajo, María era una mujer apasionada por el aprendizaje.
-	Completó sus estudios de EGB y Bachillerato, y luego se
-	especializó en Secretariado. Además, siempre mostró interés por
-	otros idiomas, tomando diversos cursos para ampliar sus
-	conocimientos.
-	
-	
-	Entre sus aficiones favoritas se encontraban la jardinería y la
-	pintura. Disfrutaba cuidando de sus plantas y flores, llenando su
-	hogar de vida y color. También le encantaba pintar, plasmando en
-	sus lienzos los paisajes y momentos que más la inspiraban.
-	
-	
-	Los domingos por la mañana, María y Luis tenían una tradición
-	inquebrantable: cocinar juntos. Preparaban deliciosos platos, como
-	la paella, su comida favorita, y disfrutaban de largas
-	conversaciones mientras compartían la mesa con su familia. Estos
-	momentos eran para ella los más preciados, llenos de risas, amor
-	y el aroma de la comida casera.
-	
-	En su tiempo libre, María también disfrutaba de otras actividades
-	como leer novelas históricas, ver concursos y películas en la
-	televisión, ir al cine, jugar a cartas y dominó con sus amigos
-	Antonio y Rosa, y pasear por el parque con sus nietos, Carlos y
-	Laura. 
-	
-	Su fe era una parte importante de su vida. Como católica devota,
-	encontraba consuelo y fortaleza en su religión. Las rutinas diarias
-	de aseo personal y cuidado de la salud eran esenciales para ella, ya
-	que le permitían mantenerse activa y disfrutar de la vida al máximo.
-	
-	A lo largo de su vida, María ha logrado grandes cosas. El mayor de
-	sus logros, sin duda alguna, ha sido mantener una familia unida y
-	llena de amor. Ha sido una madre ejemplar, una esposa dedicada y una
-	amiga incondicional. A pesar de que tenía algunas actividades
-	pendientes, como aprender a bailar flamenco y viajar más cuando era
-	joven, no hay duda de que ha vivido una vida plena y feliz.
-	
-	En la actualidad, María sigue disfrutando de la vida al máximo. Su
-	mayor deseo es seguir compartiendo momentos con sus seres queridos y
-	atesorando cada instante. También anhela cumplir su último sueño:
-	visitar Japón, un país que siempre le ha fascinado.
-	
-	María es un ejemplo de mujer fuerte, resiliente y llena de amor. Su
-	historia es un recordatorio de que la vida es un regalo precioso que
-	debemos aprovechar al máximo, llenándola de momentos felices, amor y
-	pasión.
+María, cariñosamente llamada "Marucha" por su familia, nació un  
+soleado 15 de febrero de 1930 en la vibrante ciudad de Barcelona,  
+España. Su infancia transcurrió en las calles de la ciudad, donde  
+creció rodeada del amor de sus padres, Joaquín y Carmen, y sus dos  
+hermanos, Pedro y Ana.  
+
+Un día, mientras jugaba en el parque, la pequeña María se alejó  
+demasiado y se perdió. Afortunadamente, un amable policía la  
+encontró y la ayudó a regresar con sus padres, quienes la abrazaron  
+con alivio y alegría. Este evento quedó grabado en su memoria como  
+un recordatorio de la importancia de la familia y la amabilidad de  
+los extraños.  
+
+Su mejor amigo de la infancia fue Manuel, con quien compartía horas  
+de juegos y aventuras. Juntos exploraban la ciudad, descubrían  
+nuevos lugares y forjaban una amistad que duraría toda la vida.  
+
+En su juventud, María conoció a Luis, el hombre que se convertiría  
+en su compañero de vida. Se enamoraron perdidamente y se casaron,  
+iniciando un viaje juntos que duraría 60 años llenos de amor, risas  
+y complicidad. Formaron una hermosa familia, con dos hijos, Antonio  
+y Marta, quienes llenaron su hogar de alegría y bullicio.  
+
+María siempre había vivido en Barcelona, una ciudad que amaba con  
+todo su corazón. Disfrutaba de pasear por sus calles, admirar su  
+arquitectura y empaparse de su vibrante cultura. Barcelona era su  
+hogar, el lugar donde había vivido toda su vida y donde había  
+construido sus más preciados recuerdos.  
+
+Su vida profesional estuvo marcada por su trabajo como secretaria,  
+una profesión que desempeñó con dedicación y responsabilidad. Además  
+de su trabajo, María era una mujer apasionada por el aprendizaje.  
+Completó sus estudios de EGB y Bachillerato, y luego se especializó  
+en Secretariado. Además, siempre mostró interés por otros idiomas,  
+tomando diversos cursos para ampliar sus conocimientos.  
+
+Entre sus aficiones favoritas se encontraban la jardinería y la  
+pintura. Disfrutaba cuidando de sus plantas y flores, llenando su  
+hogar de vida y color. También le encantaba pintar, plasmando en sus  
+lienzos los paisajes y momentos que más la inspiraban.  
+
+Los domingos por la mañana, María y Luis tenían una tradición  
+inquebrantable: cocinar juntos. Preparaban deliciosos platos, como  
+la paella, su comida favorita, y disfrutaban de largas conversaciones  
+mientras compartían la mesa con su familia. Estos momentos eran para  
+ella los más preciados, llenos de risas, amor y el aroma de la comida  
+casera.  
+
+En su tiempo libre, María también disfrutaba de otras actividades  
+como leer novelas históricas, ver concursos y películas en la  
+televisión, ir al cine, jugar a cartas y dominó con sus amigos  
+Antonio y Rosa, y pasear por el parque con sus nietos, Carlos y  
+Laura.  
+
+Su fe era una parte importante de su vida. Como católica devota,  
+encontraba consuelo y fortaleza en su religión. Las rutinas diarias  
+de aseo personal y cuidado de la salud eran esenciales para ella, ya  
+que le permitían mantenerse activa y disfrutar de la vida al máximo.  
+
+A lo largo de su vida, María ha logrado grandes cosas. El mayor de  
+sus logros, sin duda alguna, ha sido mantener una familia unida y  
+llena de amor. Ha sido una madre ejemplar, una esposa dedicada y una  
+amiga incondicional. A pesar de que tenía algunas actividades  
+pendientes, como aprender a bailar flamenco y viajar más cuando era  
+joven, no hay duda de que ha vivido una vida plena y feliz.  
+
+En la actualidad, María sigue disfrutando de la vida al máximo. Su  
+mayor deseo es seguir compartiendo momentos con sus seres queridos y  
+atesorando cada instante. También anhela cumplir su último sueño:  
+visitar Japón, un país que siempre le ha fascinado.  
+
+María es un ejemplo de mujer fuerte, resiliente y llena de amor. Su  
+historia es un recordatorio de que la vida es un regalo precioso que  
+debemos aprovechar al máximo, llenándola de momentos felices, amor y  
+pasión.
 	
 \end{verbatim}
 

@@ -7,7 +7,7 @@ La estructura del capítulo  muestra en orden lineal en el tiempo como se ha ido
 
 En este capítulo, también se pretende mostrar y hacer hincapié en los diferentes desafíos, contratiempos y retos a los que ha habido que hacer frente durante el desarrollo del prototipo, por qué se han originado y cómo se han solucionado. 
 
-Con todo ello, se pretende tener una visión global de lo que ha sido el trabajo de desarrollo del sistema. Partiendo de la situación que se muestra en el capítulo \ref{cap:estadoDeLaCuestion}, y teniendo en cuenta el estudio teórico llevado a cabo en el capítulo \ref{cap:introduccion} se trata de hacer un chatbot que facilite tanto como sea posible las tareas de extracción de la información en la terapia de reminiscencia. Para ello se usan las distintas herramientas detalladas en el capítulo \ref{cap:TecnologiasUtilizadas} dando lugar al sistema que se presentará en el capítulo \ref{cap:ChatBot final} \footnote{El repositorio con el código se puede consultar en \href{ GitHub}{github:\\
+Con todo ello, se pretende tener una visión global de lo que ha sido el trabajo de desarrollo del sistema. Partiendo de la situación que se muestra en el capítulo \ref{cap:introduccion}, y teniendo en cuenta el estudio teórico llevado a cabo en el capítulo \ref{cap:estadoDeLaCuestion} se trata de hacer un chatbot que facilite tanto como sea posible las tareas de extracción de la información en la terapia de reminiscencia. Para ello se usan las distintas herramientas detalladas en el capítulo \ref{cap:TecnologiasUtilizadas} dando lugar al sistema que se presentará en el capítulo \ref{cap:ChatBot final} \footnote{El repositorio con el código se puede consultar en \href{ GitHub}{github:\\
 		https://github.com/NILGroup/TFG-2324-ChatbotCANTOR. }}. 
 
 
@@ -349,7 +349,9 @@ prompt = prompt + f"Dada esa información, quiero que devuelvas cualquier
  información válida sobre {clave} y en caso de que no se haya podido obtener
   ninguna información válida, devolver No Encontrado"
 \end{verbatim}
+
 De esta forma, podemos saber qué información no ha sido encontrada en el texto para poder indagar y generar nuevas preguntas. A continuación se muestra un ejemplo.
+
 \begin{verbatim}
 >>>	¿Tienes hijos?
 >>> Sí tengo hijos pero no estoy seguro de dónde están ahora.
@@ -434,7 +436,7 @@ Como se puede ver en la figura \ref{fig:ejemploRASATELEGRAM} la interfaz generad
 \begin{figure}
 	\centering
 	\includegraphics[width=0.5\textwidth]{Imagenes/telegram1}
-	\caption{ Ejemplo de uso de BARD.}
+	\caption{ Interfaz de chatbot usando Telegram.}
 	\label{fig:ejemploRASATELEGRAM}
 \end{figure}
 
@@ -550,3 +552,11 @@ sonrientes y parecen estar disfrutando de la comida al aire libre.
 \end{verbatim}
 
 La información obtenida a partir de las respuestas que diera el usuario a las preguntas que aparecen al final de la descripción son las que se almacenarían y analizarían siguiendo el mismo flujo que las respuestas asociadas a preguntas normales. 
+\section{Conclusión}
+El desarrollo de versiones es el núcleo fundamental del trabajo de implementación realizado para este proyecto. El objetivo es ir creando prototipos que vayan incrementando sus capacidades según los requisitos establecidos en el capítulo \ref{cap:introduccion}. En consecuencia, el chatbot ha pasado por distintos grados de complejidad: desde un prototipo que solo hacían preguntas predefinidas, a versiones capaces de generar sus propias preguntas, analizar respuestas y guiar la conversación. 
+
+Sin embargo, el principal reto de este trabajo ha sido enfrentarse a los cambios, modificaciones y alteraciones que sufrían los modelos y las herramientas que se usan. En concreto, volver a buscar una API con la que desarrollar el chatbot tras dejar de estar disponible Bard, y que ha llevado, tras estudiarse distintas alternativas, a la implementación usando Gemini a través de una interfaz desarrollada con Telegram. Tras el desarrollo pertinente de esta última versión, se llega a la herramienta final que se presenta en el capítulo \ref{cap:ChatBot final}.
+
+
+
+ 
