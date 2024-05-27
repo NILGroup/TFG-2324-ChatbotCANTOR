@@ -93,7 +93,7 @@ def analizar_respuestaAux(pregunta,respuesta,clave):
 
 def analizar_extra(pregunta):
    try:
-    prompt2 = f"Generame un json con el formato campo:información asociada a ese campo con la información que puedas obtener de esta respuesta {pregunta.respuesta}"
+    prompt2 = f"Generame un json con el formato campo:información asociada a ese campo con la información que puedas obtener de esta respuesta {pregunta.respuesta}. Si no hay información que clasificar devuelve el json vacío"
     response = model.generate_content(prompt2)
     return json.loads(cargar_json(response.text))
    except:
@@ -131,7 +131,20 @@ preguntas = []
 
 index = 0
 
-
+def generaFeedback(respuesta):
+    try:
+        feedback = (model.generate_content(respuesta)).text
+        regex = r"¿.*?\?|.*?\?"
+        # Reemplaza las preguntas con una cadena vacía
+        answ = re.sub(regex, '', feedback)
+        if len(answ) >500:
+            feedback=model.generate_content(f"Resume esta respuesta a 100 caracteres o menos {answ}")
+            return feedback.text
+        return answ
+    except ValueError:
+        print("No se ha podido generar feedback")
+        return ''
+    
 def siguientePregunta(respuesta):
     feedback = ""
     global index
@@ -147,14 +160,7 @@ def siguientePregunta(respuesta):
             preguntas[index].actualizar_campo(campo,respuesta[:2])
         preguntas[index].pasarSiguiente()
     else:
-        try:
-            prompt  = f"¿Qué le responderias a una persona que te ha dicho {respuesta}? Usa como máximo 150 carácteres."
-            feedback = (model.generate_content(respuesta)).text
-            regex = r"¿.*?\?|.*?\?"
-            # Reemplaza las preguntas con una cadena vacía
-            feedback = re.sub(regex, '', feedback)
-        except ValueError:
-            print("No se ha podido generar feedback")
+        feedback=generaFeedback(respuesta)
         analizar_respuesta(preguntas[index])
     
     if preguntas[index].pasar or len(preguntas[index].preguntasExtra) == 0:
